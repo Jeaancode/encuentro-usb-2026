@@ -2113,7 +2113,7 @@
                             <h4 class="text-lg font-black text-usb-gold group-hover:text-amber-300 transition-colors">Alberto Villegas</h4>
                             <span class="text-xs text-slate-300 font-bold block mb-2">Egresado Promotor del Capítulo América del Norte AEUSB</span>
                             <p class="text-sm text-slate-200 leading-relaxed font-normal">
-                                Licenciado en Ciencias Biológicas, con experiencia en gestión empresarial, promoción turística e intermediación inmobiliaria.
+                                Licenciado en Ciencias Biológicas, Mención Tecnología de Alimentos, con estudios de Postgrado en Administración y Finanzas. Ha desarrollado una trayectoria multidisciplinaria en gestión empresarial, promoción turística e inmobiliaria en Venezuela, Estados Unidos y Costa Rica. Actualmente lidera un grupo de empresas del sector inmobiliario, impulsando estrategias comerciales, expansión operativa y desarrollo de nuevos negocios.
                             </p>
                             <button type="button" class="speaker-read-more" data-speaker-profile="alberto" aria-label="Leer más sobre Alberto Villegas">
                                 Leer más <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
@@ -2468,10 +2468,30 @@
                                  x-text="lang === 'es' ? 'Tarifa regular' : 'Regular rate'">Tarifa regular</h3>
                              <p class="text-lg font-black text-white mt-2">$100 / $85 USD</p>
                              <p class="text-[10px] text-slate-300 mt-1"
-                                x-text="lang === 'es' ? 'Egresado / acompañante desde el 1 de octubre' : 'Alumnus / companion from October 1'">Egresado / acompañante desde el 1 de octubre</p>
+                                x-text="lang === 'es' ? 'Egresado / acompañante tarifa a partir del 01/10' : 'Alumnus / companion rate effective from October 1st'">Egresado / acompañante tarifa a partir del 01/10</p>
                          </div>
                      </div>
                  </div>
+                 
+                 <div class="presale-note max-w-2xl mx-auto p-4 sm:p-5 text-left mb-10" role="note" tabindex="0">
+                    <div class="presale-note-layout"> 
+                        <div class="presale-note-icon" aria-hidden="true"> 
+                            <i class="fa-regular fa-clock"></i> 
+                        </div> 
+                        <div class="presale-note-copy"> 
+                            <div> <span class="presale-note-kicker">
+                                <span x-text="lang === 'es' ? 'Reserva exclusiva' : 'Exclusive presale'">
+
+                                </span>
+                            </span> 
+                            <span class="presale-note-deadline" x-text="lang === 'es' ? 'Hasta el 1 de octubre' : 'Until October 1'">
+
+                            </span> 
+                        </div> <p x-text="lang === 'es' ? '¡Aprovecha el descuento de tu entrada! Paga $85 por egresado y $70 por acompañante. Después del 1 de octubre, aplicará la tarifa regular de $100 y $85, respectivamente.' : 'Take advantage of the presale discount! Pay $85 per alumnus and $70 per companion. After October 1, the regular rates of $100 and $85 will apply, respectively.'"></p> 
+                </div> 
+            </div> 
+        </div>
+
                  <div class="text-center mb-6">
                     <span class="glass-badge text-usb-gold uppercase inline-block mb-2">
                         <i class="fa-solid fa-route mr-2"></i>
@@ -3395,20 +3415,7 @@
                 x-text="lang === 'es' ? 'Realiza tu contribución al evento' : 'Ticket Purchase — Presale'"></h2>
             <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed mb-6"
                x-text="lang === 'es' ? 'Completa y envía primero el formulario de Registro / Confirmación de Asistencia para desbloquear la adquisición de entradas.' : 'Complete and submit the Registration / Attendance Confirmation form first to unlock ticket purchase.'"></p>
-             <div class="presale-note max-w-xl mx-auto mb-6 p-4 sm:p-5 text-left" role="note" tabindex="0">
-                 <div class="presale-note-layout">
-                     <div class="presale-note-icon" aria-hidden="true">
-                         <i class="fa-regular fa-clock"></i>
-                     </div>
-                     <div class="presale-note-copy">
-                         <div>
-                             <span class="presale-note-kicker"><span x-text="lang === 'es' ? 'Reserva exclusiva' : 'Exclusive presale'"></span></span>
-                             <span class="presale-note-deadline" x-text="lang === 'es' ? 'Hasta el 1 de octubre' : 'Until October 1'"></span>
-                         </div>
-                         <p x-text="lang === 'es' ? '¡Aprovecha el precio promocional hasta el 30/09/26: $85 por egresado y $70 por acompañante! Después del 1 de octubre, el aporte será de $100 por egresado y $85 por acompañante.' : 'Take advantage of the presale discount! Pay $85 per alumnus and $70 per companion. After October 1, the regular rates of $100 and $85 will apply, respectively.'"></p>
-                     </div>
-                 </div>
-             </div>
+             
             <a href="#registro" class="glass-btn glass-btn-accent inline-flex items-center gap-2 px-6 py-3 text-xs uppercase tracking-widest">
                 <i class="fa-solid fa-arrow-up"></i>
                 <span x-text="lang === 'es' ? 'Ir al formulario de registro' : 'Go to registration form'"></span>
@@ -3434,20 +3441,7 @@
                  <span x-show="lang === 'es'">Tu reserva se calcula automáticamente según la cantidad de egresados y acompañantes registrados.</span>
                  <span x-show="lang === 'en'">Your reservation is calculated automatically from the number of alumni and companions registered.</span>
             </p>
-              <div class="presale-note max-w-2xl mx-auto p-4 sm:p-5 text-left" role="note" tabindex="0">
-                  <div class="presale-note-layout">
-                      <div class="presale-note-icon" aria-hidden="true">
-                          <i class="fa-regular fa-clock"></i>
-                      </div>
-                      <div class="presale-note-copy">
-                          <div>
-                              <span class="presale-note-kicker"><span x-text="lang === 'es' ? 'Reserva exclusiva' : 'Exclusive presale'"></span></span>
-                              <span class="presale-note-deadline" x-text="lang === 'es' ? 'Hasta el 1 de octubre' : 'Until October 1'"></span>
-                          </div>
-                          <p x-text="lang === 'es' ? '¡Aprovecha el descuento de tu entrada! Paga $85 por egresado y $70 por acompañante. Después del 1 de octubre, aplicará la tarifa regular de $100 y $85, respectivamente.' : 'Take advantage of the presale discount! Pay $85 per alumnus and $70 per companion. After October 1, the regular rates of $100 and $85 will apply, respectively.'"></p>
-                      </div>
-                  </div>
-              </div>
+              
         </div>
 
          <!-- RESUMEN DINÁMICO DE ENTRADAS -->
@@ -4081,7 +4075,7 @@
             "Misión e Impacto Institucional": "Mission and Institutional Impact",
             "Convocar, reunir e incorporar a nuestros egresados en la diáspora para resaltar el impacto y la trayectoria de nuestra comunidad a nivel global; fortalecer los lazos entre los egresados, la universidad y la AEUSB; fomentar el compromiso, el sentido de pertenencia y el orgullo de participar en la transformación de la USB y del país; y consolidar la Red de Talentos USB: NEXOUSB.ORG.": "Invite, gather, and include our alumni in the diaspora to highlight our community's global impact and journey; strengthen ties among alumni, the university, and the AEUSB; foster commitment, belonging, and pride in participating in the transformation of USB and the country; and consolidate the USB Talent Network: NEXOUSB.ORG.",
             "Convocar, reunir e incorporar a nuestros egresados en la diáspora para resaltar el impacto y la trayectoria de nuestra comunidad a nivel global; fortalecer los lazos entre los egresados, la universidad y la AEUSB; fomentar el compromiso, el sentido de pertenencia y el orgullo de participar en la transformación de la USB y del país; y consolidar la": "Invite, gather, and include our alumni in the diaspora to highlight our community's global impact and journey; strengthen ties among alumni, the university, and the AEUSB; foster commitment, belonging, and pride in participating in the transformation of USB and the country; and consolidate the",
-            "Licenciado en Ciencias Biológicas, con experiencia en gestión empresarial, promoción turística e intermediación inmobiliaria.": "Graduate in Biological Sciences with experience in business management, tourism promotion, and real-estate brokerage.",
+            "Licenciado en Ciencias Biológicas, con experiencia en gestión empresarial, promoción turística e intermediación inmobiliaria.": "He holds a degree in Biological Sciences with a specialization in Food Technology, as well as postgraduate studies in Administration and Finance. He has built a multidisciplinary career spanning business management, tourism promotion, and the real estate sector in Venezuela, the United States, and Costa Rica. He currently leads a group of real estate companies, driving commercial strategies, operational expansion, and new business development.",
             "Académicos y exautoridades de la USB residentes en el exterior, especialmente en Estados Unidos.": "USB faculty and former authorities living abroad, especially in the United States.",
             "Organizaciones aliadas en Estados Unidos": "Partner organizations in the United States",
             "Cámara Americana de Comercio y aliados institucionales en Estados Unidos.": "American Chamber of Commerce and institutional partners in the United States.",
@@ -4246,12 +4240,12 @@
                 roleEn: "Alumnus Promoting the AEUSB North America Chapter",
                 image: "ALBERTOVILLEGAS.jpg",
                 bioEs: [
-                    "Alberto es Licenciado en Ciencias Biológicas, Mención Tecnología de Alimentos, con estudios de Postgrado en Administración y Finanzas.",
-                    "Ha desarrollado una trayectoria multidisciplinaria en gestión empresarial, promoción turística e intermediación inmobiliaria en Venezuela y Estados Unidos. Actualmente lidera un grupo de empresas del sector inmobiliario, impulsando estrategias comerciales, expansión operativa y desarrollo de nuevos negocios."
+                    "Licenciado en Ciencias Biológicas, Mención Tecnología de Alimentos, con estudios de Postgrado en Administración y Finanzas. Ha desarrollado una trayectoria multidisciplinaria en gestión empresarial, promoción turística e inmobiliaria en Venezuela, Estados Unidos y Costa Rica. Actualmente lidera un grupo de empresas del sector inmobiliario, impulsando estrategias comerciales, expansión operativa y desarrollo de nuevos negocios. ",
+                    " En su actividad gremial ha sido miembro de la Junta Directiva de Cámara de Comercio del Estado Nueva Esparta, Fondo para el Desarrollo del Estado Nueva Esparta FONDENE, Venezuela American Chamber of Commerce y actualmente se desempeña como miembro director de ALSI Foundation y Fundación Cubagua."
                 ],
                 bioEn: [
-                    "Alberto holds a degree in Biological Sciences, specializing in Food Technology, and postgraduate studies in Administration and Finance.",
-                    "He has developed a multidisciplinary career in business management, tourism promotion, and real-estate brokerage in Venezuela and the United States. He currently leads a group of real-estate companies, driving commercial strategies, operational expansion, and new business development."
+                    "He holds a degree in Biological Sciences with a specialization in Food Technology, as well as postgraduate studies in Administration and Finance. He has built a multidisciplinary career spanning business management, tourism promotion, and the real estate sector in Venezuela, the United States, and Costa Rica. He currently leads a group of real estate companies, driving commercial strategies, operational expansion, and new business development.",
+                    "In his professional association activities, he has served on the Boards of Directors of the Nueva Esparta State Chamber of Commerce, the Nueva Esparta State Development Fund (FONDENE), and the Venezuelan-American Chamber of Commerce; he currently serves as a board member of the ALSI Foundation and the Cubagua Foundation."
                 ]
             },
             mineau: {
