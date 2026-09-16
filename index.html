@@ -3483,6 +3483,28 @@
             </div>
         </div>
 
+        <!-- ⚠️ AVISO SPAM -->
+<div data-aos="fade-up" data-aos-delay="150" class="glass-inset p-4 sm:p-5 rounded-2xl border border-amber-400/40 bg-amber-500/10 max-w-3xl mx-auto mb-6">
+    <div class="flex items-start gap-3">
+        <div class="glass-circle-btn text-amber-400 flex-shrink-0 w-10 h-10">
+            <i class="fa-solid fa-envelope-circle-check text-lg"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+            <h4 class="text-xs font-black text-amber-200 uppercase tracking-wider mb-2">
+                <i class="fa-solid fa-triangle-exclamation mr-1"></i>
+                <span x-text="lang === 'es' ? 'Importante: Revisa tu carpeta de Spam' : 'Important: Check your Spam folder'"></span>
+            </h4>
+            <p class="text-[11px] text-slate-200 leading-relaxed"
+               x-text="lang === 'es' 
+                    ? 'El correo de confirmación con tus entradas y el PDF adjunto podría llegar a las carpetas Spam, Promociones o Correo no deseado. Si no lo ves en tu bandeja principal, búscalo ahí y márcalo como &quot;No es Spam&quot; para asegurar que recibas las comunicaciones del evento.'
+                    : 'The confirmation email with your tickets and PDF attachment may land in your Spam, Promotions, or Junk folder. If you don\\'t see it in your inbox, check those folders and mark it as &quot;Not Spam&quot; to ensure you receive event communications.'">
+                El correo de confirmación con tus entradas y el PDF adjunto podría llegar a las carpetas Spam, Promociones o Correo no deseado. Si no lo ves en tu bandeja principal, búscalo ahí y márcalo como "No es Spam" para asegurar que recibas las comunicaciones del evento.
+            </p>
+        </div>
+    </div>
+</div>
+
+        
         <!-- BARRA INFERIOR DE ACCIÓN -->
         <div data-aos="fade-up" data-aos-delay="200" class="glass-panel p-6 sm:p-8 rounded-3xl border-2 border-white/15">
             <div class="glass-inset p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 border border-usb-gold/30 bg-slate-950/40">
@@ -3724,6 +3746,7 @@
 
                     <!-- RESUMEN EN FORMATO DE TICKET VIRTUAL -->
                     <div class="glass-inset p-4 rounded-2xl bg-slate-950/80 border border-white/10 text-left space-y-2.5">
+
                         <div class="flex justify-between items-center text-xs border-b border-white/10 pb-2">
                             <span class="text-slate-400">Entradas:</span>
                             <span class="font-bold text-white text-right">
@@ -3756,7 +3779,20 @@
                             </span>
                         </div>
                     </div>
-
+                <!-- ⚠️ AVISO SPAM (modal) -->
+                <div class="rounded-2xl border border-amber-400/40 bg-amber-500/10 p-3 text-left mt-4">
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-envelope-circle-check text-amber-300 text-base mt-0.5 flex-shrink-0"></i>
+                        <p class="text-[10px] text-amber-100 leading-relaxed">
+                            <strong class="text-amber-200" x-text="lang === 'es' ? 'Revisa tu Spam:' : 'Check your Spam:'"></strong>
+                            <span x-text="lang === 'es' 
+                                ? 'El correo con tus entradas y el PDF podría llegar a Spam, Promociones o Correo no deseado. Márcalo como &quot;No es Spam&quot;.'
+                                : 'The email with your tickets and PDF may land in Spam, Promotions, or Junk. Mark it as &quot;Not Spam&quot;.'">
+                                El correo con tus entradas y el PDF podría llegar a Spam, Promociones o Correo no deseado. Márcalo como "No es Spam".
+                            </span>
+                        </p>
+                    </div>
+                </div>
                     <!-- BOTÓN CERRAR -->
                     <button type="button" @click="resetModal()" class="glass-btn glass-btn-accent w-full py-3.5 text-xs uppercase tracking-widest font-black shadow-xl hover:scale-[1.02] transition-transform">
                         Entendido / Finalizar
