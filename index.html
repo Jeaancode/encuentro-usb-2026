@@ -3793,7 +3793,24 @@
                         </p>
                     </div>
                 </div>
-                    <!-- BOTÓN CERRAR -->
+                
+                <!-- ⚠️ AVISO SPAM (modal) -->
+<div class="rounded-2xl border border-amber-400/40 bg-amber-500/10 p-3 text-left mt-5">
+    <div class="flex items-start gap-2">
+        <i class="fa-solid fa-envelope-circle-check text-amber-300 text-base mt-0.5 flex-shrink-0"></i>
+        <p class="text-[10px] text-amber-100 leading-relaxed">
+            <strong class="text-amber-200" x-text="lang === 'es' ? 'Revisa tu Spam:' : 'Check your Spam:'"></strong>
+            <span x-text="lang === 'es' 
+                ? 'El correo con tus entradas y el PDF podría llegar a Spam, Promociones o Correo no deseado. Márcalo como &quot;No es Spam&quot;.'
+                : 'The email with your tickets and PDF may land in Spam, Promotions, or Junk. Mark it as &quot;Not Spam&quot;.'">
+                El correo con tus entradas y el PDF podría llegar a Spam, Promociones o Correo no deseado. Márcalo como "No es Spam".
+            </span>
+        </p>
+    </div>
+</div>
+
+                
+                <!-- BOTÓN CERRAR -->
                     <button type="button" @click="resetModal()" class="glass-btn glass-btn-accent w-full py-3.5 text-xs uppercase tracking-widest font-black shadow-xl hover:scale-[1.02] transition-transform">
                         Entendido / Finalizar
                     </button>
