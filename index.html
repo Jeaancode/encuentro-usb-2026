@@ -2540,6 +2540,7 @@
 <!-- 1. FORMULARIO DE REGISTRO -->
 <div data-aos="fade-up" 
           x-data="formRegistration()"
+          x-show="!new URLSearchParams(window.location.search).get('registro')"
      class="glass-panel p-8 sm:p-12 relative">
     
      <div class="text-center mb-8">
@@ -3049,6 +3050,7 @@
              selectedOption: '0', 
              ticketAlumniCount: 0,
              ticketGuestCount: 0,
+             pendingPaymentLoad: false,
              purchaseModal: false, 
              checkoutStep: 1,
              paymentSuccess: false,
@@ -3379,13 +3381,103 @@
                      this.paymentSending = false;
                  }
              },
-             init() {
+                          init() {
                  this.paymentId = this.createPaymentId();
                  this.loadRegistrationSnapshot();
                  this.$watch('paymentMethod', (value) => {
                      if (value === 'stripe') this.initStripeCard();
                      if (value === 'paypal') this.initPayPal();
                  });
+
+                 // 👇 NUEVO: Detecta ?registro=ID en la URL
+                 const urlParams = new URLSearchParams(window.location.search);
+                 const regId = urlParams.get('registro');
+                 if (regId) {
+                     this.pendingPaymentLoad = true;
+                     this.cargarRegistroPendiente(regId);
+                 }
+             },
+
+             async cargarRegistroPendiente(regId) {
+                 console.log('► Cargando registro pendiente:', regId);
+                 try {
+                     const response = await fetch(this.appsScriptUrl, {
+                         method: 'POST',
+                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                         body: new URLSearchParams({
+                             action: 'getRegistration',
+                             registrationId: regId
+                         }).toString()
+                     });
+                     const data = await response.json();
+
+                     if (!data.ok) {
+                         alert('No pudimos encontrar ese registro. Verifica el enlace.');
+                         this.pendingPaymentLoad = false;
+                         return;
+                     }
+
+                     if (data.yaPago) {
+                         alert('Este registro ya tiene un pago asociado: ' + data.estadoPago);
+                         this.pendingPaymentLoad = false;
+                         return;
+                     }
+
+                     // Rellenar el objeto buyer
+                     const reg = data.registrationData || {};
+                     this.registrationId = regId;
+                     this.registrationData = reg;
+
+                     this.buyer.name = [reg.nombres, reg.apellidos].filter(Boolean).join(' ') || '';
+                     this.buyer.email = reg.emailPersonal || '';
+                     this.buyer.phone = reg.telefono || '';
+                     this.buyer.cedula = reg.cedula || '';
+
+                     // Calcular tickets según acompañantes del registro
+                     let alumniExtra = 0;
+                     let guestExtra = 0;
+                     Object.keys(reg).forEach(function (k) {
+                         const m = k.match(/^acompanante_(\d+)_esEgresado$/);
+                         if (m) {
+                             const val = String(reg[k] || '').trim();
+                             if (val === 'Si') alumniExtra++;
+                             if (val === 'No') guestExtra++;
+                         }
+                     });
+                     this.ticketAlumniCount = 1 + alumniExtra;
+                     this.ticketGuestCount = guestExtra;
+                     this.selectedOption = String(this.ticketTotal());
+
+                     // 🔓 Desbloquear la sección de pago
+                     window.dispatchEvent(new CustomEvent('registration-complete', {
+                         detail: {
+                             totalAlumni: this.ticketAlumniCount,
+                             totalGuests: this.ticketGuestCount,
+                             registrationId: regId,
+                             registrationData: reg
+                         }
+                     }));
+
+                     // Guardar en sessionStorage por si recarga la página
+                     try {
+                         window.sessionStorage.setItem('aeusbRegistration', JSON.stringify({
+                             submissionId: regId,
+                             fields: reg,
+                             savedAt: new Date().toISOString()
+                         }));
+                     } catch (e) {}
+
+                     // Scroll automático a la sección de pago
+                     setTimeout(function () {
+                         const target = document.getElementById('Reserva');
+                         if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                     }, 500);
+
+                 } catch (err) {
+                     console.error('Error cargando registro:', err);
+                     alert('Hubo un error cargando tu registro. Intenta de nuevo.');
+                     this.pendingPaymentLoad = false;
+                 }
              },
              resetModal() {
                  this.purchaseModal = false;
