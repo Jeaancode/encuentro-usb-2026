@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel · Encuentro Egresados USB 2026</title>
+<link rel="icon" type="image/png" href="LOGO.png">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        usb: {
+          navy: '#051367',
+          blue: '#487497',
+          gold: '#FFC300',
+          orange: '#FF7B00',
+          darkBg: '#1a1d29'
+        }
+      },
+      fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+    }
+  }
+}
+</script>
+
+<style>
+  html, body { background-color: #1a1d29; color: #fff; }
+  [x-cloak] { display: none !important; }
+  .glass-card {
+    background: rgba(30, 34, 52, 0.75);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  }
+  .glass-input {
+    background: rgba(20, 23, 36, 0.9);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 12px;
+    color: #fff;
+    padding: 10px 14px;
+    font-size: 13px;
+    width: 100%;
+    transition: all 0.2s;
+  }
+  .glass-input:focus {
+    outline: none;
+    border-color: #FFC300;
+    box-shadow: 0 0 0 3px rgba(255,195,0,0.15);
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #FFC300, #FF7B00);
+    color: #051367;
+    font-weight: 800;
+    border-radius: 12px;
+    padding: 11px 20px;
+    transition: all 0.2s;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255,195,0,0.3); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .btn-ghost {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: #fff;
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,195,0,0.5); }
+  .stat-card {
+    background: linear-gradient(135deg, rgba(5,19,103,0.7), rgba(72,116,151,0.4));
+    border: 1px solid rgba(255,195,0,0.25);
+    border-radius: 16px;
+    padding: 20px;
+    transition: transform 0.25s;
+  }
+  .stat-card:hover { transform: translateY(-3px); }
+  .tab-btn {
+    padding: 11px 20px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    color: rgba(255,255,255,0.6);
+  }
+  .tab-btn.active {
+    background: rgba(255,195,0,0.15);
+    color: #FFC300;
+    border: 1px solid rgba(255,195,0,0.4);
+  }
+  .tab-btn:hover:not(.active) { background: rgba(255,255,255,0.05); color: #fff; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  th { color: rgba(255,255,255,0.55); font-weight: 800; text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; }
+  tr:hover td { background: rgba(255,195,0,0.03); }
+  .badge-yes { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.4); }
+  .badge-no { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.4); }
+  .badge-pending { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.4); }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 10px; font-weight: 800; }
+  .chart-container { position: relative; height: 260px; }
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+  ::-webkit-scrollbar-thumb { background: rgba(255,195,0,0.4); border-radius: 999px; }
+</style>
+</head>
+
+<body class="font-sans" x-data="adminPanel()" x-init="init()">
+
+<!-- ═══ LOGIN SCREEN ═══ -->
+<div x-show="!logged" x-cloak class="min-h-screen flex items-center justify-center p-4">
+  <div class="glass-card p-8 w-full max-w-md">
+    <div class="text-center mb-6">
+      <div class="w-16 h-16 rounded-full bg-usb-gold/15 border border-usb-gold/40 flex items-center justify-center mx-auto mb-4">
+        <i class="fa-solid fa-shield-halved text-usb-gold text-2xl"></i>
+      </div>
+      <h1 class="text-xl font-black text-white">Panel Administrativo</h1>
+      <p class="text-xs text-slate-400 mt-1">Encuentro Egresados USB 2026 · Miami</p>
+    </div>
+
+    <form @submit.prevent="login()" class="space-y-4">
+      <div>
+        <label class="block text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1.5">Usuario</label>
+        <input type="text" x-model="user" required autocomplete="username" class="glass-input" placeholder="Tu usuario">
+      </div>
+      <div>
+        <label class="block text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1.5">Contraseña</label>
+        <input type="password" x-model="pass" required autocomplete="current-password" class="glass-input" placeholder="••••••••">
+      </div>
+      <div x-show="error" x-transition class="rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-3 text-xs text-red-200" x-text="error"></div>
+      <button type="submit" :disabled="loading" class="btn-primary w-full flex items-center justify-center gap-2">
+        <i class="fa-solid" :class="loading ? 'fa-spinner fa-spin' : 'fa-right-to-bracket'"></i>
+        <span x-text="loading ? 'Verificando...' : 'Ingresar'"></span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ═══ MAIN PANEL ═══ -->
+<div x-show="logged" x-cloak class="min-h-screen">
+
+  <!-- Header -->
+  <header class="border-b border-white/10 bg-[#141724]/80 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="LOGO.png" class="h-8" alt="Logo">
+        <div>
+          <div class="text-sm font-black text-white leading-none">Panel Administrativo</div>
+          <div class="text-[10px] text-usb-gold font-bold tracking-widest uppercase">AEUSB 2026</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button @click="refreshAll()" class="btn-ghost flex items-center gap-2">
+          <i class="fa-solid" :class="refreshing ? 'fa-spinner fa-spin' : 'fa-rotate'"></i>
+          <span class="hidden sm:inline">Actualizar</span>
+        </button>
+        <button @click="logout()" class="btn-ghost flex items-center gap-2">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <span class="hidden sm:inline">Salir</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="max-w-7xl mx-auto px-4 pb-3 flex gap-2 overflow-x-auto">
+      <button @click="tab = 'dashboard'" :class="tab === 'dashboard' ? 'active' : ''" class="tab-btn flex items-center gap-2 whitespace-nowrap">
+        <i class="fa-solid fa-chart-pie"></i> Dashboard
+      </button>
+      <button @click="tab = 'checkin'; loadCheckIn()" :class="tab === 'checkin' ? 'active' : ''" class="tab-btn flex items-center gap-2 whitespace-nowrap">
+        <i class="fa-solid fa-clipboard-check"></i> Check-in
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══ TAB: DASHBOARD ═══ -->
+  <main x-show="tab === 'dashboard'" class="max-w-7xl mx-auto px-4 py-6 space-y-6">
+
+    <div x-show="loadingStats" class="text-center py-12 text-slate-400">
+      <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
+      <p class="text-xs mt-2">Cargando estadísticas...</p>
+    </div>
+
+    <div x-show="!loadingStats && stats" x-cloak>
+
+      <!-- Stat cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="stat-card">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Registros</span>
+            <i class="fa-solid fa-users text-usb-gold"></i>
+          </div>
+          <div class="text-3xl font-black text-white" x-text="stats.totales.registros"></div>
+        </div>
+        <div class="stat-card">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Entradas vendidas</span>
+            <i class="fa-solid fa-ticket text-usb-gold"></i>
+          </div>
+          <div class="text-3xl font-black text-white" x-text="stats.totales.entradasVendidas"></div>
+          <div class="text-[11px] text-slate-300 mt-1">
+            <span x-text="stats.totales.egresados"></span> egresados · 
+            <span x-text="stats.totales.acompanantes"></span> acompañantes
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Recaudado</span>
+            <i class="fa-solid fa-dollar-sign text-usb-gold"></i>
+          </div>
+          <div class="text-3xl font-black text-usb-gold">$<span x-text="stats.totales.recaudado"></span></div>
+          <div class="text-[11px] text-slate-300 mt-1">USD</div>
+        </div>
+        <div class="stat-card">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Pagos aprobados</span>
+            <i class="fa-solid fa-check-circle text-usb-gold"></i>
+          </div>
+          <div class="text-3xl font-black text-white" x-text="stats.totales.pagosAprobados"></div>
+        </div>
+      </div>
+
+      <!-- Flow chart -->
+      <div class="glass-card p-5">
+        <h3 class="text-sm font-black text-white mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-chart-line text-usb-gold"></i> Flujo de pagos por día
+        </h3>
+        <div class="chart-container">
+          <canvas id="flowChart"></canvas>
+        </div>
+        <p x-show="stats.flujo.length === 0" class="text-center text-xs text-slate-400 py-6">Aún no hay pagos aprobados.</p>
+      </div>
+
+      <!-- Pie charts -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="glass-card p-5">
+          <h3 class="text-xs font-black text-white mb-3 uppercase tracking-wider">Egresados vs Acompañantes</h3>
+          <div class="chart-container"><canvas id="pieTipo"></canvas></div>
+        </div>
+        <div class="glass-card p-5">
+          <h3 class="text-xs font-black text-white mb-3 uppercase tracking-wider">Métodos de pago</h3>
+          <div class="chart-container"><canvas id="pieMetodo"></canvas></div>
+        </div>
+        <div class="glass-card p-5">
+          <h3 class="text-xs font-black text-white mb-3 uppercase tracking-wider">Asistencia declarada</h3>
+          <div class="chart-container"><canvas id="pieAsistencia"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Porcentaje de pago -->
+      <div class="glass-card p-5">
+        <h3 class="text-xs font-black text-white mb-3 uppercase tracking-wider">Cobertura de pago</h3>
+        <div class="flex items-center gap-6">
+          <div class="chart-container flex-1"><canvas id="piePago"></canvas></div>
+          <div class="flex-1 space-y-3">
+            <div>
+              <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Registrados</div>
+              <div class="text-2xl font-black text-white" x-text="stats.totales.registros"></div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Con pago aprobado</div>
+              <div class="text-2xl font-black text-emerald-400" x-text="stats.totales.pagosAprobados"></div>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Pendientes de pago</div>
+              <div class="text-2xl font-black text-amber-400" x-text="Math.max(0, stats.totales.registros - stats.totales.pagosAprobados)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ═══ TAB: CHECK-IN ═══ -->
+  <main x-show="tab === 'checkin'" x-cloak class="max-w-7xl mx-auto px-4 py-6 space-y-5">
+
+    <!-- Live counters -->
+    <div x-show="checkinStats" class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div class="stat-card">
+        <div class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">Total esperados</div>
+        <div class="text-2xl font-black text-white" x-text="checkinStats.total"></div>
+      </div>
+      <div class="stat-card">
+        <div class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">Ya asistieron</div>
+        <div class="text-2xl font-black text-emerald-400" x-text="checkinStats.asistieron"></div>
+      </div>
+      <div class="stat-card">
+        <div class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">Egresados</div>
+        <div class="text-2xl font-black text-usb-gold">
+          <span x-text="checkinStats.egresadosAsistieron"></span>
+          <span class="text-sm text-slate-400">/ <span x-text="checkinStats.egresadosTotal"></span></span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">Acompañantes</div>
+        <div class="text-2xl font-black text-usb-gold">
+          <span x-text="checkinStats.acompanantesAsistieron"></span>
+          <span class="text-sm text-slate-400">/ <span x-text="checkinStats.acompanantesTotal"></span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search and filters -->
+    <div class="glass-card p-4 flex flex-col sm:flex-row gap-3">
+      <div class="flex-1">
+        <input type="text" x-model="checkinSearch" placeholder="Buscar por nombre o cédula..." class="glass-input">
+      </div>
+      <select x-model="checkinFilter" class="glass-input sm:w-auto">
+        <option value="all">Todos</option>
+        <option value="pendiente">Sin check-in</option>
+        <option value="asistio">Ya asistieron</option>
+        <option value="egresado">Solo egresados</option>
+        <option value="acompanante">Solo acompañantes</option>
+      </select>
+    </div>
+
+    <div x-show="loadingCheckin" class="text-center py-12 text-slate-400">
+      <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
+    </div>
+
+    <!-- Table -->
+    <div x-show="!loadingCheckin" class="glass-card overflow-hidden">
+      <div class="overflow-x-auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Cédula</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+              <th class="text-right">Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template x-for="a in filteredAsistentes()" :key="a.key">
+              <tr>
+                <td>
+                  <div class="font-bold text-white" x-text="a.nombre"></div>
+                  <div class="text-[10px] text-slate-400" x-text="a.email"></div>
+                </td>
+                <td class="text-slate-300" x-text="a.cedula || '—'"></td>
+                <td>
+                  <span class="badge" :class="a.tipo === 'egresado' ? 'badge-yes' : 'badge-pending'">
+                    <i class="fa-solid" :class="a.tipo === 'egresado' ? 'fa-graduation-cap' : 'fa-user'"></i>
+                    <span x-text="a.tipo === 'egresado' ? 'Egresado' : 'Acompañante'"></span>
+                  </span>
+                </td>
+                <td>
+                  <span x-show="a.asistio === 'Si'" class="badge badge-yes"><i class="fa-solid fa-check"></i> Asistió</span>
+                  <span x-show="a.asistio === 'No'" class="badge badge-no"><i class="fa-solid fa-xmark"></i> No asistió</span>
+                  <span x-show="!a.asistio" class="badge badge-pending">Pendiente</span>
+                </td>
+                <td class="text-right">
+                  <button @click="toggleCheckIn(a)" :disabled="markingKey === a.key" class="btn-primary text-[10px] py-2 px-3">
+                    <i class="fa-solid" :class="markingKey === a.key ? 'fa-spinner fa-spin' : (a.asistio === 'Si' ? 'fa-rotate-left' : 'fa-check')"></i>
+                    <span x-text="markingKey === a.key ? '...' : (a.asistio === 'Si' ? 'Revertir' : 'Marcar asistió')"></span>
+                  </button>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+        <div x-show="filteredAsistentes().length === 0" class="text-center py-12 text-slate-400 text-xs">
+          No hay asistentes que coincidan con la búsqueda.
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+function adminPanel() {
+  return {
+    // ─── ESTADO GENERAL ───
+    appsScriptUrl: 'https://script.google.com/macros/s/AKfycbyD1Y-RdO23_9R0DzQ3IxvUG2-83NRrmvQ0s6FwWFluhIexBHH3jnVdorx8kKAWS89n/exec',
+    logged: false,
+    loading: false,
+    error: '',
+    user: '',
+    pass: '',
+    token: '',
+    tab: 'dashboard',
+    refreshing: false,
+
+    // ─── ESTADÍSTICAS ───
+    stats: null,
+    loadingStats: false,
+    charts: {},
+
+    // ─── CHECK-IN ───
+    asistentes: [],
+    checkinStats: null,
+    loadingCheckin: false,
+    checkinSearch: '',
+    checkinFilter: 'all',
+    markingKey: '',
+
+    // ═══ INIT ═══
+    init() {
+      // Recuperar token guardado
+      try {
+        const saved = window.localStorage.getItem('aeusbAdminToken');
+        if (saved) {
+          this.token = saved;
+          this.logged = true;
+          this.$nextTick(() => this.loadStats());
+        }
+      } catch (e) {}
+    },
+
+    // ═══ LOGIN ═══
+    async login() {
+      this.error = '';
+      this.loading = true;
+      try {
+        const res = await fetch(this.appsScriptUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            action: 'verifyAdmin',
+            user: this.user,
+            pass: this.pass
+          }).toString()
+        });
+        const data = await res.json();
+        if (!data.ok) {
+          this.error = data.error || 'Credenciales incorrectas';
+          this.loading = false;
+          return;
+        }
+        this.token = data.token;
+        try { window.localStorage.setItem('aeusbAdminToken', this.token); } catch (e) {}
+        this.logged = true;
+        this.loading = false;
+        this.pass = '';
+        this.$nextTick(() => this.loadStats());
+      } catch (err) {
+        this.error = 'Error de conexión: ' + err.message;
+        this.loading = false;
+      }
+    },
+
+    logout() {
+      this.logged = false;
+      this.token = '';
+      this.stats = null;
+      this.user = '';
+      this.pass = '';
+      try { window.localStorage.removeItem('aeusbAdminToken'); } catch (e) {}
+    },
+
+    // ═══ API HELPER ═══
+    async apiCall(action, extra = {}) {
+      const body = new URLSearchParams({
+        action: action,
+        token: this.token,
+        ...extra
+      }).toString();
+      const res = await fetch(this.appsScriptUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body
+      });
+      const data = await res.json();
+      if (!data.ok && /no autorizado/i.test(data.error || '')) {
+        this.logout();
+        this.error = 'Sesión expirada. Inicia sesión de nuevo.';
+      }
+      return data;
+    },
+
+    // ═══ REFRESCAR TODO ═══
+    async refreshAll() {
+      this.refreshing = true;
+      if (this.tab === 'dashboard') await this.loadStats();
+      if (this.tab === 'checkin') await this.loadCheckIn();
+      this.refreshing = false;
+    },
+
+    // ═══ ESTADÍSTICAS ═══
+    async loadStats() {
+      this.loadingStats = true;
+      try {
+        const data = await this.apiCall('getStats');
+        if (data.ok) {
+          this.stats = data;
+          this.$nextTick(() => this.renderCharts());
+        } else {
+          this.error = data.error;
+        }
+      } catch (err) {
+        this.error = 'Error cargando stats: ' + err.message;
+      }
+      this.loadingStats = false;
+    },
+
+    renderCharts() {
+      if (!this.stats) return;
+
+      // Destruir charts previos
+      Object.keys(this.charts).forEach(k => {
+        try { this.charts[k].destroy(); } catch (e) {}
+      });
+
+      const gold = '#FFC300';
+      const navy = '#051367';
+      const blue = '#487497';
+      const orange = '#FF7B00';
+      const emerald = '#10b981';
+
+      // ── Flow chart ──
+      const ctxFlow = document.getElementById('flowChart');
+      if (ctxFlow) {
+        this.charts.flow = new Chart(ctxFlow, {
+          type: 'line',
+          data: {
+            labels: this.stats.flujo.map(f => f.fecha),
+            datasets: [{
+              label: 'Pagos aprobados',
+              data: this.stats.flujo.map(f => f.count),
+              borderColor: gold,
+              backgroundColor: 'rgba(255,195,0,0.15)',
+              fill: true,
+              tension: 0.35,
+              pointRadius: 4,
+              pointBackgroundColor: gold
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: '#fff', font: { size: 11 } } }
+            },
+            scales: {
+              x: { ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+              y: { ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true }
+            }
+          }
+        });
+      }
+
+      // ── Pie: Egresados vs Acompañantes ──
+      const ctxTipo = document.getElementById('pieTipo');
+      if (ctxTipo) {
+        this.charts.tipo = new Chart(ctxTipo, {
+          type: 'doughnut',
+          data: {
+            labels: ['Egresados', 'Acompañantes'],
+            datasets: [{
+              data: [this.stats.totales.egresados, this.stats.totales.acompanantes],
+              backgroundColor: [gold, blue],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { color: '#fff', font: { size: 11 }, padding: 14 } }
+            }
+          }
+        });
+      }
+
+      // ── Pie: Métodos de pago ──
+      const ctxMetodo = document.getElementById('pieMetodo');
+      if (ctxMetodo) {
+        const m = this.stats.metodosPago;
+        this.charts.metodo = new Chart(ctxMetodo, {
+          type: 'pie',
+          data: {
+            labels: ['Stripe', 'PayPal', 'Zelle'],
+            datasets: [{
+              data: [m.stripe || 0, m.paypal || 0, m.zelle || 0],
+              backgroundColor: [gold, blue, orange],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { color: '#fff', font: { size: 11 }, padding: 14 } }
+            }
+          }
+        });
+      }
+
+      // ── Pie: Asistencia declarada ──
+      const ctxAsis = document.getElementById('pieAsistencia');
+      if (ctxAsis) {
+        const a = this.stats.asistenciaDeclarada;
+        this.charts.asis = new Chart(ctxAsis, {
+          type: 'doughnut',
+          data: {
+            labels: ['Presencial', 'Virtual', 'No asiste'],
+            datasets: [{
+              data: [a.presencial, a.virtual, a.noAsiste],
+              backgroundColor: [emerald, blue, '#ef4444'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { color: '#fff', font: { size: 11 }, padding: 14 } }
+            }
+          }
+        });
+      }
+
+      // ── Pie: Cobertura de pago ──
+      const ctxPago = document.getElementById('piePago');
+      if (ctxPago) {
+        const pagados = this.stats.totales.pagosAprobados;
+        const pendientes = Math.max(0, this.stats.totales.registros - pagados);
+        this.charts.pago = new Chart(ctxPago, {
+          type: 'doughnut',
+          data: {
+            labels: ['Con pago', 'Sin pago'],
+            datasets: [{
+              data: [pagados, pendientes],
+              backgroundColor: [emerald, 'rgba(255,255,255,0.1)'],
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom', labels: { color: '#fff', font: { size: 11 }, padding: 14 } }
+            }
+          }
+        });
+      }
+    },
+
+    // ═══ CHECK-IN ═══
+    async loadCheckIn() {
+      this.loadingCheckin = true;
+      try {
+        const data = await this.apiCall('getCheckInList');
+        if (data.ok) {
+          this.asistentes = data.asistentes || [];
+          this.checkinStats = data.stats || null;
+        } else {
+          this.error = data.error;
+        }
+      } catch (err) {
+        this.error = 'Error cargando check-in: ' + err.message;
+      }
+      this.loadingCheckin = false;
+    },
+
+    filteredAsistentes() {
+      const q = (this.checkinSearch || '').toLowerCase().trim();
+      const f = this.checkinFilter;
+
+      return this.asistentes.filter(a => {
+        if (q) {
+          const nombre = (a.nombre || '').toLowerCase();
+          const cedula = (a.cedula || '').toLowerCase();
+          if (!nombre.includes(q) && !cedula.includes(q)) return false;
+        }
+        if (f === 'pendiente' && a.asistio) return false;
+        if (f === 'asistio' && a.asistio !== 'Si') return false;
+        if (f === 'egresado' && a.tipo !== 'egresado') return false;
+        if (f === 'acompanante' && a.tipo !== 'acompanante') return false;
+        return true;
+      });
+    },
+
+    async toggleCheckIn(a) {
+      const nuevoEstado = a.asistio === 'Si' ? 'No' : 'Si';
+      this.markingKey = a.key;
+      try {
+        const data = await this.apiCall('markCheckIn', {
+          idRegistro: a.idRegistro,
+          tipo: a.tipo,
+          numeroAcompanante: a.numeroAcompanante || 0,
+          asistio: nuevoEstado,
+          notas: ''
+        });
+        if (data.ok) {
+          a.asistio = nuevoEstado;
+          // Recalcular stats
+          await this.loadCheckIn();
+        } else {
+          alert('Error: ' + data.error);
+        }
+      } catch (err) {
+        alert('Error de conexión: ' + err.message);
+      }
+      this.markingKey = '';
+    }
+  }
+}
+</script>
+
+</body>
+</html>
