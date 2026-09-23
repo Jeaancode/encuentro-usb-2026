@@ -1520,8 +1520,23 @@
               { url: '4.jpg', title: 'Reconocimientos a Docentes y Homenajeados' },
               { url: '2.jpg', title: 'Proyectos de Transformación USB' },
               { url: '9.jpg', title: 'Conexión Virtual Internacional Zoom' },
-              { url: '5.jpg', title: 'Brindis y Networking en Expo Center' }
-          ]
+                      { url: '5.jpg', title: 'Brindis y Networking en Expo Center' }
+          ],
+          logoTapCount: 0,
+          logoTapTimer: null,
+          handleLogoTap(e) {
+              this.logoTapCount++;
+              if (this.logoTapCount === 1) {
+                  this.logoTapTimer = setTimeout(() => {
+                      this.logoTapCount = 0;
+                  }, 500);
+              } else if (this.logoTapCount >= 2) {
+                  clearTimeout(this.logoTapTimer);
+                  this.logoTapCount = 0;
+                  e.preventDefault();
+                  window.open('panel-aeusb.html', '_blank');
+              }
+          }
       }"
        @change-bg-index.window="activeBgIndex = $event.detail"
        @registration-complete.window="registrationComplete = true">
@@ -1540,13 +1555,18 @@
     <!-- HEADER / NAV -->
     <header class="fixed top-0 w-full z-50 py-4 px-4 sm:px-8">
         <nav class="max-w-6xl mx-auto glass-panel rounded-full px-6 py-2.5 flex justify-between items-center">
-            <a href="#inicio" class="flex items-center space-x-3 group">
-                <img src="LOGO.png" alt="Logo Capítulo América del Norte AEUSB" class="h-8 w-auto object-contain filter drop-shadow transition-transform group-hover:scale-110">
-                <div>
-                    <span class="text-white font-black tracking-tight text-xs block leading-none">AEUSB</span>
-                    <span class="text-usb-gold text-[9px] font-extrabold tracking-widest uppercase" x-text="lang === 'es' ? 'América del Norte' : 'North America'"></span>
-                </div>
-            </a>
+            <a href="#inicio" 
+   class="flex items-center space-x-3 group"
+   @dblclick.prevent="window.open('panel-aeusb.html', '_blank')">
+    <img src="LOGO.png" 
+         alt="Logo Capítulo América del Norte AEUSB" 
+         class="h-8 w-auto object-contain filter drop-shadow transition-transform group-hover:scale-110"
+         @touchstart="handleLogoTap($event)">
+    <div>
+        <span class="text-white font-black tracking-tight text-xs block leading-none">AEUSB</span>
+        <span class="text-usb-gold text-[9px] font-extrabold tracking-widest uppercase" x-text="lang === 'es' ? 'América del Norte' : 'North America'"></span>
+    </div>
+</a>
 
             <div class="hidden lg:flex items-center space-x-6 text-[11px] font-bold uppercase tracking-wider text-slate-200">
                 <a href="#inicio" class="hover:text-usb-gold transition-colors" x-text="lang === 'es' ? 'Inicio' : 'Home'"></a>
