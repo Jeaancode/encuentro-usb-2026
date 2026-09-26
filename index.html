@@ -1520,23 +1520,8 @@
               { url: '4.jpg', title: 'Reconocimientos a Docentes y Homenajeados' },
               { url: '2.jpg', title: 'Proyectos de Transformación USB' },
               { url: '9.jpg', title: 'Conexión Virtual Internacional Zoom' },
-                      { url: '5.jpg', title: 'Brindis y Networking en Expo Center' }
-          ],
-          logoTapCount: 0,
-          logoTapTimer: null,
-          handleLogoTap(e) {
-              this.logoTapCount++;
-              if (this.logoTapCount === 1) {
-                  this.logoTapTimer = setTimeout(() => {
-                      this.logoTapCount = 0;
-                  }, 500);
-              } else if (this.logoTapCount >= 2) {
-                  clearTimeout(this.logoTapTimer);
-                  this.logoTapCount = 0;
-                  e.preventDefault();
-                  window.open('panel-aeusb.html', '_blank');
-              }
-          }
+              { url: '5.jpg', title: 'Brindis y Networking en Expo Center' }
+          ]
       }"
        @change-bg-index.window="activeBgIndex = $event.detail"
        @registration-complete.window="registrationComplete = true">
@@ -1555,18 +1540,13 @@
     <!-- HEADER / NAV -->
     <header class="fixed top-0 w-full z-50 py-4 px-4 sm:px-8">
         <nav class="max-w-6xl mx-auto glass-panel rounded-full px-6 py-2.5 flex justify-between items-center">
-            <a href="#inicio" 
-   class="flex items-center space-x-3 group"
-   @dblclick.prevent="window.open('panel-aeusb.html', '_blank')">
-    <img src="LOGO.png" 
-         alt="Logo Capítulo América del Norte AEUSB" 
-         class="h-8 w-auto object-contain filter drop-shadow transition-transform group-hover:scale-110"
-         @touchstart="handleLogoTap($event)">
-    <div>
-        <span class="text-white font-black tracking-tight text-xs block leading-none">AEUSB</span>
-        <span class="text-usb-gold text-[9px] font-extrabold tracking-widest uppercase" x-text="lang === 'es' ? 'América del Norte' : 'North America'"></span>
-    </div>
-</a>
+            <a href="#inicio" class="flex items-center space-x-3 group">
+                <img src="LOGO.png" alt="Logo Capítulo América del Norte AEUSB" class="h-8 w-auto object-contain filter drop-shadow transition-transform group-hover:scale-110">
+                <div>
+                    <span class="text-white font-black tracking-tight text-xs block leading-none">AEUSB</span>
+                    <span class="text-usb-gold text-[9px] font-extrabold tracking-widest uppercase" x-text="lang === 'es' ? 'América del Norte' : 'North America'"></span>
+                </div>
+            </a>
 
             <div class="hidden lg:flex items-center space-x-6 text-[11px] font-bold uppercase tracking-wider text-slate-200">
                 <a href="#inicio" class="hover:text-usb-gold transition-colors" x-text="lang === 'es' ? 'Inicio' : 'Home'"></a>
@@ -1651,6 +1631,60 @@
                 <span class="gradient-text">TEJIENDO REDES Y CONSTRUYENDO FUTURO</span>
             </h1>
 
+            <!-- CUENTA REGRESIVA -->
+<div x-data="{
+      days: 0, hours: 0, minutes: 0, seconds: 0, expired: false,
+      init() {
+        const target = new Date('2026-11-07T19:00:00Z').getTime();
+        const tick = () => {
+          const diff = target - Date.now();
+          if (diff <= 0) { this.expired = true; return; }
+          this.days = Math.floor(diff / 86400000);
+          this.hours = Math.floor((diff % 86400000) / 3600000);
+          this.minutes = Math.floor((diff % 3600000) / 60000);
+          this.seconds = Math.floor((diff % 60000) / 1000);
+        };
+        tick();
+        setInterval(tick, 1000);
+      }
+    }"
+     data-aos="fade-up" data-aos-delay="250"
+     class="glass-panel p-5 sm:p-6 mb-6">
+  <div class="text-center mb-4">
+    <span class="text-[10px] font-black uppercase tracking-widest text-usb-gold inline-flex items-center gap-2">
+      <i class="fa-solid fa-hourglass-half"></i>
+      <span x-text="lang === 'es' ? 'Cuenta regresiva para el gran día' : 'Countdown to the big day'"></span>
+    </span>
+  </div>
+
+  <template x-if="!expired">
+    <div class="grid grid-cols-4 gap-2 sm:gap-3">
+      <div class="glass-inset p-3 sm:p-4 text-center">
+        <div class="text-2xl sm:text-4xl font-black text-usb-gold drop-shadow leading-none" x-text="String(days).padStart(2,'0')"></div>
+        <div class="text-[9px] sm:text-[10px] font-bold text-slate-300 uppercase tracking-widest mt-2" x-text="lang === 'es' ? 'Días' : 'Days'"></div>
+      </div>
+      <div class="glass-inset p-3 sm:p-4 text-center">
+        <div class="text-2xl sm:text-4xl font-black text-usb-gold drop-shadow leading-none" x-text="String(hours).padStart(2,'0')"></div>
+        <div class="text-[9px] sm:text-[10px] font-bold text-slate-300 uppercase tracking-widest mt-2" x-text="lang === 'es' ? 'Horas' : 'Hours'"></div>
+      </div>
+      <div class="glass-inset p-3 sm:p-4 text-center">
+        <div class="text-2xl sm:text-4xl font-black text-usb-gold drop-shadow leading-none" x-text="String(minutes).padStart(2,'0')"></div>
+        <div class="text-[9px] sm:text-[10px] font-bold text-slate-300 uppercase tracking-widest mt-2" x-text="lang === 'es' ? 'Min' : 'Min'"></div>
+      </div>
+      <div class="glass-inset p-3 sm:p-4 text-center">
+        <div class="text-2xl sm:text-4xl font-black text-usb-gold drop-shadow leading-none" x-text="String(seconds).padStart(2,'0')"></div>
+        <div class="text-[9px] sm:text-[10px] font-bold text-slate-300 uppercase tracking-widest mt-2" x-text="lang === 'es' ? 'Seg' : 'Sec'"></div>
+      </div>
+    </div>
+  </template>
+
+  <template x-if="expired">
+    <div class="text-center py-4">
+      <span class="text-xl sm:text-2xl font-black text-usb-gold" x-text="lang === 'es' ? '¡El gran día llegó!' : 'The big day is here!'"></span>
+    </div>
+  </template>
+</div>
+
             <div data-aos="fade-up" data-aos-delay="300" class="glass-panel p-6 sm:p-8 text-left mb-8 relative overflow-hidden cursor-pointer">
                 <div class="flex items-center justify-between border-b border-white/15 pb-3 mb-4">
                     <span class="text-[10px] font-black uppercase tracking-widest text-usb-gold">CONVOCATORIA</span>
@@ -1685,6 +1719,15 @@
                                 <span class="text-[10px] text-amber-300 font-bold">Registro: 2:00 pm</span>
                             </div>
                         </div>
+
+                    <!-- BOTÓN AÑADIR AL CALENDARIO -->
+<a href="data:text/calendar;charset=utf-8,BEGIN%3AVCALENDAR%0AVERSION%3A2.0%0APRODID%3A-%2F%2FAEUSB%2F%2FEncuentro%20Egresados%20USB%202026%2F%2FES%0ACALSCALE%3AGREGORIAN%0AMETHOD%3APUBLISH%0ABEGIN%3AVEVENT%0AUID%3Aencuentro-egresados-usb-2026%40aeusb.org%0ADTSTAMP%3A20260926T000000Z%0ADTSTART%3A20261107T190000Z%0ADTEND%3A20261108T000000Z%0ASUMMARY%3AEncuentro%20de%20Egresados%20USB%202026%20-%20Miami%0ADESCRIPTION%3AVENEZUELA%202026%3A%20Tejiendo%20Redes%20y%20Construyendo%20Futuro.%20Encuentro%20Internacional%20de%20Egresados%20USB%20-%20Mary%20Anne%20Wolfe%20Theater%2C%20FIU%20North%20Campus%2C%20Miami.%0ALOCATION%3AMary%20Anne%20Wolfe%20Theater%2C%20FIU%20North%20Campus%2C%20Miami%0ASTATUS%3ACONFIRMED%0AEND%3AVEVENT%0AEND%3AVCALENDAR"
+   download="Encuentro-Egresados-USB-2026.ics"
+   class="glass-btn glass-btn-accent w-full mt-4 py-3 text-[10px] uppercase tracking-widest justify-center">
+  <i class="fa-regular fa-calendar-plus mr-2 text-sm"></i>
+  <span x-text="lang === 'es' ? 'Añadir al calendario' : 'Add to calendar'"></span>
+</a>
+
                     </div>
                 </div>
 
@@ -2080,6 +2123,20 @@
                         </div>
                     </div>
 
+                    <div class="glass-inset p-5 flex items-center justify-between cursor-pointer border-usb-gold/60">
+    <div class="flex items-center space-x-4">
+        <span class="glass-badge text-usb-gold font-black flex-shrink-0">5:25 pm</span>
+        <div>
+            <p class="text-sm font-black text-white">Voces que tejen redes: un canto a Venezuela</p>
+            <span class="text-xs text-slate-200"><i class="fa-solid fa-music mr-1"></i> Cierre musical con canciones venezolanas interpretadas por Egresados tenores y coralistas de la USB</span>
+            <span class="text-[10px] text-slate-300 block mt-1"><i class="fa-regular fa-user mr-1"></i> Eleazar Mora y Encantus Voices & Ensemble</span>
+        </div>
+    </div>
+    <div class="glass-circle-btn text-usb-gold w-10 h-10 text-base flex-shrink-0">
+        <i class="fa-solid fa-microphone-lines"></i>
+    </div>
+</div>
+                    
                     <div class="glass-inset p-5 flex items-center justify-between cursor-pointer border-usb-gold/50">
                         <div class="flex items-center space-x-4">
                             <span class="glass-badge text-usb-gold font-black flex-shrink-0">5:30 pm - 7:00 pm</span>
@@ -2560,7 +2617,6 @@
 <!-- 1. FORMULARIO DE REGISTRO -->
 <div data-aos="fade-up" 
           x-data="formRegistration()"
-          x-show="!new URLSearchParams(window.location.search).get('registro')"
      class="glass-panel p-8 sm:p-12 relative">
     
      <div class="text-center mb-8">
@@ -3070,7 +3126,6 @@
              selectedOption: '0', 
              ticketAlumniCount: 0,
              ticketGuestCount: 0,
-             pendingPaymentLoad: false,
              purchaseModal: false, 
              checkoutStep: 1,
              paymentSuccess: false,
@@ -3401,103 +3456,13 @@
                      this.paymentSending = false;
                  }
              },
-                          init() {
+             init() {
                  this.paymentId = this.createPaymentId();
                  this.loadRegistrationSnapshot();
                  this.$watch('paymentMethod', (value) => {
                      if (value === 'stripe') this.initStripeCard();
                      if (value === 'paypal') this.initPayPal();
                  });
-
-                 // 👇 NUEVO: Detecta ?registro=ID en la URL
-                 const urlParams = new URLSearchParams(window.location.search);
-                 const regId = urlParams.get('registro');
-                 if (regId) {
-                     this.pendingPaymentLoad = true;
-                     this.cargarRegistroPendiente(regId);
-                 }
-             },
-
-             async cargarRegistroPendiente(regId) {
-                 console.log('► Cargando registro pendiente:', regId);
-                 try {
-                     const response = await fetch(this.appsScriptUrl, {
-                         method: 'POST',
-                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                         body: new URLSearchParams({
-                             action: 'getRegistration',
-                             registrationId: regId
-                         }).toString()
-                     });
-                     const data = await response.json();
-
-                     if (!data.ok) {
-                         alert('No pudimos encontrar ese registro. Verifica el enlace.');
-                         this.pendingPaymentLoad = false;
-                         return;
-                     }
-
-                     if (data.yaPago) {
-                         alert('Este registro ya tiene un pago asociado: ' + data.estadoPago);
-                         this.pendingPaymentLoad = false;
-                         return;
-                     }
-
-                     // Rellenar el objeto buyer
-                     const reg = data.registrationData || {};
-                     this.registrationId = regId;
-                     this.registrationData = reg;
-
-                     this.buyer.name = [reg.nombres, reg.apellidos].filter(Boolean).join(' ') || '';
-                     this.buyer.email = reg.emailPersonal || '';
-                     this.buyer.phone = reg.telefono || '';
-                     this.buyer.cedula = reg.cedula || '';
-
-                     // Calcular tickets según acompañantes del registro
-                     let alumniExtra = 0;
-                     let guestExtra = 0;
-                     Object.keys(reg).forEach(function (k) {
-                         const m = k.match(/^acompanante_(\d+)_esEgresado$/);
-                         if (m) {
-                             const val = String(reg[k] || '').trim();
-                             if (val === 'Si') alumniExtra++;
-                             if (val === 'No') guestExtra++;
-                         }
-                     });
-                     this.ticketAlumniCount = 1 + alumniExtra;
-                     this.ticketGuestCount = guestExtra;
-                     this.selectedOption = String(this.ticketTotal());
-
-                     // 🔓 Desbloquear la sección de pago
-                     window.dispatchEvent(new CustomEvent('registration-complete', {
-                         detail: {
-                             totalAlumni: this.ticketAlumniCount,
-                             totalGuests: this.ticketGuestCount,
-                             registrationId: regId,
-                             registrationData: reg
-                         }
-                     }));
-
-                     // Guardar en sessionStorage por si recarga la página
-                     try {
-                         window.sessionStorage.setItem('aeusbRegistration', JSON.stringify({
-                             submissionId: regId,
-                             fields: reg,
-                             savedAt: new Date().toISOString()
-                         }));
-                     } catch (e) {}
-
-                     // Scroll automático a la sección de pago
-                     setTimeout(function () {
-                         const target = document.getElementById('Reserva');
-                         if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                     }, 500);
-
-                 } catch (err) {
-                     console.error('Error cargando registro:', err);
-                     alert('Hubo un error cargando tu registro. Intenta de nuevo.');
-                     this.pendingPaymentLoad = false;
-                 }
              },
              resetModal() {
                  this.purchaseModal = false;
