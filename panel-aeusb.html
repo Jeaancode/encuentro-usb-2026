@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" :class="darkMode ? 'dark' : ''">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a0d18">
 <title>Panel · Encuentro Egresados USB 2026</title>
 <link rel="icon" type="image/png" href="LOGO.png">
 
@@ -15,6 +16,7 @@
 
 <script>
 tailwind.config = {
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -22,8 +24,7 @@ tailwind.config = {
           navy: '#051367',
           blue: '#487497',
           gold: '#FFC300',
-          orange: '#FF7B00',
-          darkBg: '#1a1d29'
+          orange: '#FF7B00'
         }
       },
       fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
@@ -33,25 +34,51 @@ tailwind.config = {
 </script>
 
 <style>
-  html, body { background-color: #1a1d29; color: #fff; }
+  :root {
+    --bg-main: #0a0d18;
+    --bg-card: rgba(30, 34, 52, 0.75);
+    --bg-input: rgba(20, 23, 36, 0.9);
+    --text-main: #ffffff;
+    --text-soft: #94a3b8;
+    --border-soft: rgba(255,255,255,0.08);
+    --border-input: rgba(255,255,255,0.12);
+  }
+  html:not(.dark) {
+    --bg-main: #f1f5f9;
+    --bg-card: rgba(255,255,255,0.9);
+    --bg-input: #ffffff;
+    --text-main: #0f172a;
+    --text-soft: #64748b;
+    --border-soft: rgba(0,0,0,0.08);
+    --border-input: rgba(0,0,0,0.12);
+  }
+  html, body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
   [x-cloak] { display: none !important; }
   .glass-card {
-    background: rgba(30, 34, 52, 0.75);
+    background: var(--bg-card);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid var(--border-soft);
     border-radius: 18px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    transition: background 0.3s ease, border-color 0.3s ease;
   }
   .glass-input {
-    background: rgba(20, 23, 36, 0.9);
-    border: 1px solid rgba(255,255,255,0.12);
+    background: var(--bg-input);
+    border: 1px solid var(--border-input);
     border-radius: 12px;
-    color: #fff;
-    padding: 10px 14px;
+    color: var(--text-main);
+    padding: 12px 14px;
     font-size: 13px;
     width: 100%;
     transition: all 0.2s;
+    -webkit-appearance: none;
   }
+  html:not(.dark) .glass-input::placeholder { color: #94a3b8; }
   .glass-input:focus {
     outline: none;
     border-color: #FFC300;
@@ -62,263 +89,404 @@ tailwind.config = {
     color: #051367;
     font-weight: 800;
     border-radius: 12px;
-    padding: 11px 20px;
+    padding: 12px 20px;
     transition: all 0.2s;
     font-size: 13px;
     letter-spacing: 0.03em;
     text-transform: uppercase;
+    cursor: pointer;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255,195,0,0.3); }
   .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
   .btn-ghost {
     background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: #fff;
+    border: 1px solid var(--border-input);
+    color: var(--text-main);
     border-radius: 12px;
-    padding: 10px 16px;
+    padding: 12px 16px;
     font-size: 13px;
     transition: all 0.2s;
+    cursor: pointer;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
-  .btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,195,0,0.5); }
+  html:not(.dark) .btn-ghost { background: rgba(0,0,0,0.03); }
+  .btn-ghost:hover { background: rgba(255,195,0,0.1); border-color: rgba(255,195,0,0.5); }
   .stat-card {
     background: linear-gradient(135deg, rgba(5,19,103,0.7), rgba(72,116,151,0.4));
     border: 1px solid rgba(255,195,0,0.25);
     border-radius: 16px;
-    padding: 20px;
+    padding: 18px;
     transition: transform 0.25s;
+  }
+  html:not(.dark) .stat-card {
+    background: linear-gradient(135deg, rgba(5,19,103,0.95), rgba(72,116,151,0.85));
   }
   .stat-card:hover { transform: translateY(-3px); }
   .tab-btn {
-    padding: 11px 20px;
+    padding: 12px 18px;
     border-radius: 12px;
     font-size: 12px;
     font-weight: 800;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     transition: all 0.2s;
-    color: rgba(255,255,255,0.6);
+    color: var(--text-soft);
+    cursor: pointer;
+    white-space: nowrap;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
   .tab-btn.active {
     background: rgba(255,195,0,0.15);
     color: #FFC300;
     border: 1px solid rgba(255,195,0,0.4);
   }
-  .tab-btn:hover:not(.active) { background: rgba(255,255,255,0.05); color: #fff; }
-  table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
-  th { color: rgba(255,255,255,0.55); font-weight: 800; text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; }
+  .tab-btn:hover:not(.active) { background: rgba(255,195,0,0.05); color: #FFC300; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border-soft); }
+  th {
+    color: var(--text-soft);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    position: sticky;
+    top: 0;
+    background: var(--bg-card);
+    backdrop-filter: blur(8px);
+    z-index: 2;
+  }
   tr:hover td { background: rgba(255,195,0,0.03); }
   .badge-yes { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.4); }
   .badge-no { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.4); }
   .badge-pending { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.4); }
-  .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 10px; font-weight: 800; }
+  .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 10px; font-weight: 800; }
   .chart-container { position: relative; height: 260px; }
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+  .chart-container-sm { position: relative; height: 220px; }
+
+  /* NOTIFICACIONES */
+  .notif-bell { position: relative; }
+  .notif-bell .notif-dot {
+    position: absolute;
+    top: 2px; right: 2px;
+    width: 10px; height: 10px;
+    background: #ef4444;
+    border-radius: 50%;
+    border: 2px solid var(--bg-main);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+  }
+  .notif-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 320px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 50;
+  }
+  @media (max-width: 640px) {
+    .notif-panel { width: calc(100vw - 32px); right: -60px; }
+  }
+  .notif-item {
+    padding: 12px;
+    border-bottom: 1px solid var(--border-soft);
+    font-size: 12px;
+    animation: slideIn 0.3s ease-out;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(10px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* RESPONSIVE MEJORADO */
+  @media (max-width: 767px) {
+    .glass-card { border-radius: 14px; }
+    .stat-card { padding: 14px; }
+    th, td { padding: 10px 8px; font-size: 12px; }
+    .chart-container { height: 220px; }
+    .chart-container-sm { height: 200px; }
+    /* Tabla: convertir a tarjetas en móvil */
+    .responsive-table thead { display: none; }
+    .responsive-table tbody tr {
+      display: block;
+      margin-bottom: 12px;
+      border: 1px solid var(--border-soft);
+      border-radius: 12px;
+      padding: 12px;
+      background: var(--bg-card);
+    }
+    .responsive-table tbody td {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border: none;
+      text-align: right;
+    }
+    .responsive-table tbody td::before {
+      content: attr(data-label);
+      font-weight: 800;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.05em;
+      text-align: left;
+      margin-right: 12px;
+    }
+  }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
   ::-webkit-scrollbar-thumb { background: rgba(255,195,0,0.4); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,195,0,0.6); }
 </style>
 </head>
 
 <body class="font-sans" x-data="adminPanel()" x-init="init()">
 
-<!-- ═══ LOGIN SCREEN ═══ -->
+<!-- ═══ LOGIN ═══ -->
 <div x-show="!logged" x-cloak class="min-h-screen flex items-center justify-center p-4">
   <div class="glass-card p-8 w-full max-w-md">
     <div class="text-center mb-6">
       <div class="w-16 h-16 rounded-full bg-usb-gold/15 border border-usb-gold/40 flex items-center justify-center mx-auto mb-4">
         <i class="fa-solid fa-shield-halved text-usb-gold text-2xl"></i>
       </div>
-      <h1 class="text-xl font-black text-white">Panel Administrativo</h1>
-      <p class="text-xs text-slate-400 mt-1">Encuentro Egresados USB 2026 · Miami</p>
+      <h1 class="text-xl font-black" style="color:var(--text-main)">Panel Administrativo</h1>
+      <p class="text-xs mt-1" style="color:var(--text-soft)">Encuentro Egresados USB 2026 · Miami</p>
     </div>
-
     <form @submit.prevent="login()" class="space-y-4">
       <div>
-        <label class="block text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1.5">Usuario</label>
+        <label class="block text-[10px] font-black uppercase tracking-widest mb-1.5" style="color:var(--text-soft)">Usuario</label>
         <input type="text" x-model="user" required autocomplete="username" class="glass-input" placeholder="Tu usuario">
       </div>
       <div>
-        <label class="block text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1.5">Contraseña</label>
+        <label class="block text-[10px] font-black uppercase tracking-widest mb-1.5" style="color:var(--text-soft)">Contraseña</label>
         <input type="password" x-model="pass" required autocomplete="current-password" class="glass-input" placeholder="••••••••">
       </div>
-      <div x-show="error" x-transition class="rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-3 text-xs text-red-200" x-text="error"></div>
-      <button type="submit" :disabled="loading" class="btn-primary w-full flex items-center justify-center gap-2">
-        <i class="fa-solid" :class="loading ? 'fa-spinner fa-spin' : 'fa-right-to-bracket'"></i>
+      <div x-show="error" x-transition class="rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-3 text-xs text-red-500" x-text="error"></div>
+      <button type="submit" :disabled="loading" class="btn-primary w-full">
+        <i class="fa-solid" :class="loading ? 'fa-spinner fa-spin mr-2' : 'fa-right-to-bracket mr-2'"></i>
         <span x-text="loading ? 'Verificando...' : 'Ingresar'"></span>
       </button>
     </form>
   </div>
 </div>
 
-<!-- ═══ MAIN PANEL ═══ -->
-<div x-show="logged" x-cloak class="min-h-screen">
+<!-- ═══ PANEL ═══ -->
+<div x-show="logged" x-cloak class="min-h-screen pb-16">
 
-  <!-- Header -->
-  <header class="border-b border-white/10 bg-[#141724]/80 backdrop-blur-md sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <img src="LOGO.png" class="h-8" alt="Logo">
-        <div>
-          <div class="text-sm font-black text-white leading-none">Panel Administrativo</div>
-          <div class="text-[10px] text-usb-gold font-bold tracking-widest uppercase">AEUSB 2026</div>
+  <header class="border-b sticky top-0 z-40" style="background: var(--bg-card); backdrop-filter: blur(12px); border-color: var(--border-soft);">
+    <div class="max-w-7xl mx-auto px-3 sm:px-4 py-3 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+        <img src="LOGO.png" class="h-7 sm:h-8" alt="Logo">
+        <div class="min-w-0">
+          <div class="text-xs sm:text-sm font-black leading-none truncate" style="color:var(--text-main)">Panel Admin</div>
+          <div class="text-[9px] sm:text-[10px] text-usb-gold font-bold tracking-widest uppercase">AEUSB 2026</div>
         </div>
       </div>
-      <div class="flex items-center gap-2">
-        <button @click="refreshAll()" class="btn-ghost flex items-center gap-2">
-          <i class="fa-solid" :class="refreshing ? 'fa-spinner fa-spin' : 'fa-rotate'"></i>
-          <span class="hidden sm:inline">Actualizar</span>
+      <div class="flex items-center gap-1 sm:gap-2">
+        <!-- Toggle modo oscuro -->
+        <button @click="toggleDarkMode()" class="btn-ghost px-3" title="Cambiar tema" style="min-width:44px">
+          <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
         </button>
-        <button @click="logout()" class="btn-ghost flex items-center gap-2">
+
+        <!-- Notificaciones -->
+        <div class="notif-bell relative">
+          <button @click="toggleNotifications()" class="btn-ghost px-3" title="Notificaciones" style="min-width:44px">
+            <i class="fa-solid fa-bell"></i>
+            <span x-show="unreadCount > 0" class="notif-dot"></span>
+          </button>
+          <div x-show="showNotifPanel" x-cloak @click.away="showNotifPanel = false"
+               class="notif-panel glass-card p-0">
+            <div class="p-3 border-b flex items-center justify-between" style="border-color:var(--border-soft)">
+              <span class="text-xs font-black uppercase tracking-widest" style="color:var(--text-soft)">Nuevas actividades</span>
+              <button @click="notifications = []; unreadCount = 0; showNotifPanel = false" class="text-[10px] text-usb-gold font-bold">Limpiar</button>
+            </div>
+            <div x-show="notifications.length === 0" class="p-6 text-center text-xs" style="color:var(--text-soft)">
+              No hay notificaciones nuevas
+            </div>
+            <template x-for="(n, i) in notifications" :key="i">
+              <div class="notif-item">
+                <div class="flex items-start gap-2">
+                  <i class="fa-solid mt-0.5 text-usb-gold" :class="n.icon"></i>
+                  <div class="flex-1 min-w-0">
+                    <div class="font-bold" style="color:var(--text-main)" x-text="n.title"></div>
+                    <div class="text-[10px] mt-0.5" style="color:var(--text-soft)" x-text="n.time"></div>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <!-- Refresh -->
+        <button @click="refreshAll()" class="btn-ghost px-3" title="Actualizar" style="min-width:44px">
+          <i class="fa-solid" :class="refreshing ? 'fa-spinner fa-spin' : 'fa-rotate'"></i>
+        </button>
+
+        <!-- Logout -->
+        <button @click="logout()" class="btn-ghost px-3" title="Salir" style="min-width:44px">
           <i class="fa-solid fa-right-from-bracket"></i>
-          <span class="hidden sm:inline">Salir</span>
         </button>
       </div>
     </div>
 
     <!-- Tabs -->
-    <div class="max-w-7xl mx-auto px-4 pb-3 flex gap-2 overflow-x-auto">
-      <button @click="tab = 'dashboard'" :class="tab === 'dashboard' ? 'active' : ''" class="tab-btn flex items-center gap-2 whitespace-nowrap">
-        <i class="fa-solid fa-chart-pie"></i> Dashboard
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 pb-3 flex gap-1 sm:gap-2 overflow-x-auto">
+      <button @click="switchTab('dashboard')" :class="tab === 'dashboard' ? 'active' : ''" class="tab-btn">
+        <i class="fa-solid fa-chart-pie"></i> <span class="hidden sm:inline">Dashboard</span>
       </button>
-      <button @click="tab = 'checkin'; loadCheckIn()" :class="tab === 'checkin' ? 'active' : ''" class="tab-btn flex items-center gap-2 whitespace-nowrap">
-        <i class="fa-solid fa-clipboard-check"></i> Check-in
+      <button @click="switchTab('checkin')" :class="tab === 'checkin' ? 'active' : ''" class="tab-btn">
+        <i class="fa-solid fa-clipboard-check"></i> <span class="hidden sm:inline">Check-in</span>
+      </button>
+      <button @click="switchTab('pending')" :class="tab === 'pending' ? 'active' : ''" class="tab-btn">
+        <i class="fa-solid fa-clock"></i> <span class="hidden sm:inline">Pagos pendientes</span>
+        <span x-show="pendingPayments.length > 0" class="ml-1 bg-red-500 text-white rounded-full px-1.5 text-[9px]" x-text="pendingPayments.length"></span>
+      </button>
+      <button @click="switchTab('activity')" :class="tab === 'activity' ? 'active' : ''" class="tab-btn">
+        <i class="fa-solid fa-history"></i> <span class="hidden sm:inline">Actividad</span>
       </button>
     </div>
   </header>
 
-  <!-- ═══ TAB: DASHBOARD ═══ -->
-  <main x-show="tab === 'dashboard'" class="max-w-7xl mx-auto px-4 py-6 space-y-6">
+  <!-- ═══════ TAB: DASHBOARD ═══════ -->
+  <main x-show="tab === 'dashboard'" class="max-w-7xl mx-auto px-3 sm:px-4 py-5 space-y-5">
 
-    <div x-show="loadingStats" class="text-center py-12 text-slate-400">
+    <div x-show="loadingStats" class="text-center py-12" style="color:var(--text-soft)">
       <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
-      <p class="text-xs mt-2">Cargando estadísticas...</p>
     </div>
 
-    <div x-show="!loadingStats && stats" x-cloak>
+    <div x-show="!loadingStats && stats" x-cloak class="space-y-5">
 
       <!-- Stat cards -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div class="stat-card">
           <div class="flex items-center justify-between mb-2">
-            <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Registros</span>
+            <span class="text-[10px] font-black text-slate-200 uppercase tracking-widest">Registros</span>
             <i class="fa-solid fa-users text-usb-gold"></i>
           </div>
-          <div class="text-3xl font-black text-white" x-text="stats.totales.registros"></div>
+          <div class="text-2xl sm:text-3xl font-black text-white" x-text="stats.totales.registros"></div>
         </div>
         <div class="stat-card">
           <div class="flex items-center justify-between mb-2">
-            <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Entradas vendidas</span>
+            <span class="text-[10px] font-black text-slate-200 uppercase tracking-widest">Entradas</span>
             <i class="fa-solid fa-ticket text-usb-gold"></i>
           </div>
-          <div class="text-3xl font-black text-white" x-text="stats.totales.entradasVendidas"></div>
-          <div class="text-[11px] text-slate-300 mt-1">
-            <span x-text="stats.totales.egresados"></span> egresados · 
-            <span x-text="stats.totales.acompanantes"></span> acompañantes
+          <div class="text-2xl sm:text-3xl font-black text-white" x-text="stats.totales.entradasVendidas"></div>
+          <div class="text-[10px] text-slate-200 mt-1">
+            <span x-text="stats.totales.egresados"></span> eg · <span x-text="stats.totales.acompanantes"></span> ac
           </div>
         </div>
         <div class="stat-card">
           <div class="flex items-center justify-between mb-2">
-            <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Recaudado</span>
+            <span class="text-[10px] font-black text-slate-200 uppercase tracking-widest">Recaudado</span>
             <i class="fa-solid fa-dollar-sign text-usb-gold"></i>
           </div>
-          <div class="text-3xl font-black text-usb-gold">$<span x-text="stats.totales.recaudado"></span></div>
-          <div class="text-[11px] text-slate-300 mt-1">USD</div>
+          <div class="text-2xl sm:text-3xl font-black text-usb-gold">$<span x-text="stats.totales.recaudado"></span></div>
+          <div class="text-[10px] text-slate-200 mt-1">USD</div>
         </div>
         <div class="stat-card">
           <div class="flex items-center justify-between mb-2">
-            <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Pagos aprobados</span>
+            <span class="text-[10px] font-black text-slate-200 uppercase tracking-widest">Pagos</span>
             <i class="fa-solid fa-check-circle text-usb-gold"></i>
           </div>
-          <div class="text-3xl font-black text-white" x-text="stats.totales.pagosAprobados"></div>
+          <div class="text-2xl sm:text-3xl font-black text-white" x-text="stats.totales.pagosAprobados"></div>
         </div>
       </div>
 
-      <!-- Flow chart -->
-      <div class="glass-card p-5">
-        <h3 class="text-sm font-black text-white mb-4 flex items-center gap-2">
+      <!-- Flujo diario -->
+      <div class="glass-card p-4 sm:p-5">
+        <h3 class="text-xs sm:text-sm font-black mb-3 flex items-center gap-2" style="color:var(--text-main)">
           <i class="fa-solid fa-chart-line text-usb-gold"></i> Flujo de pagos por día
         </h3>
-        <div class="chart-container">
-          <canvas id="flowChart"></canvas>
-        </div>
-        <p x-show="stats.flujo.length === 0" class="text-center text-xs text-slate-400 py-6">Aún no hay pagos aprobados.</p>
+        <div class="chart-container"><canvas id="flowChart"></canvas></div>
+        <p x-show="!stats.flujo || stats.flujo.length === 0" class="text-center text-xs py-6" style="color:var(--text-soft)">Aún no hay pagos aprobados.</p>
       </div>
 
-      <!-- Pie charts -->
+      <!-- Circulares fila 1 -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div class="glass-card p-5">
-          <h3 class="text-xs font-black text-white mb-3 uppercase tracking-wider">Egresados vs Acompañantes</h3>
-          <div class="chart-container"><canvas id="pieTipo"></canvas></div>
+        <div class="glass-card p-4 sm:p-5">
+          <h3 class="text-xs font-black mb-3 uppercase tracking-wider" style="color:var(--text-main)">Egresados vs Acompañantes</h3>
+          <div class="chart-container-sm"><canvas id="pieTipo"></canvas></div>
         </div>
-        <div class="glass-card p-5">
-          <h3 class="text-xs font-black text-white mb-3 uppercase tracking-wider">Métodos de pago</h3>
-          <div class="chart-container"><canvas id="pieMetodo"></canvas></div>
+        <div class="glass-card p-4 sm:p-5">
+          <h3 class="text-xs font-black mb-3 uppercase tracking-wider" style="color:var(--text-main)">Métodos de pago</h3>
+          <div class="chart-container-sm"><canvas id="pieMetodo"></canvas></div>
         </div>
-        <div class="glass-card p-5">
-          <h3 class="text-xs font-black text-white mb-3 uppercase tracking-wider">Asistencia declarada</h3>
-          <div class="chart-container"><canvas id="pieAsistencia"></canvas></div>
+        <div class="glass-card p-4 sm:p-5">
+          <h3 class="text-xs font-black mb-3 uppercase tracking-wider" style="color:var(--text-main)">Asistencia declarada</h3>
+          <div class="chart-container-sm"><canvas id="pieAsistencia"></canvas></div>
         </div>
       </div>
 
-      <!-- Porcentaje de pago -->
-      <div class="glass-card p-5">
-        <h3 class="text-xs font-black text-white mb-3 uppercase tracking-wider">Cobertura de pago</h3>
-        <div class="flex items-center gap-6">
-          <div class="chart-container flex-1"><canvas id="piePago"></canvas></div>
-          <div class="flex-1 space-y-3">
-            <div>
-              <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Registrados</div>
-              <div class="text-2xl font-black text-white" x-text="stats.totales.registros"></div>
-            </div>
-            <div>
-              <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Con pago aprobado</div>
-              <div class="text-2xl font-black text-emerald-400" x-text="stats.totales.pagosAprobados"></div>
-            </div>
-            <div>
-              <div class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Pendientes de pago</div>
-              <div class="text-2xl font-black text-amber-400" x-text="Math.max(0, stats.totales.registros - stats.totales.pagosAprobados)"></div>
-            </div>
-          </div>
+      <!-- Circulares fila 2 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="glass-card p-4 sm:p-5">
+          <h3 class="text-xs font-black mb-3 uppercase tracking-wider" style="color:var(--text-main)">Cobertura de pago</h3>
+          <div class="chart-container-sm"><canvas id="piePago"></canvas></div>
         </div>
+        <div class="glass-card p-4 sm:p-5">
+          <h3 class="text-xs font-black mb-3 uppercase tracking-wider" style="color:var(--text-main)">Top 10 Países</h3>
+          <div class="chart-container-sm"><canvas id="barPais"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Años de graduación -->
+      <div class="glass-card p-4 sm:p-5">
+        <h3 class="text-xs font-black mb-3 uppercase tracking-wider" style="color:var(--text-main)">Años de graduación</h3>
+        <div class="chart-container"><canvas id="barAno"></canvas></div>
+      </div>
+
+      <!-- Top carreras -->
+      <div class="glass-card p-4 sm:p-5">
+        <h3 class="text-xs font-black mb-3 uppercase tracking-wider" style="color:var(--text-main)">Top Carreras</h3>
+        <div class="chart-container"><canvas id="barCarrera"></canvas></div>
       </div>
 
     </div>
   </main>
 
-  <!-- ═══ TAB: CHECK-IN ═══ -->
-  <main x-show="tab === 'checkin'" x-cloak class="max-w-7xl mx-auto px-4 py-6 space-y-5">
+  <!-- ═══════ TAB: CHECK-IN ═══════ -->
+  <main x-show="tab === 'checkin'" x-cloak class="max-w-7xl mx-auto px-3 sm:px-4 py-5 space-y-4">
 
-    <!-- Live counters -->
     <div x-show="checkinStats" class="grid grid-cols-2 lg:grid-cols-4 gap-3">
       <div class="stat-card">
-        <div class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">Total esperados</div>
+        <div class="text-[10px] font-black text-slate-200 uppercase tracking-widest mb-1">Esperados</div>
         <div class="text-2xl font-black text-white" x-text="checkinStats.total"></div>
       </div>
       <div class="stat-card">
-        <div class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">Ya asistieron</div>
+        <div class="text-[10px] font-black text-slate-200 uppercase tracking-widest mb-1">Asistieron</div>
         <div class="text-2xl font-black text-emerald-400" x-text="checkinStats.asistieron"></div>
       </div>
       <div class="stat-card">
-        <div class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">Egresados</div>
-        <div class="text-2xl font-black text-usb-gold">
+        <div class="text-[10px] font-black text-slate-200 uppercase tracking-widest mb-1">Egresados</div>
+        <div class="text-xl font-black text-usb-gold">
           <span x-text="checkinStats.egresadosAsistieron"></span>
-          <span class="text-sm text-slate-400">/ <span x-text="checkinStats.egresadosTotal"></span></span>
+          <span class="text-sm text-slate-300">/ <span x-text="checkinStats.egresadosTotal"></span></span>
         </div>
       </div>
       <div class="stat-card">
-        <div class="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">Acompañantes</div>
-        <div class="text-2xl font-black text-usb-gold">
+        <div class="text-[10px] font-black text-slate-200 uppercase tracking-widest mb-1">Acompañantes</div>
+        <div class="text-xl font-black text-usb-gold">
           <span x-text="checkinStats.acompanantesAsistieron"></span>
-          <span class="text-sm text-slate-400">/ <span x-text="checkinStats.acompanantesTotal"></span></span>
+          <span class="text-sm text-slate-300">/ <span x-text="checkinStats.acompanantesTotal"></span></span>
         </div>
       </div>
     </div>
 
-    <!-- Search and filters -->
-    <div class="glass-card p-4 flex flex-col sm:flex-row gap-3">
-      <div class="flex-1">
-        <input type="text" x-model="checkinSearch" placeholder="Buscar por nombre o cédula..." class="glass-input">
-      </div>
+    <div class="glass-card p-3 sm:p-4 flex flex-col sm:flex-row gap-2">
+      <input type="text" x-model="checkinSearch" placeholder="Buscar por nombre o cédula..." class="glass-input flex-1">
       <select x-model="checkinFilter" class="glass-input sm:w-auto">
         <option value="all">Todos</option>
         <option value="pendiente">Sin check-in</option>
@@ -328,14 +496,13 @@ tailwind.config = {
       </select>
     </div>
 
-    <div x-show="loadingCheckin" class="text-center py-12 text-slate-400">
+    <div x-show="loadingCheckin" class="text-center py-12" style="color:var(--text-soft)">
       <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
     </div>
 
-    <!-- Table -->
     <div x-show="!loadingCheckin" class="glass-card overflow-hidden">
       <div class="overflow-x-auto">
-        <table>
+        <table class="responsive-table">
           <thead>
             <tr>
               <th>Nombre</th>
@@ -348,38 +515,149 @@ tailwind.config = {
           <tbody>
             <template x-for="a in filteredAsistentes()" :key="a.key">
               <tr>
-                <td>
-                  <div class="font-bold text-white" x-text="a.nombre"></div>
-                  <div class="text-[10px] text-slate-400" x-text="a.email"></div>
+                <td data-label="Nombre">
+                  <div class="font-bold" style="color:var(--text-main)" x-text="a.nombre"></div>
+                  <div class="text-[10px]" style="color:var(--text-soft)" x-text="a.email"></div>
                 </td>
-                <td class="text-slate-300" x-text="a.cedula || '—'"></td>
-                <td>
+                <td data-label="Cédula" x-text="a.cedula || '—'"></td>
+                <td data-label="Tipo">
                   <span class="badge" :class="a.tipo === 'egresado' ? 'badge-yes' : 'badge-pending'">
                     <i class="fa-solid" :class="a.tipo === 'egresado' ? 'fa-graduation-cap' : 'fa-user'"></i>
                     <span x-text="a.tipo === 'egresado' ? 'Egresado' : 'Acompañante'"></span>
                   </span>
                 </td>
-                <td>
+                <td data-label="Estado">
                   <span x-show="a.asistio === 'Si'" class="badge badge-yes"><i class="fa-solid fa-check"></i> Asistió</span>
                   <span x-show="a.asistio === 'No'" class="badge badge-no"><i class="fa-solid fa-xmark"></i> No asistió</span>
                   <span x-show="!a.asistio" class="badge badge-pending">Pendiente</span>
                 </td>
-                <td class="text-right">
+                <td data-label="Acción" class="text-right">
                   <button @click="toggleCheckIn(a)" :disabled="markingKey === a.key" class="btn-primary text-[10px] py-2 px-3">
                     <i class="fa-solid" :class="markingKey === a.key ? 'fa-spinner fa-spin' : (a.asistio === 'Si' ? 'fa-rotate-left' : 'fa-check')"></i>
-                    <span x-text="markingKey === a.key ? '...' : (a.asistio === 'Si' ? 'Revertir' : 'Marcar asistió')"></span>
+                    <span x-text="markingKey === a.key ? '' : (a.asistio === 'Si' ? ' Revertir' : ' Marcar')"></span>
                   </button>
                 </td>
               </tr>
             </template>
           </tbody>
         </table>
-        <div x-show="filteredAsistentes().length === 0" class="text-center py-12 text-slate-400 text-xs">
-          No hay asistentes que coincidan con la búsqueda.
+        <div x-show="filteredAsistentes().length === 0" class="text-center py-12 text-xs" style="color:var(--text-soft)">
+          No hay asistentes que coincidan.
         </div>
       </div>
     </div>
+  </main>
 
+  <!-- ═══════ TAB: PAGOS PENDIENTES ═══════ -->
+  <main x-show="tab === 'pending'" x-cloak class="max-w-7xl mx-auto px-3 sm:px-4 py-5 space-y-4">
+
+    <div class="glass-card p-4 flex items-center justify-between">
+      <div>
+        <h2 class="text-sm font-black uppercase tracking-wider" style="color:var(--text-main)">Pagos pendientes de validación</h2>
+        <p class="text-[11px] mt-1" style="color:var(--text-soft)">Revisa cada pago Zelle y apruébalo para enviar las entradas.</p>
+      </div>
+      <button @click="loadPending()" class="btn-ghost px-3 py-2 text-xs">
+        <i class="fa-solid fa-rotate" :class="loadingPending ? 'fa-spin' : ''"></i>
+      </button>
+    </div>
+
+    <div x-show="loadingPending" class="text-center py-12" style="color:var(--text-soft)">
+      <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
+    </div>
+
+    <div x-show="!loadingPending && pendingPayments.length === 0" class="glass-card p-8 text-center">
+      <i class="fa-solid fa-check-circle text-emerald-400 text-3xl mb-3"></i>
+      <p class="text-sm font-bold" style="color:var(--text-main)">No hay pagos pendientes</p>
+      <p class="text-xs mt-1" style="color:var(--text-soft)">Todos los pagos han sido procesados.</p>
+    </div>
+
+    <div x-show="!loadingPending && pendingPayments.length > 0" class="space-y-3">
+      <template x-for="p in pendingPayments" :key="p.paymentId">
+        <div class="glass-card p-4 sm:p-5">
+          <div class="flex flex-col sm:flex-row justify-between gap-3 mb-3">
+            <div>
+              <div class="text-sm font-black" style="color:var(--text-main)" x-text="p.nombre"></div>
+              <div class="text-[11px]" style="color:var(--text-soft)" x-text="p.email"></div>
+            </div>
+            <div class="text-right">
+              <div class="text-xl font-black text-usb-gold">$<span x-text="p.monto"></span> USD</div>
+              <div class="text-[10px] font-bold uppercase" style="color:var(--text-soft)">
+                <i class="fa-solid fa-clock"></i> <span x-text="p.estado"></span>
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px] mb-3" style="color:var(--text-soft)">
+            <div><b>Cédula:</b> <span x-text="p.cedula || '—'"></span></div>
+            <div><b>Método:</b> <span x-text="p.metodo"></span></div>
+            <div><b>Egresados:</b> <span x-text="p.egresados"></span></div>
+            <div><b>Acompañantes:</b> <span x-text="p.acompanantes"></span></div>
+            <div x-show="p.referenciaZelle"><b>Ref Zelle:</b> <span x-text="p.referenciaZelle"></span></div>
+            <div><b>ID:</b> <span class="font-mono text-[9px]" x-text="p.paymentId.substring(0,20) + '...'"></span></div>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <a x-show="p.comprobanteUrl" :href="p.comprobanteUrl" target="_blank" rel="noopener noreferrer" class="btn-ghost flex-1 text-xs">
+              <i class="fa-solid fa-image mr-2"></i> Ver comprobante
+            </a>
+            <button @click="approvePayment(p)" :disabled="approvingId === p.paymentId" class="btn-primary flex-1">
+              <i class="fa-solid" :class="approvingId === p.paymentId ? 'fa-spinner fa-spin' : 'fa-check'"></i>
+              <span x-text="approvingId === p.paymentId ? ' Aprobando...' : ' Aprobar y enviar entrada'"></span>
+            </button>
+          </div>
+        </div>
+      </template>
+    </div>
+  </main>
+
+  <!-- ═══════ TAB: ACTIVIDAD ═══════ -->
+  <main x-show="tab === 'activity'" x-cloak class="max-w-5xl mx-auto px-3 sm:px-4 py-5 space-y-4">
+
+    <div class="glass-card p-4 flex items-center justify-between">
+      <div>
+        <h2 class="text-sm font-black uppercase tracking-wider" style="color:var(--text-main)">Historial de actividad</h2>
+        <p class="text-[11px] mt-1" style="color:var(--text-soft)">Últimos 200 eventos registrados en el sistema.</p>
+      </div>
+      <button @click="loadActivity()" class="btn-ghost px-3 py-2 text-xs">
+        <i class="fa-solid fa-rotate" :class="loadingActivity ? 'fa-spin' : ''"></i>
+      </button>
+    </div>
+
+    <div x-show="loadingActivity" class="text-center py-12" style="color:var(--text-soft)">
+      <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
+    </div>
+
+    <div x-show="!loadingActivity && activityLog.length === 0" class="glass-card p-8 text-center text-xs" style="color:var(--text-soft)">
+      No hay actividad registrada todavía.
+    </div>
+
+    <div x-show="!loadingActivity && activityLog.length > 0" class="glass-card p-0 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="responsive-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Acción</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template x-for="(a, i) in activityLog" :key="i">
+              <tr>
+                <td data-label="Fecha">
+                  <div class="text-[11px]" style="color:var(--text-main)" x-text="formatDate(a.fecha)"></div>
+                </td>
+                <td data-label="Acción">
+                  <span class="badge" :class="badgeClassForAction(a.accion)">
+                    <i class="fa-solid" :class="iconForAction(a.accion)"></i>
+                    <span x-text="a.accion"></span>
+                  </span>
+                </td>
+                <td data-label="Detalle" class="text-[12px]" style="color:var(--text-soft)" x-text="a.detalle"></td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </main>
 
 </div>
@@ -387,7 +665,7 @@ tailwind.config = {
 <script>
 function adminPanel() {
   return {
-    // ─── ESTADO GENERAL ───
+    // ─── ESTADO ───
     appsScriptUrl: 'https://script.google.com/macros/s/AKfycbyD1Y-RdO23_9R0DzQ3IxvUG2-83NRrmvQ0s6FwWFluhIexBHH3jnVdorx8kKAWS89n/exec',
     logged: false,
     loading: false,
@@ -397,8 +675,9 @@ function adminPanel() {
     token: '',
     tab: 'dashboard',
     refreshing: false,
+    darkMode: true,
 
-    // ─── ESTADÍSTICAS ───
+    // ─── STATS ───
     stats: null,
     loadingStats: false,
     charts: {},
@@ -411,17 +690,54 @@ function adminPanel() {
     checkinFilter: 'all',
     markingKey: '',
 
+    // ─── PAGOS PENDIENTES ───
+    pendingPayments: [],
+    loadingPending: false,
+    approvingId: '',
+
+    // ─── ACTIVIDAD ───
+    activityLog: [],
+    loadingActivity: false,
+
+    // ─── NOTIFICACIONES ───
+    notifications: [],
+    unreadCount: 0,
+    showNotifPanel: false,
+    pollingTimer: null,
+    lastCheckTimestamp: 0,
+
     // ═══ INIT ═══
     init() {
-      // Recuperar token guardado
+      try {
+        const savedDark = window.localStorage.getItem('aeusbDarkMode');
+        if (savedDark !== null) this.darkMode = savedDark === 'true';
+      } catch (e) {}
+      this.applyDarkClass();
+
       try {
         const saved = window.localStorage.getItem('aeusbAdminToken');
         if (saved) {
           this.token = saved;
           this.logged = true;
-          this.$nextTick(() => this.loadStats());
+          this.$nextTick(() => {
+            this.loadStats();
+            this.startPolling();
+          });
         }
       } catch (e) {}
+    },
+
+    toggleDarkMode() {
+      this.darkMode = !this.darkMode;
+      this.applyDarkClass();
+      try { window.localStorage.setItem('aeusbDarkMode', String(this.darkMode)); } catch (e) {}
+      // Re-render charts con nuevos colores
+      if (this.stats) this.$nextTick(() => this.renderCharts());
+    },
+
+    applyDarkClass() {
+      if (this.darkMode) document.documentElement.classList.add('dark');
+      else document.documentElement.classList.remove('dark');
     },
 
     // ═══ LOGIN ═══
@@ -432,11 +748,7 @@ function adminPanel() {
         const res = await fetch(this.appsScriptUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({
-            action: 'verifyAdmin',
-            user: this.user,
-            pass: this.pass
-          }).toString()
+          body: new URLSearchParams({ action: 'verifyAdmin', user: this.user, pass: this.pass }).toString()
         });
         const data = await res.json();
         if (!data.ok) {
@@ -449,7 +761,10 @@ function adminPanel() {
         this.logged = true;
         this.loading = false;
         this.pass = '';
-        this.$nextTick(() => this.loadStats());
+        this.$nextTick(() => {
+          this.loadStats();
+          this.startPolling();
+        });
       } catch (err) {
         this.error = 'Error de conexión: ' + err.message;
         this.loading = false;
@@ -462,16 +777,13 @@ function adminPanel() {
       this.stats = null;
       this.user = '';
       this.pass = '';
+      this.stopPolling();
       try { window.localStorage.removeItem('aeusbAdminToken'); } catch (e) {}
     },
 
-    // ═══ API HELPER ═══
+    // ═══ API ═══
     async apiCall(action, extra = {}) {
-      const body = new URLSearchParams({
-        action: action,
-        token: this.token,
-        ...extra
-      }).toString();
+      const body = new URLSearchParams({ action, token: this.token, ...extra }).toString();
       const res = await fetch(this.appsScriptUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -485,15 +797,24 @@ function adminPanel() {
       return data;
     },
 
-    // ═══ REFRESCAR TODO ═══
+    // ═══ TABS ═══
+    switchTab(t) {
+      this.tab = t;
+      if (t === 'checkin' && this.asistentes.length === 0) this.loadCheckIn();
+      if (t === 'pending') this.loadPending();
+      if (t === 'activity') this.loadActivity();
+    },
+
     async refreshAll() {
       this.refreshing = true;
       if (this.tab === 'dashboard') await this.loadStats();
       if (this.tab === 'checkin') await this.loadCheckIn();
+      if (this.tab === 'pending') await this.loadPending();
+      if (this.tab === 'activity') await this.loadActivity();
       this.refreshing = false;
     },
 
-    // ═══ ESTADÍSTICAS ═══
+    // ═══ STATS ═══
     async loadStats() {
       this.loadingStats = true;
       try {
@@ -501,152 +822,152 @@ function adminPanel() {
         if (data.ok) {
           this.stats = data;
           this.$nextTick(() => this.renderCharts());
-        } else {
-          this.error = data.error;
-        }
-      } catch (err) {
-        this.error = 'Error cargando stats: ' + err.message;
-      }
+        } else this.error = data.error;
+      } catch (err) { this.error = 'Error: ' + err.message; }
       this.loadingStats = false;
     },
 
     renderCharts() {
       if (!this.stats) return;
+      Object.keys(this.charts).forEach(k => { try { this.charts[k].destroy(); } catch (e) {} });
 
-      // Destruir charts previos
-      Object.keys(this.charts).forEach(k => {
-        try { this.charts[k].destroy(); } catch (e) {}
-      });
+      const textColor = this.darkMode ? 'rgba(255,255,255,0.7)' : 'rgba(15,23,42,0.8)';
+      const gridColor = this.darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.06)';
+      const gold = '#FFC300', blue = '#487497', orange = '#FF7B00', emerald = '#10b981', red = '#ef4444';
 
-      const gold = '#FFC300';
-      const navy = '#051367';
-      const blue = '#487497';
-      const orange = '#FF7B00';
-      const emerald = '#10b981';
+      const mkLegend = () => ({ labels: { color: textColor, font: { size: 11 }, padding: 12 } });
 
-      // ── Flow chart ──
-      const ctxFlow = document.getElementById('flowChart');
-      if (ctxFlow) {
-        this.charts.flow = new Chart(ctxFlow, {
+      // Flujo
+      if (document.getElementById('flowChart')) {
+        this.charts.flow = new Chart(document.getElementById('flowChart'), {
           type: 'line',
           data: {
-            labels: this.stats.flujo.map(f => f.fecha),
+            labels: (this.stats.flujo||[]).map(f => f.fecha),
             datasets: [{
               label: 'Pagos aprobados',
-              data: this.stats.flujo.map(f => f.count),
-              borderColor: gold,
-              backgroundColor: 'rgba(255,195,0,0.15)',
-              fill: true,
-              tension: 0.35,
-              pointRadius: 4,
-              pointBackgroundColor: gold
+              data: (this.stats.flujo||[]).map(f => f.count),
+              borderColor: gold, backgroundColor: 'rgba(255,195,0,0.15)',
+              fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: gold
             }]
           },
           options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { labels: { color: '#fff', font: { size: 11 } } }
-            },
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: mkLegend() },
             scales: {
-              x: { ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
-              y: { ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true }
+              x: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor } },
+              y: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, beginAtZero: true }
             }
           }
         });
       }
 
-      // ── Pie: Egresados vs Acompañantes ──
-      const ctxTipo = document.getElementById('pieTipo');
-      if (ctxTipo) {
-        this.charts.tipo = new Chart(ctxTipo, {
+      // Pie tipo
+      if (document.getElementById('pieTipo')) {
+        this.charts.tipo = new Chart(document.getElementById('pieTipo'), {
           type: 'doughnut',
           data: {
             labels: ['Egresados', 'Acompañantes'],
-            datasets: [{
-              data: [this.stats.totales.egresados, this.stats.totales.acompanantes],
-              backgroundColor: [gold, blue],
-              borderWidth: 0
-            }]
+            datasets: [{ data: [this.stats.totales.egresados, this.stats.totales.acompanantes], backgroundColor: [gold, blue], borderWidth: 0 }]
           },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { position: 'bottom', labels: { color: '#fff', font: { size: 11 }, padding: 14 } }
-            }
-          }
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { ...mkLegend(), position: 'bottom' } } }
         });
       }
 
-      // ── Pie: Métodos de pago ──
-      const ctxMetodo = document.getElementById('pieMetodo');
-      if (ctxMetodo) {
-        const m = this.stats.metodosPago;
-        this.charts.metodo = new Chart(ctxMetodo, {
+      // Pie método
+      if (document.getElementById('pieMetodo')) {
+        const m = this.stats.metodosPago || {stripe:0,paypal:0,zelle:0};
+        this.charts.metodo = new Chart(document.getElementById('pieMetodo'), {
           type: 'pie',
           data: {
             labels: ['Stripe', 'PayPal', 'Zelle'],
-            datasets: [{
-              data: [m.stripe || 0, m.paypal || 0, m.zelle || 0],
-              backgroundColor: [gold, blue, orange],
-              borderWidth: 0
-            }]
+            datasets: [{ data: [m.stripe||0, m.paypal||0, m.zelle||0], backgroundColor: [gold, blue, orange], borderWidth: 0 }]
           },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { position: 'bottom', labels: { color: '#fff', font: { size: 11 }, padding: 14 } }
-            }
-          }
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { ...mkLegend(), position: 'bottom' } } }
         });
       }
 
-      // ── Pie: Asistencia declarada ──
-      const ctxAsis = document.getElementById('pieAsistencia');
-      if (ctxAsis) {
-        const a = this.stats.asistenciaDeclarada;
-        this.charts.asis = new Chart(ctxAsis, {
+      // Pie asistencia
+      if (document.getElementById('pieAsistencia')) {
+        const a = this.stats.asistenciaDeclarada || {presencial:0,virtual:0,noAsiste:0};
+        this.charts.asis = new Chart(document.getElementById('pieAsistencia'), {
           type: 'doughnut',
           data: {
             labels: ['Presencial', 'Virtual', 'No asiste'],
-            datasets: [{
-              data: [a.presencial, a.virtual, a.noAsiste],
-              backgroundColor: [emerald, blue, '#ef4444'],
-              borderWidth: 0
-            }]
+            datasets: [{ data: [a.presencial, a.virtual, a.noAsiste], backgroundColor: [emerald, blue, red], borderWidth: 0 }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { ...mkLegend(), position: 'bottom' } } }
+        });
+      }
+
+      // Pie pago
+      if (document.getElementById('piePago')) {
+        const pagados = this.stats.totales.pagosAprobados;
+        const pendientes = Math.max(0, this.stats.totales.registros - pagados);
+        this.charts.pago = new Chart(document.getElementById('piePago'), {
+          type: 'doughnut',
+          data: {
+            labels: ['Con pago', 'Sin pago'],
+            datasets: [{ data: [pagados, pendientes], backgroundColor: [emerald, this.darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'], borderWidth: 0 }]
+          },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { ...mkLegend(), position: 'bottom' } } }
+        });
+      }
+
+      // Bar país
+      if (document.getElementById('barPais')) {
+        const paises = this.stats.porPais || [];
+        this.charts.pais = new Chart(document.getElementById('barPais'), {
+          type: 'bar',
+          data: {
+            labels: paises.map(p => p.pais),
+            datasets: [{ label: 'Registros', data: paises.map(p => p.count), backgroundColor: gold, borderRadius: 6 }]
           },
           options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { position: 'bottom', labels: { color: '#fff', font: { size: 11 }, padding: 14 } }
+            indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, beginAtZero: true },
+              y: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } }
             }
           }
         });
       }
 
-      // ── Pie: Cobertura de pago ──
-      const ctxPago = document.getElementById('piePago');
-      if (ctxPago) {
-        const pagados = this.stats.totales.pagosAprobados;
-        const pendientes = Math.max(0, this.stats.totales.registros - pagados);
-        this.charts.pago = new Chart(ctxPago, {
-          type: 'doughnut',
+      // Bar año
+      if (document.getElementById('barAno')) {
+        const anos = this.stats.porAnoGrad || [];
+        this.charts.ano = new Chart(document.getElementById('barAno'), {
+          type: 'bar',
           data: {
-            labels: ['Con pago', 'Sin pago'],
-            datasets: [{
-              data: [pagados, pendientes],
-              backgroundColor: [emerald, 'rgba(255,255,255,0.1)'],
-              borderWidth: 0
-            }]
+            labels: anos.map(a => a.ano),
+            datasets: [{ label: 'Registros', data: anos.map(a => a.count), backgroundColor: blue, borderRadius: 6 }]
           },
           options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { position: 'bottom', labels: { color: '#fff', font: { size: 11 }, padding: 14 } }
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: textColor, font: { size: 9 } }, grid: { display: false } },
+              y: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, beginAtZero: true }
+            }
+          }
+        });
+      }
+
+      // Bar carrera
+      if (document.getElementById('barCarrera')) {
+        const carr = this.stats.topCarreras || [];
+        this.charts.carrera = new Chart(document.getElementById('barCarrera'), {
+          type: 'bar',
+          data: {
+            labels: carr.map(c => c.carrera),
+            datasets: [{ label: 'Registros', data: carr.map(c => c.count), backgroundColor: orange, borderRadius: 6 }]
+          },
+          options: {
+            indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, beginAtZero: true },
+              y: { ticks: { color: textColor, font: { size: 9 } }, grid: { display: false } }
             }
           }
         });
@@ -661,24 +982,19 @@ function adminPanel() {
         if (data.ok) {
           this.asistentes = data.asistentes || [];
           this.checkinStats = data.stats || null;
-        } else {
-          this.error = data.error;
-        }
-      } catch (err) {
-        this.error = 'Error cargando check-in: ' + err.message;
-      }
+        } else this.error = data.error;
+      } catch (err) { this.error = 'Error: ' + err.message; }
       this.loadingCheckin = false;
     },
 
     filteredAsistentes() {
       const q = (this.checkinSearch || '').toLowerCase().trim();
       const f = this.checkinFilter;
-
       return this.asistentes.filter(a => {
         if (q) {
-          const nombre = (a.nombre || '').toLowerCase();
-          const cedula = (a.cedula || '').toLowerCase();
-          if (!nombre.includes(q) && !cedula.includes(q)) return false;
+          const n = (a.nombre || '').toLowerCase();
+          const c = (a.cedula || '').toLowerCase();
+          if (!n.includes(q) && !c.includes(q)) return false;
         }
         if (f === 'pendiente' && a.asistio) return false;
         if (f === 'asistio' && a.asistio !== 'Si') return false;
@@ -689,27 +1005,120 @@ function adminPanel() {
     },
 
     async toggleCheckIn(a) {
-      const nuevoEstado = a.asistio === 'Si' ? 'No' : 'Si';
+      const nuevo = a.asistio === 'Si' ? 'No' : 'Si';
       this.markingKey = a.key;
       try {
         const data = await this.apiCall('markCheckIn', {
           idRegistro: a.idRegistro,
           tipo: a.tipo,
           numeroAcompanante: a.numeroAcompanante || 0,
-          asistio: nuevoEstado,
+          asistio: nuevo,
           notas: ''
         });
         if (data.ok) {
-          a.asistio = nuevoEstado;
-          // Recalcular stats
+          a.asistio = nuevo;
           await this.loadCheckIn();
-        } else {
-          alert('Error: ' + data.error);
-        }
-      } catch (err) {
-        alert('Error de conexión: ' + err.message);
-      }
+        } else alert('Error: ' + data.error);
+      } catch (err) { alert('Error: ' + err.message); }
       this.markingKey = '';
+    },
+
+    // ═══ PAGOS PENDIENTES ═══
+    async loadPending() {
+      this.loadingPending = true;
+      try {
+        const data = await this.apiCall('getPendingPayments');
+        if (data.ok) this.pendingPayments = data.pendientes || [];
+        else this.error = data.error;
+      } catch (err) { this.error = 'Error: ' + err.message; }
+      this.loadingPending = false;
+    },
+
+    async approvePayment(p) {
+      if (!confirm('¿Aprobar el pago de ' + p.nombre + ' por $' + p.monto + ' USD?\nSe enviará el correo con las entradas automáticamente.')) return;
+      this.approvingId = p.paymentId;
+      try {
+        const data = await this.apiCall('approveZellePayment', { paymentId: p.paymentId });
+        if (data.ok) {
+          this.addNotification({ icon: 'fa-check-circle', title: 'Pago aprobado: ' + p.nombre, time: 'Ahora' });
+          await this.loadPending();
+        } else alert('Error: ' + data.error);
+      } catch (err) { alert('Error: ' + err.message); }
+      this.approvingId = '';
+    },
+
+    // ═══ ACTIVIDAD ═══
+    async loadActivity() {
+      this.loadingActivity = true;
+      try {
+        const data = await this.apiCall('getActivityLog');
+        if (data.ok) this.activityLog = data.registros || [];
+        else this.error = data.error;
+      } catch (err) { this.error = 'Error: ' + err.message; }
+      this.loadingActivity = false;
+    },
+
+    iconForAction(accion) {
+      const map = {
+        'LOGIN': 'fa-right-to-bracket',
+        'CHECKIN': 'fa-clipboard-check',
+        'APROBAR_PAGO': 'fa-check-circle'
+      };
+      return map[accion] || 'fa-circle-info';
+    },
+
+    badgeClassForAction(accion) {
+      const map = {
+        'LOGIN': 'badge-pending',
+        'CHECKIN': 'badge-yes',
+        'APROBAR_PAGO': 'badge-yes'
+      };
+      return map[accion] || 'badge-pending';
+    },
+
+    formatDate(d) {
+      if (!d) return '';
+      try {
+        const dt = new Date(d);
+        return dt.toLocaleString('es-VE', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+      } catch (e) { return String(d); }
+    },
+
+    // ═══ NOTIFICACIONES EN VIVO ═══
+    toggleNotifications() {
+      this.showNotifPanel = !this.showNotifPanel;
+      if (this.showNotifPanel) this.unreadCount = 0;
+    },
+
+    addNotification(n) {
+      this.notifications.unshift(n);
+      if (this.notifications.length > 20) this.notifications.pop();
+      this.unreadCount++;
+    },
+
+    startPolling() {
+      this.stopPolling();
+      this.lastCheckTimestamp = Date.now();
+      this.pollingTimer = setInterval(async () => {
+        try {
+          // Polling ligero: consultar pendientes
+          const data = await this.apiCall('getPendingPayments');
+          if (data.ok) {
+            const prevIds = new Set(this.pendingPayments.map(p => p.paymentId));
+            const newOnes = (data.pendientes || []).filter(p => !prevIds.has(p.paymentId));
+            if (newOnes.length > 0 && this.pendingPayments.length > 0) {
+              newOnes.forEach(n => {
+                this.addNotification({ icon: 'fa-receipt', title: 'Nuevo pago: ' + n.nombre + ' ($' + n.monto + ')', time: 'Ahora' });
+              });
+            }
+            this.pendingPayments = data.pendientes || [];
+          }
+        } catch (e) { /* silencioso */ }
+      }, 30000); // cada 30 segundos
+    },
+
+    stopPolling() {
+      if (this.pollingTimer) { clearInterval(this.pollingTimer); this.pollingTimer = null; }
     }
   }
 }
