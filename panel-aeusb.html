@@ -20,12 +20,7 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        usb: {
-          navy: '#051367',
-          blue: '#487497',
-          gold: '#FFC300',
-          orange: '#FF7B00'
-        }
+        usb: { navy: '#051367', blue: '#487497', gold: '#FFC300', orange: '#FF7B00' }
       },
       fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
     }
@@ -59,197 +54,60 @@ tailwind.config = {
     -webkit-tap-highlight-color: transparent;
   }
   [x-cloak] { display: none !important; }
-  .glass-card {
-    background: var(--bg-card);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border-soft);
-    border-radius: 18px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    transition: background 0.3s ease, border-color 0.3s ease;
-  }
-  .glass-input {
-    background: var(--bg-input);
-    border: 1px solid var(--border-input);
-    border-radius: 12px;
-    color: var(--text-main);
-    padding: 12px 14px;
-    font-size: 13px;
-    width: 100%;
-    transition: all 0.2s;
-    -webkit-appearance: none;
-  }
+  .glass-card { background: var(--bg-card); backdrop-filter: blur(12px); border: 1px solid var(--border-soft); border-radius: 18px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); transition: background 0.3s ease, border-color 0.3s ease; }
+  .glass-input { background: var(--bg-input); border: 1px solid var(--border-input); border-radius: 12px; color: var(--text-main); padding: 12px 14px; font-size: 13px; width: 100%; transition: all 0.2s; -webkit-appearance: none; }
   html:not(.dark) .glass-input::placeholder { color: #94a3b8; }
-  .glass-input:focus {
-    outline: none;
-    border-color: #FFC300;
-    box-shadow: 0 0 0 3px rgba(255,195,0,0.15);
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, #FFC300, #FF7B00);
-    color: #051367;
-    font-weight: 800;
-    border-radius: 12px;
-    padding: 12px 20px;
-    transition: all 0.2s;
-    font-size: 13px;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    cursor: pointer;
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255,195,0,0.3); }
-  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-  .btn-ghost {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border-input);
-    color: var(--text-main);
-    border-radius: 12px;
-    padding: 12px 16px;
-    font-size: 13px;
-    transition: all 0.2s;
-    cursor: pointer;
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
+  .glass-input:focus { outline: none; border-color: #FFC300; box-shadow: 0 0 0 3px rgba(255,195,0,0.15); }
+  .btn-primary { background: linear-gradient(135deg, #FFC300, #FF7B00); color: #051367; font-weight: 800; border-radius: 12px; padding: 12px 20px; transition: all 0.2s; font-size: 13px; letter-spacing: 0.03em; text-transform: uppercase; cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: none; }
+  .btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255,195,0,0.3); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+  .btn-ghost { background: rgba(255,255,255,0.05); border: 1px solid var(--border-input); color: var(--text-main); border-radius: 12px; padding: 12px 16px; font-size: 13px; transition: all 0.2s; cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
   html:not(.dark) .btn-ghost { background: rgba(0,0,0,0.03); }
   .btn-ghost:hover { background: rgba(255,195,0,0.1); border-color: rgba(255,195,0,0.5); }
-  .stat-card {
-    background: linear-gradient(135deg, rgba(5,19,103,0.7), rgba(72,116,151,0.4));
-    border: 1px solid rgba(255,195,0,0.25);
-    border-radius: 16px;
-    padding: 18px;
-    transition: transform 0.25s;
-  }
-  html:not(.dark) .stat-card {
-    background: linear-gradient(135deg, rgba(5,19,103,0.95), rgba(72,116,151,0.85));
-  }
+  .btn-danger { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4); color: #ef4444; border-radius: 12px; padding: 10px 14px; font-size: 12px; font-weight: 800; cursor: pointer; min-height: 40px; }
+  .btn-danger:hover { background: rgba(239,68,68,0.25); }
+  .btn-success { background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.4); color: #10b981; border-radius: 12px; padding: 10px 14px; font-size: 12px; font-weight: 800; cursor: pointer; min-height: 40px; }
+  .btn-success:hover:not(:disabled) { background: rgba(16,185,129,0.25); }
+  .btn-success:disabled { opacity: 0.6; cursor: not-allowed; }
+  .stat-card { background: linear-gradient(135deg, rgba(5,19,103,0.7), rgba(72,116,151,0.4)); border: 1px solid rgba(255,195,0,0.25); border-radius: 16px; padding: 18px; transition: transform 0.25s; }
+  html:not(.dark) .stat-card { background: linear-gradient(135deg, rgba(5,19,103,0.95), rgba(72,116,151,0.85)); }
   .stat-card:hover { transform: translateY(-3px); }
-  .tab-btn {
-    padding: 12px 18px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    transition: all 0.2s;
-    color: var(--text-soft);
-    cursor: pointer;
-    white-space: nowrap;
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .tab-btn.active {
-    background: rgba(255,195,0,0.15);
-    color: #FFC300;
-    border: 1px solid rgba(255,195,0,0.4);
-  }
+  .tab-btn { padding: 12px 16px; border-radius: 12px; font-size: 11px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.2s; color: var(--text-soft); cursor: pointer; white-space: nowrap; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1px solid transparent; }
+  .tab-btn.active { background: rgba(255,195,0,0.15); color: #FFC300; border: 1px solid rgba(255,195,0,0.4); }
   .tab-btn:hover:not(.active) { background: rgba(255,195,0,0.05); color: #FFC300; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
   th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border-soft); }
-  th {
-    color: var(--text-soft);
-    font-weight: 800;
-    text-transform: uppercase;
-    font-size: 10px;
-    letter-spacing: 0.05em;
-    position: sticky;
-    top: 0;
-    background: var(--bg-card);
-    backdrop-filter: blur(8px);
-    z-index: 2;
-  }
+  th { color: var(--text-soft); font-weight: 800; text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; position: sticky; top: 0; background: var(--bg-card); backdrop-filter: blur(8px); z-index: 2; }
   tr:hover td { background: rgba(255,195,0,0.03); }
+  .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 10px; font-weight: 800; }
   .badge-yes { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.4); }
   .badge-no { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.4); }
   .badge-pending { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.4); }
-  .badge { display: inline-block; padding: 4px 10px; border-radius: 999px; font-size: 10px; font-weight: 800; }
+  .badge-info { background: rgba(72,116,151,0.25); color: #7cb3d9; border: 1px solid rgba(72,116,151,0.4); }
   .chart-container { position: relative; height: 260px; }
   .chart-container-sm { position: relative; height: 220px; }
-
-  /* NOTIFICACIONES */
-  .notif-bell { position: relative; }
-  .notif-bell .notif-dot {
-    position: absolute;
-    top: 2px; right: 2px;
-    width: 10px; height: 10px;
-    background: #ef4444;
-    border-radius: 50%;
-    border: 2px solid var(--bg-main);
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%,100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.2); opacity: 0.7; }
-  }
-  .notif-panel {
-    position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    width: 320px;
-    max-height: 400px;
-    overflow-y: auto;
-    z-index: 50;
-  }
-  @media (max-width: 640px) {
-    .notif-panel { width: calc(100vw - 32px); right: -60px; }
-  }
-  .notif-item {
-    padding: 12px;
-    border-bottom: 1px solid var(--border-soft);
-    font-size: 12px;
-    animation: slideIn 0.3s ease-out;
-  }
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(10px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-
-  /* RESPONSIVE MEJORADO */
+  .notif-bell .notif-dot { position: absolute; top: 2px; right: 2px; width: 10px; height: 10px; background: #ef4444; border-radius: 50%; border: 2px solid var(--bg-main); animation: pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.7; } }
+  .notif-panel { position: absolute; top: calc(100% + 8px); right: 0; width: 320px; max-height: 400px; overflow-y: auto; z-index: 50; }
+  @media (max-width: 640px) { .notif-panel { width: calc(100vw - 32px); right: -60px; } }
+  .notif-item { padding: 12px; border-bottom: 1px solid var(--border-soft); font-size: 12px; animation: slideIn 0.3s ease-out; }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .modal-card { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: 18px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; padding: 22px; }
   @media (max-width: 767px) {
     .glass-card { border-radius: 14px; }
     .stat-card { padding: 14px; }
     th, td { padding: 10px 8px; font-size: 12px; }
     .chart-container { height: 220px; }
     .chart-container-sm { height: 200px; }
-    /* Tabla: convertir a tarjetas en móvil */
     .responsive-table thead { display: none; }
-    .responsive-table tbody tr {
-      display: block;
-      margin-bottom: 12px;
-      border: 1px solid var(--border-soft);
-      border-radius: 12px;
-      padding: 12px;
-      background: var(--bg-card);
-    }
-    .responsive-table tbody td {
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 0;
-      border: none;
-      text-align: right;
-    }
-    .responsive-table tbody td::before {
-      content: attr(data-label);
-      font-weight: 800;
-      color: var(--text-soft);
-      text-transform: uppercase;
-      font-size: 10px;
-      letter-spacing: 0.05em;
-      text-align: left;
-      margin-right: 12px;
-    }
+    .responsive-table tbody tr { display: block; margin-bottom: 12px; border: 1px solid var(--border-soft); border-radius: 12px; padding: 12px; background: var(--bg-card); }
+    .responsive-table tbody td { display: flex; justify-content: space-between; padding: 6px 0; border: none; text-align: right; }
+    .responsive-table tbody td::before { content: attr(data-label); font-weight: 800; color: var(--text-soft); text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; text-align: left; margin-right: 12px; }
   }
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
   ::-webkit-scrollbar-thumb { background: rgba(255,195,0,0.4); border-radius: 999px; }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(255,195,0,0.6); }
 </style>
 </head>
 
@@ -276,7 +134,7 @@ tailwind.config = {
       </div>
       <div x-show="error" x-transition class="rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-3 text-xs text-red-500" x-text="error"></div>
       <button type="submit" :disabled="loading" class="btn-primary w-full">
-        <i class="fa-solid" :class="loading ? 'fa-spinner fa-spin mr-2' : 'fa-right-to-bracket mr-2'"></i>
+        <i class="fa-solid" :class="loading ? 'fa-spinner fa-spin' : 'fa-right-to-bracket'"></i>
         <span x-text="loading ? 'Verificando...' : 'Ingresar'"></span>
       </button>
     </form>
@@ -296,26 +154,20 @@ tailwind.config = {
         </div>
       </div>
       <div class="flex items-center gap-1 sm:gap-2">
-        <!-- Toggle modo oscuro -->
         <button @click="toggleDarkMode()" class="btn-ghost px-3" title="Cambiar tema" style="min-width:44px">
           <i class="fa-solid" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
         </button>
-
-        <!-- Notificaciones -->
         <div class="notif-bell relative">
           <button @click="toggleNotifications()" class="btn-ghost px-3" title="Notificaciones" style="min-width:44px">
             <i class="fa-solid fa-bell"></i>
             <span x-show="unreadCount > 0" class="notif-dot"></span>
           </button>
-          <div x-show="showNotifPanel" x-cloak @click.away="showNotifPanel = false"
-               class="notif-panel glass-card p-0">
+          <div x-show="showNotifPanel" x-cloak @click.away="showNotifPanel = false" class="notif-panel glass-card p-0">
             <div class="p-3 border-b flex items-center justify-between" style="border-color:var(--border-soft)">
               <span class="text-xs font-black uppercase tracking-widest" style="color:var(--text-soft)">Nuevas actividades</span>
               <button @click="notifications = []; unreadCount = 0; showNotifPanel = false" class="text-[10px] text-usb-gold font-bold">Limpiar</button>
             </div>
-            <div x-show="notifications.length === 0" class="p-6 text-center text-xs" style="color:var(--text-soft)">
-              No hay notificaciones nuevas
-            </div>
+            <div x-show="notifications.length === 0" class="p-6 text-center text-xs" style="color:var(--text-soft)">No hay notificaciones nuevas</div>
             <template x-for="(n, i) in notifications" :key="i">
               <div class="notif-item">
                 <div class="flex items-start gap-2">
@@ -329,20 +181,15 @@ tailwind.config = {
             </template>
           </div>
         </div>
-
-        <!-- Refresh -->
         <button @click="refreshAll()" class="btn-ghost px-3" title="Actualizar" style="min-width:44px">
           <i class="fa-solid" :class="refreshing ? 'fa-spinner fa-spin' : 'fa-rotate'"></i>
         </button>
-
-        <!-- Logout -->
         <button @click="logout()" class="btn-ghost px-3" title="Salir" style="min-width:44px">
           <i class="fa-solid fa-right-from-bracket"></i>
         </button>
       </div>
     </div>
 
-    <!-- Tabs -->
     <div class="max-w-7xl mx-auto px-2 sm:px-4 pb-3 flex gap-1 sm:gap-2 overflow-x-auto">
       <button @click="switchTab('dashboard')" :class="tab === 'dashboard' ? 'active' : ''" class="tab-btn">
         <i class="fa-solid fa-chart-pie"></i> <span class="hidden sm:inline">Dashboard</span>
@@ -351,8 +198,12 @@ tailwind.config = {
         <i class="fa-solid fa-clipboard-check"></i> <span class="hidden sm:inline">Check-in</span>
       </button>
       <button @click="switchTab('pending')" :class="tab === 'pending' ? 'active' : ''" class="tab-btn">
-        <i class="fa-solid fa-clock"></i> <span class="hidden sm:inline">Pagos pendientes</span>
+        <i class="fa-solid fa-clock"></i> <span class="hidden sm:inline">Pendientes</span>
         <span x-show="pendingPayments.length > 0" class="ml-1 bg-red-500 text-white rounded-full px-1.5 text-[9px]" x-text="pendingPayments.length"></span>
+      </button>
+      <button @click="switchTab('diagnostico')" :class="tab === 'diagnostico' ? 'active' : ''" class="tab-btn">
+        <i class="fa-solid fa-stethoscope"></i> <span class="hidden sm:inline">Diagnóstico</span>
+        <span x-show="diagnostico && (diagnostico.resumen.huerfanosStripe > 0)" class="ml-1 bg-red-500 text-white rounded-full px-1.5 text-[9px]" x-text="diagnostico ? diagnostico.resumen.huerfanosStripe : 0"></span>
       </button>
       <button @click="switchTab('activity')" :class="tab === 'activity' ? 'active' : ''" class="tab-btn">
         <i class="fa-solid fa-history"></i> <span class="hidden sm:inline">Actividad</span>
@@ -362,14 +213,10 @@ tailwind.config = {
 
   <!-- ═══════ TAB: DASHBOARD ═══════ -->
   <main x-show="tab === 'dashboard'" class="max-w-7xl mx-auto px-3 sm:px-4 py-5 space-y-5">
-
     <div x-show="loadingStats" class="text-center py-12" style="color:var(--text-soft)">
       <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
     </div>
-
     <div x-show="!loadingStats && stats" x-cloak class="space-y-5">
-
-      <!-- Stat cards -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div class="stat-card">
           <div class="flex items-center justify-between mb-2">
@@ -405,7 +252,6 @@ tailwind.config = {
         </div>
       </div>
 
-      <!-- Flujo diario -->
       <div class="glass-card p-4 sm:p-5">
         <h3 class="text-xs sm:text-sm font-black mb-3 flex items-center gap-2" style="color:var(--text-main)">
           <i class="fa-solid fa-chart-line text-usb-gold"></i> Flujo de pagos por día
@@ -414,7 +260,6 @@ tailwind.config = {
         <p x-show="!stats.flujo || stats.flujo.length === 0" class="text-center text-xs py-6" style="color:var(--text-soft)">Aún no hay pagos aprobados.</p>
       </div>
 
-      <!-- Circulares fila 1 -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div class="glass-card p-4 sm:p-5">
           <h3 class="text-xs font-black mb-3 uppercase tracking-wider" style="color:var(--text-main)">Egresados vs Acompañantes</h3>
@@ -430,7 +275,6 @@ tailwind.config = {
         </div>
       </div>
 
-      <!-- Circulares fila 2 -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="glass-card p-4 sm:p-5">
           <h3 class="text-xs font-black mb-3 uppercase tracking-wider" style="color:var(--text-main)">Cobertura de pago</h3>
@@ -442,24 +286,20 @@ tailwind.config = {
         </div>
       </div>
 
-      <!-- Años de graduación -->
       <div class="glass-card p-4 sm:p-5">
         <h3 class="text-xs font-black mb-3 uppercase tracking-wider" style="color:var(--text-main)">Años de graduación</h3>
         <div class="chart-container"><canvas id="barAno"></canvas></div>
       </div>
 
-      <!-- Top carreras -->
       <div class="glass-card p-4 sm:p-5">
         <h3 class="text-xs font-black mb-3 uppercase tracking-wider" style="color:var(--text-main)">Top Carreras</h3>
         <div class="chart-container"><canvas id="barCarrera"></canvas></div>
       </div>
-
     </div>
   </main>
 
   <!-- ═══════ TAB: CHECK-IN ═══════ -->
   <main x-show="tab === 'checkin'" x-cloak class="max-w-7xl mx-auto px-3 sm:px-4 py-5 space-y-4">
-
     <div x-show="checkinStats" class="grid grid-cols-2 lg:grid-cols-4 gap-3">
       <div class="stat-card">
         <div class="text-[10px] font-black text-slate-200 uppercase tracking-widest mb-1">Esperados</div>
@@ -541,16 +381,13 @@ tailwind.config = {
             </template>
           </tbody>
         </table>
-        <div x-show="filteredAsistentes().length === 0" class="text-center py-12 text-xs" style="color:var(--text-soft)">
-          No hay asistentes que coincidan.
-        </div>
+        <div x-show="filteredAsistentes().length === 0" class="text-center py-12 text-xs" style="color:var(--text-soft)">No hay asistentes que coincidan.</div>
       </div>
     </div>
   </main>
 
   <!-- ═══════ TAB: PAGOS PENDIENTES ═══════ -->
   <main x-show="tab === 'pending'" x-cloak class="max-w-7xl mx-auto px-3 sm:px-4 py-5 space-y-4">
-
     <div class="glass-card p-4 flex items-center justify-between">
       <div>
         <h2 class="text-sm font-black uppercase tracking-wider" style="color:var(--text-main)">Pagos pendientes de validación</h2>
@@ -568,7 +405,6 @@ tailwind.config = {
     <div x-show="!loadingPending && pendingPayments.length === 0" class="glass-card p-8 text-center">
       <i class="fa-solid fa-check-circle text-emerald-400 text-3xl mb-3"></i>
       <p class="text-sm font-bold" style="color:var(--text-main)">No hay pagos pendientes</p>
-      <p class="text-xs mt-1" style="color:var(--text-soft)">Todos los pagos han sido procesados.</p>
     </div>
 
     <div x-show="!loadingPending && pendingPayments.length > 0" class="space-y-3">
@@ -596,11 +432,11 @@ tailwind.config = {
           </div>
           <div class="flex flex-col sm:flex-row gap-2">
             <a x-show="p.comprobanteUrl" :href="p.comprobanteUrl" target="_blank" rel="noopener noreferrer" class="btn-ghost flex-1 text-xs">
-              <i class="fa-solid fa-image mr-2"></i> Ver comprobante
+              <i class="fa-solid fa-image"></i> Ver comprobante
             </a>
             <button @click="approvePayment(p)" :disabled="approvingId === p.paymentId" class="btn-primary flex-1">
               <i class="fa-solid" :class="approvingId === p.paymentId ? 'fa-spinner fa-spin' : 'fa-check'"></i>
-              <span x-text="approvingId === p.paymentId ? ' Aprobando...' : ' Aprobar y enviar entrada'"></span>
+              <span x-text="approvingId === p.paymentId ? ' Aprobando...' : ' Aprobar y enviar'"></span>
             </button>
           </div>
         </div>
@@ -608,27 +444,190 @@ tailwind.config = {
     </div>
   </main>
 
+  <!-- ═══════ TAB: DIAGNÓSTICO ═══════ -->
+  <main x-show="tab === 'diagnostico'" x-cloak class="max-w-7xl mx-auto px-3 sm:px-4 py-5 space-y-4">
+
+    <!-- Buscador universal -->
+    <div class="glass-card p-4">
+      <h2 class="text-sm font-black uppercase tracking-wider mb-3" style="color:var(--text-main)">
+        <i class="fa-solid fa-magnifying-glass text-usb-gold"></i> Buscador universal
+      </h2>
+      <div class="flex flex-col sm:flex-row gap-2">
+        <input type="text" x-model="searchQuery" @keyup.enter="doSearch()" placeholder="Nombre, email, cédula o ID de registro..." class="glass-input flex-1">
+        <button @click="doSearch()" :disabled="loadingSearch" class="btn-primary sm:w-auto px-6">
+          <i class="fa-solid" :class="loadingSearch ? 'fa-spinner fa-spin' : 'fa-search'"></i>
+          <span x-text="loadingSearch ? 'Buscando...' : 'Buscar'"></span>
+        </button>
+      </div>
+
+      <!-- Resultados de búsqueda -->
+      <div x-show="searchResults.length > 0" class="mt-4 space-y-2">
+        <template x-for="r in searchResults" :key="r.idRegistro">
+          <div class="glass-inset p-3 rounded-xl border" :style="r.pagado ? 'border-color: rgba(16,185,129,0.4);' : 'border-color: rgba(245,158,11,0.4);'">
+            <div class="flex flex-col sm:flex-row justify-between gap-2">
+              <div class="min-w-0">
+                <div class="text-sm font-black" style="color:var(--text-main)" x-text="r.nombre"></div>
+                <div class="text-[11px]" style="color:var(--text-soft)">
+                  <span x-text="r.email"></span> · <span x-text="r.cedula"></span>
+                </div>
+                <div class="text-[10px] mt-1" style="color:var(--text-soft)">
+                  <span x-text="r.totalEgresados + ' egresado(s)'"></span> ·
+                  <span x-text="r.totalAcompanantes + ' acompañante(s)'"></span>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span class="badge" :class="r.pagado ? 'badge-yes' : 'badge-pending'">
+                  <span x-text="r.pagado ? 'PAGADO' : 'SIN PAGO'"></span>
+                </span>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <button @click="copyPaymentLink(r)" class="btn-ghost text-[10px] py-2 px-3">
+                <i class="fa-solid fa-link"></i> Copiar link de pago
+              </button>
+              <button @click="openManualPaymentModal(r)" class="btn-success text-[10px] py-2 px-3">
+                <i class="fa-solid fa-plus"></i> Registrar pago manual
+              </button>
+              <button @click="copyAddCompanionLink(r)" class="btn-ghost text-[10px] py-2 px-3">
+                <i class="fa-solid fa-user-plus"></i> Link agregar acompañante
+              </button>
+            </div>
+            <div x-show="r.pagos && r.pagos.length > 0" class="mt-2 pt-2 border-t" style="border-color:var(--border-soft)">
+              <div class="text-[10px] font-black uppercase mb-1" style="color:var(--text-soft)">Pagos registrados:</div>
+              <template x-for="(p, i) in r.pagos" :key="i">
+                <div class="text-[10px] flex justify-between" style="color:var(--text-soft)">
+                  <span x-text="p.metodo + ' · ' + p.idPago.substring(0,20)"></span>
+                  <span class="font-bold">$<span x-text="p.monto"></span></span>
+                </div>
+              </template>
+            </div>
+          </div>
+        </template>
+      </div>
+      <div x-show="searchPerformed && searchResults.length === 0 && !loadingSearch" class="text-center py-6 text-xs" style="color:var(--text-soft)">
+        No se encontraron coincidencias.
+      </div>
+    </div>
+
+    <!-- Resumen -->
+    <div x-show="loadingDiag" class="text-center py-12" style="color:var(--text-soft)">
+      <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
+    </div>
+
+    <div x-show="!loadingDiag && diagnostico" x-cloak class="space-y-4">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div class="stat-card">
+          <div class="text-[10px] font-black text-slate-200 uppercase tracking-widest mb-1">Total registros</div>
+          <div class="text-2xl font-black text-white" x-text="diagnostico.resumen.totalRegistros"></div>
+        </div>
+        <div class="stat-card">
+          <div class="text-[10px] font-black text-slate-200 uppercase tracking-widest mb-1">Con pago</div>
+          <div class="text-2xl font-black text-emerald-400" x-text="diagnostico.resumen.conPago"></div>
+        </div>
+        <div class="stat-card">
+          <div class="text-[10px] font-black text-slate-200 uppercase tracking-widest mb-1">Sin pago</div>
+          <div class="text-2xl font-black text-amber-400" x-text="diagnostico.resumen.sinPago"></div>
+        </div>
+        <div class="stat-card">
+          <div class="text-[10px] font-black text-slate-200 uppercase tracking-widest mb-1">Stripe huérfanos</div>
+          <div class="text-2xl font-black text-red-400" x-text="diagnostico.resumen.huerfanosStripe"></div>
+        </div>
+      </div>
+
+      <!-- Huérfanos Stripe -->
+      <div x-show="diagnostico.huerfanos && diagnostico.huerfanos.length > 0" class="glass-card p-4 sm:p-5 border-2" style="border-color: rgba(239,68,68,0.4);">
+        <h3 class="text-sm font-black uppercase tracking-wider mb-3" style="color:#ef4444">
+          <i class="fa-solid fa-triangle-exclamation"></i> Pagos Stripe huérfanos
+          <span class="badge badge-no ml-2" x-text="diagnostico.huerfanos.length"></span>
+        </h3>
+        <p class="text-[11px] mb-3" style="color:var(--text-soft)">Pagos que se completaron en Stripe pero no se registraron en la hoja. Puedes recuperarlos con un clic.</p>
+        <div class="space-y-2">
+          <template x-for="h in diagnostico.huerfanos" :key="h.sessionId">
+            <div class="glass-inset p-3 rounded-xl">
+              <div class="flex flex-col sm:flex-row justify-between gap-2">
+                <div class="min-w-0">
+                  <div class="text-sm font-black" style="color:var(--text-main)" x-text="h.buyerName || 'Sin nombre'"></div>
+                  <div class="text-[11px]" style="color:var(--text-soft)" x-text="h.buyerEmail"></div>
+                  <div class="text-[10px] mt-1 font-mono" style="color:var(--text-soft)" x-text="h.sessionId.substring(0,30) + '...'"></div>
+                  <div class="text-[10px] mt-1" style="color:var(--text-soft)" x-text="formatDate(h.fecha)"></div>
+                </div>
+                <div class="text-right shrink-0">
+                  <div class="text-xl font-black text-usb-gold">$<span x-text="h.monto"></span></div>
+                </div>
+              </div>
+              <button @click="recoverStripe(h)" :disabled="recoveringId === h.sessionId" class="btn-success w-full mt-3">
+                <i class="fa-solid" :class="recoveringId === h.sessionId ? 'fa-spinner fa-spin' : 'fa-cloud-download-alt'"></i>
+                <span x-text="recoveringId === h.sessionId ? ' Recuperando...' : ' Recuperar pago y enviar entrada'"></span>
+              </button>
+            </div>
+          </template>
+        </div>
+      </div>
+
+      <!-- Registros sin pago -->
+      <div x-show="diagnostico.sinPago && diagnostico.sinPago.length > 0" class="glass-card p-4 sm:p-5">
+        <h3 class="text-sm font-black uppercase tracking-wider mb-3" style="color:var(--text-main)">
+          <i class="fa-solid fa-user-clock text-amber-400"></i> Registros sin pago
+          <span class="badge badge-pending ml-2" x-text="diagnostico.sinPago.length"></span>
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="responsive-table">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Cédula</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <template x-for="r in diagnostico.sinPago" :key="r.idRegistro">
+                <tr>
+                  <td data-label="Nombre" class="font-bold" style="color:var(--text-main)" x-text="r.nombre"></td>
+                  <td data-label="Email" style="color:var(--text-soft)" x-text="r.email"></td>
+                  <td data-label="Cédula" style="color:var(--text-soft)" x-text="r.cedula || '—'"></td>
+                  <td data-label="Acciones">
+                    <div class="flex flex-wrap gap-1.5 justify-end">
+                      <button @click="copyPaymentLink(r)" class="btn-ghost text-[10px] py-1.5 px-2.5">
+                        <i class="fa-solid fa-link"></i> Link pago
+                      </button>
+                      <button @click="openManualPaymentModal(r)" class="btn-success text-[10px] py-1.5 px-2.5">
+                        <i class="fa-solid fa-plus"></i> Manual
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div x-show="(!diagnostico.sinPago || diagnostico.sinPago.length === 0) && (!diagnostico.huerfanos || diagnostico.huerfanos.length === 0)" class="glass-card p-8 text-center">
+        <i class="fa-solid fa-check-circle text-emerald-400 text-3xl mb-3"></i>
+        <p class="text-sm font-bold" style="color:var(--text-main)">Todo está al día</p>
+        <p class="text-xs mt-1" style="color:var(--text-soft)">Todos los registros tienen pago y no hay huérfanos de Stripe.</p>
+      </div>
+    </div>
+  </main>
+
   <!-- ═══════ TAB: ACTIVIDAD ═══════ -->
   <main x-show="tab === 'activity'" x-cloak class="max-w-5xl mx-auto px-3 sm:px-4 py-5 space-y-4">
-
     <div class="glass-card p-4 flex items-center justify-between">
       <div>
         <h2 class="text-sm font-black uppercase tracking-wider" style="color:var(--text-main)">Historial de actividad</h2>
-        <p class="text-[11px] mt-1" style="color:var(--text-soft)">Últimos 200 eventos registrados en el sistema.</p>
+        <p class="text-[11px] mt-1" style="color:var(--text-soft)">Últimos 200 eventos registrados.</p>
       </div>
       <button @click="loadActivity()" class="btn-ghost px-3 py-2 text-xs">
         <i class="fa-solid fa-rotate" :class="loadingActivity ? 'fa-spin' : ''"></i>
       </button>
     </div>
-
     <div x-show="loadingActivity" class="text-center py-12" style="color:var(--text-soft)">
       <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
     </div>
-
     <div x-show="!loadingActivity && activityLog.length === 0" class="glass-card p-8 text-center text-xs" style="color:var(--text-soft)">
       No hay actividad registrada todavía.
     </div>
-
     <div x-show="!loadingActivity && activityLog.length > 0" class="glass-card p-0 overflow-hidden">
       <div class="overflow-x-auto">
         <table class="responsive-table">
@@ -642,9 +641,7 @@ tailwind.config = {
           <tbody>
             <template x-for="(a, i) in activityLog" :key="i">
               <tr>
-                <td data-label="Fecha">
-                  <div class="text-[11px]" style="color:var(--text-main)" x-text="formatDate(a.fecha)"></div>
-                </td>
+                <td data-label="Fecha" class="text-[11px]" style="color:var(--text-main)" x-text="formatDate(a.fecha)"></td>
                 <td data-label="Acción">
                   <span class="badge" :class="badgeClassForAction(a.accion)">
                     <i class="fa-solid" :class="iconForAction(a.accion)"></i>
@@ -662,67 +659,100 @@ tailwind.config = {
 
 </div>
 
+<!-- ═══ MODAL: REGISTRAR PAGO MANUAL ═══ -->
+<div x-show="showManualModal" x-cloak class="modal-backdrop" @click.self="showManualModal = false">
+  <div class="modal-card">
+    <div class="flex items-start justify-between mb-4">
+      <div>
+        <h3 class="text-lg font-black" style="color:var(--text-main)">Registrar pago manual</h2>
+        <p class="text-[11px]" style="color:var(--text-soft)" x-text="manualForm.nombre"></p>
+      </div>
+      <button @click="showManualModal = false" class="btn-ghost px-2.5 py-2">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="space-y-3">
+      <div>
+        <label class="block text-[10px] font-black uppercase tracking-widest mb-1.5" style="color:var(--text-soft)">Método de pago *</label>
+        <select x-model="manualForm.metodo" class="glass-input">
+          <option value="zelle">Zelle</option>
+          <option value="paypal">PayPal</option>
+          <option value="stripe">Stripe</option>
+          <option value="efectivo">Efectivo</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-[10px] font-black uppercase tracking-widest mb-1.5" style="color:var(--text-soft)">Monto (USD) *</label>
+        <input type="number" x-model.number="manualForm.monto" min="1" step="0.01" class="glass-input" placeholder="85">
+        <p class="text-[10px] mt-1" style="color:var(--text-soft)">
+          Sugerido: $85 × egresado + $70 × acompañante
+        </p>
+      </div>
+
+      <div>
+        <label class="block text-[10px] font-black uppercase tracking-widest mb-1.5" style="color:var(--text-soft)">Referencia / ID de transacción</label>
+        <input type="text" x-model="manualForm.referencia" class="glass-input" placeholder="Ej: ZELLE-123456789 o sin referencia">
+      </div>
+
+      <div>
+        <label class="block text-[10px] font-black uppercase tracking-widest mb-1.5" style="color:var(--text-soft)">Notas internas</label>
+        <textarea x-model="manualForm.notas" rows="2" class="glass-input" placeholder="Ej: Pagó por Zelle pero no se registró automáticamente"></textarea>
+      </div>
+
+      <div>
+        <label class="block text-[10px] font-black uppercase tracking-widest mb-1.5" style="color:var(--text-soft)">Comprobante (opcional)</label>
+        <input type="file" accept="image/*" @change="handleProofUpload($event)" class="glass-input text-xs">
+        <p x-show="manualForm.proofName" class="text-[10px] mt-1" style="color:var(--text-soft)" x-text="'Archivo: ' + manualForm.proofName"></p>
+      </div>
+
+      <div x-show="manualError" class="rounded-xl border border-red-400/40 bg-red-500/10 px-3 py-2 text-xs text-red-400" x-text="manualError"></div>
+
+      <div class="flex gap-2 pt-2">
+        <button @click="showManualModal = false" class="btn-ghost flex-1">Cancelar</button>
+        <button @click="submitManualPayment()" :disabled="submittingManual" class="btn-primary flex-1">
+          <i class="fa-solid" :class="submittingManual ? 'fa-spinner fa-spin' : 'fa-check'"></i>
+          <span x-text="submittingManual ? 'Registrando...' : 'Registrar y enviar'"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 function adminPanel() {
   return {
-    // ─── ESTADO ───
     appsScriptUrl: 'https://script.google.com/macros/s/AKfycbyD1Y-RdO23_9R0DzQ3IxvUG2-83NRrmvQ0s6FwWFluhIexBHH3jnVdorx8kKAWS89n/exec',
-    logged: false,
-    loading: false,
-    error: '',
-    user: '',
-    pass: '',
-    token: '',
-    tab: 'dashboard',
-    refreshing: false,
-    darkMode: true,
+    logged: false, loading: false, error: '', user: '', pass: '', token: '',
+    tab: 'dashboard', refreshing: false, darkMode: true,
+    stats: null, loadingStats: false, charts: {},
+    asistentes: [], checkinStats: null, loadingCheckin: false, checkinSearch: '', checkinFilter: 'all', markingKey: '',
+    pendingPayments: [], loadingPending: false, approvingId: '',
+    activityLog: [], loadingActivity: false,
+    notifications: [], unreadCount: 0, showNotifPanel: false, pollingTimer: null,
 
-    // ─── STATS ───
-    stats: null,
-    loadingStats: false,
-    charts: {},
+    // Diagnóstico
+    loadingDiag: false, diagnostico: null, recoveringId: '',
+    // Búsqueda
+    searchQuery: '', searchResults: [], loadingSearch: false, searchPerformed: false,
+    // Modal pago manual
+    showManualModal: false, submittingManual: false, manualError: '',
+    manualForm: { idRegistro: '', nombre: '', metodo: 'zelle', monto: 85, referencia: '', notas: '', proofBase64: '', proofName: '' },
 
-    // ─── CHECK-IN ───
-    asistentes: [],
-    checkinStats: null,
-    loadingCheckin: false,
-    checkinSearch: '',
-    checkinFilter: 'all',
-    markingKey: '',
-
-    // ─── PAGOS PENDIENTES ───
-    pendingPayments: [],
-    loadingPending: false,
-    approvingId: '',
-
-    // ─── ACTIVIDAD ───
-    activityLog: [],
-    loadingActivity: false,
-
-    // ─── NOTIFICACIONES ───
-    notifications: [],
-    unreadCount: 0,
-    showNotifPanel: false,
-    pollingTimer: null,
-    lastCheckTimestamp: 0,
-
-    // ═══ INIT ═══
     init() {
       try {
         const savedDark = window.localStorage.getItem('aeusbDarkMode');
         if (savedDark !== null) this.darkMode = savedDark === 'true';
       } catch (e) {}
       this.applyDarkClass();
-
       try {
         const saved = window.localStorage.getItem('aeusbAdminToken');
         if (saved) {
           this.token = saved;
           this.logged = true;
-          this.$nextTick(() => {
-            this.loadStats();
-            this.startPolling();
-          });
+          this.$nextTick(() => { this.loadStats(); this.startPolling(); });
         }
       } catch (e) {}
     },
@@ -731,19 +761,15 @@ function adminPanel() {
       this.darkMode = !this.darkMode;
       this.applyDarkClass();
       try { window.localStorage.setItem('aeusbDarkMode', String(this.darkMode)); } catch (e) {}
-      // Re-render charts con nuevos colores
       if (this.stats) this.$nextTick(() => this.renderCharts());
     },
-
     applyDarkClass() {
       if (this.darkMode) document.documentElement.classList.add('dark');
       else document.documentElement.classList.remove('dark');
     },
 
-    // ═══ LOGIN ═══
     async login() {
-      this.error = '';
-      this.loading = true;
+      this.error = ''; this.loading = true;
       try {
         const res = await fetch(this.appsScriptUrl, {
           method: 'POST',
@@ -751,37 +777,20 @@ function adminPanel() {
           body: new URLSearchParams({ action: 'verifyAdmin', user: this.user, pass: this.pass }).toString()
         });
         const data = await res.json();
-        if (!data.ok) {
-          this.error = data.error || 'Credenciales incorrectas';
-          this.loading = false;
-          return;
-        }
+        if (!data.ok) { this.error = data.error || 'Credenciales incorrectas'; this.loading = false; return; }
         this.token = data.token;
         try { window.localStorage.setItem('aeusbAdminToken', this.token); } catch (e) {}
-        this.logged = true;
-        this.loading = false;
-        this.pass = '';
-        this.$nextTick(() => {
-          this.loadStats();
-          this.startPolling();
-        });
-      } catch (err) {
-        this.error = 'Error de conexión: ' + err.message;
-        this.loading = false;
-      }
+        this.logged = true; this.loading = false; this.pass = '';
+        this.$nextTick(() => { this.loadStats(); this.startPolling(); });
+      } catch (err) { this.error = 'Error de conexión: ' + err.message; this.loading = false; }
     },
 
     logout() {
-      this.logged = false;
-      this.token = '';
-      this.stats = null;
-      this.user = '';
-      this.pass = '';
+      this.logged = false; this.token = ''; this.stats = null; this.user = ''; this.pass = '';
       this.stopPolling();
       try { window.localStorage.removeItem('aeusbAdminToken'); } catch (e) {}
     },
 
-    // ═══ API ═══
     async apiCall(action, extra = {}) {
       const body = new URLSearchParams({ action, token: this.token, ...extra }).toString();
       const res = await fetch(this.appsScriptUrl, {
@@ -791,17 +800,16 @@ function adminPanel() {
       });
       const data = await res.json();
       if (!data.ok && /no autorizado/i.test(data.error || '')) {
-        this.logout();
-        this.error = 'Sesión expirada. Inicia sesión de nuevo.';
+        this.logout(); this.error = 'Sesión expirada.';
       }
       return data;
     },
 
-    // ═══ TABS ═══
     switchTab(t) {
       this.tab = t;
       if (t === 'checkin' && this.asistentes.length === 0) this.loadCheckIn();
       if (t === 'pending') this.loadPending();
+      if (t === 'diagnostico') this.loadDiagnostico();
       if (t === 'activity') this.loadActivity();
     },
 
@@ -810,19 +818,17 @@ function adminPanel() {
       if (this.tab === 'dashboard') await this.loadStats();
       if (this.tab === 'checkin') await this.loadCheckIn();
       if (this.tab === 'pending') await this.loadPending();
+      if (this.tab === 'diagnostico') await this.loadDiagnostico();
       if (this.tab === 'activity') await this.loadActivity();
       this.refreshing = false;
     },
 
-    // ═══ STATS ═══
     async loadStats() {
       this.loadingStats = true;
       try {
         const data = await this.apiCall('getStats');
-        if (data.ok) {
-          this.stats = data;
-          this.$nextTick(() => this.renderCharts());
-        } else this.error = data.error;
+        if (data.ok) { this.stats = data; this.$nextTick(() => this.renderCharts()); }
+        else this.error = data.error;
       } catch (err) { this.error = 'Error: ' + err.message; }
       this.loadingStats = false;
     },
@@ -834,155 +840,82 @@ function adminPanel() {
       const textColor = this.darkMode ? 'rgba(255,255,255,0.7)' : 'rgba(15,23,42,0.8)';
       const gridColor = this.darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.06)';
       const gold = '#FFC300', blue = '#487497', orange = '#FF7B00', emerald = '#10b981', red = '#ef4444';
-
       const mkLegend = () => ({ labels: { color: textColor, font: { size: 11 }, padding: 12 } });
 
-      // Flujo
       if (document.getElementById('flowChart')) {
         this.charts.flow = new Chart(document.getElementById('flowChart'), {
           type: 'line',
           data: {
             labels: (this.stats.flujo||[]).map(f => f.fecha),
-            datasets: [{
-              label: 'Pagos aprobados',
-              data: (this.stats.flujo||[]).map(f => f.count),
-              borderColor: gold, backgroundColor: 'rgba(255,195,0,0.15)',
-              fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: gold
-            }]
+            datasets: [{ label: 'Pagos aprobados', data: (this.stats.flujo||[]).map(f => f.count), borderColor: gold, backgroundColor: 'rgba(255,195,0,0.15)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: gold }]
           },
-          options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: mkLegend() },
-            scales: {
-              x: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor } },
-              y: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, beginAtZero: true }
-            }
-          }
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: mkLegend() }, scales: { x: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor } }, y: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, beginAtZero: true } } }
         });
       }
-
-      // Pie tipo
       if (document.getElementById('pieTipo')) {
         this.charts.tipo = new Chart(document.getElementById('pieTipo'), {
           type: 'doughnut',
-          data: {
-            labels: ['Egresados', 'Acompañantes'],
-            datasets: [{ data: [this.stats.totales.egresados, this.stats.totales.acompanantes], backgroundColor: [gold, blue], borderWidth: 0 }]
-          },
+          data: { labels: ['Egresados', 'Acompañantes'], datasets: [{ data: [this.stats.totales.egresados, this.stats.totales.acompanantes], backgroundColor: [gold, blue], borderWidth: 0 }] },
           options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { ...mkLegend(), position: 'bottom' } } }
         });
       }
-
-      // Pie método
       if (document.getElementById('pieMetodo')) {
         const m = this.stats.metodosPago || {stripe:0,paypal:0,zelle:0};
         this.charts.metodo = new Chart(document.getElementById('pieMetodo'), {
           type: 'pie',
-          data: {
-            labels: ['Stripe', 'PayPal', 'Zelle'],
-            datasets: [{ data: [m.stripe||0, m.paypal||0, m.zelle||0], backgroundColor: [gold, blue, orange], borderWidth: 0 }]
-          },
+          data: { labels: ['Stripe', 'PayPal', 'Zelle'], datasets: [{ data: [m.stripe||0, m.paypal||0, m.zelle||0], backgroundColor: [gold, blue, orange], borderWidth: 0 }] },
           options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { ...mkLegend(), position: 'bottom' } } }
         });
       }
-
-      // Pie asistencia
       if (document.getElementById('pieAsistencia')) {
         const a = this.stats.asistenciaDeclarada || {presencial:0,virtual:0,noAsiste:0};
         this.charts.asis = new Chart(document.getElementById('pieAsistencia'), {
           type: 'doughnut',
-          data: {
-            labels: ['Presencial', 'Virtual', 'No asiste'],
-            datasets: [{ data: [a.presencial, a.virtual, a.noAsiste], backgroundColor: [emerald, blue, red], borderWidth: 0 }]
-          },
+          data: { labels: ['Presencial', 'Virtual', 'No asiste'], datasets: [{ data: [a.presencial, a.virtual, a.noAsiste], backgroundColor: [emerald, blue, red], borderWidth: 0 }] },
           options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { ...mkLegend(), position: 'bottom' } } }
         });
       }
-
-      // Pie pago
       if (document.getElementById('piePago')) {
         const pagados = this.stats.totales.pagosAprobados;
         const pendientes = Math.max(0, this.stats.totales.registros - pagados);
         this.charts.pago = new Chart(document.getElementById('piePago'), {
           type: 'doughnut',
-          data: {
-            labels: ['Con pago', 'Sin pago'],
-            datasets: [{ data: [pagados, pendientes], backgroundColor: [emerald, this.darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'], borderWidth: 0 }]
-          },
+          data: { labels: ['Con pago', 'Sin pago'], datasets: [{ data: [pagados, pendientes], backgroundColor: [emerald, this.darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)'], borderWidth: 0 }] },
           options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { ...mkLegend(), position: 'bottom' } } }
         });
       }
-
-      // Bar país
       if (document.getElementById('barPais')) {
         const paises = this.stats.porPais || [];
         this.charts.pais = new Chart(document.getElementById('barPais'), {
           type: 'bar',
-          data: {
-            labels: paises.map(p => p.pais),
-            datasets: [{ label: 'Registros', data: paises.map(p => p.count), backgroundColor: gold, borderRadius: 6 }]
-          },
-          options: {
-            indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-              x: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, beginAtZero: true },
-              y: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } }
-            }
-          }
+          data: { labels: paises.map(p => p.pais), datasets: [{ label: 'Registros', data: paises.map(p => p.count), backgroundColor: gold, borderRadius: 6 }] },
+          options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, beginAtZero: true }, y: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } } } }
         });
       }
-
-      // Bar año
       if (document.getElementById('barAno')) {
         const anos = this.stats.porAnoGrad || [];
         this.charts.ano = new Chart(document.getElementById('barAno'), {
           type: 'bar',
-          data: {
-            labels: anos.map(a => a.ano),
-            datasets: [{ label: 'Registros', data: anos.map(a => a.count), backgroundColor: blue, borderRadius: 6 }]
-          },
-          options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-              x: { ticks: { color: textColor, font: { size: 9 } }, grid: { display: false } },
-              y: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, beginAtZero: true }
-            }
-          }
+          data: { labels: anos.map(a => a.ano), datasets: [{ label: 'Registros', data: anos.map(a => a.count), backgroundColor: blue, borderRadius: 6 }] },
+          options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: textColor, font: { size: 9 } }, grid: { display: false } }, y: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, beginAtZero: true } } }
         });
       }
-
-      // Bar carrera
       if (document.getElementById('barCarrera')) {
         const carr = this.stats.topCarreras || [];
         this.charts.carrera = new Chart(document.getElementById('barCarrera'), {
           type: 'bar',
-          data: {
-            labels: carr.map(c => c.carrera),
-            datasets: [{ label: 'Registros', data: carr.map(c => c.count), backgroundColor: orange, borderRadius: 6 }]
-          },
-          options: {
-            indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-              x: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, beginAtZero: true },
-              y: { ticks: { color: textColor, font: { size: 9 } }, grid: { display: false } }
-            }
-          }
+          data: { labels: carr.map(c => c.carrera), datasets: [{ label: 'Registros', data: carr.map(c => c.count), backgroundColor: orange, borderRadius: 6 }] },
+          options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: textColor, font: { size: 10 } }, grid: { color: gridColor }, beginAtZero: true }, y: { ticks: { color: textColor, font: { size: 9 } }, grid: { display: false } } } }
         });
       }
     },
 
-    // ═══ CHECK-IN ═══
     async loadCheckIn() {
       this.loadingCheckin = true;
       try {
         const data = await this.apiCall('getCheckInList');
-        if (data.ok) {
-          this.asistentes = data.asistentes || [];
-          this.checkinStats = data.stats || null;
-        } else this.error = data.error;
+        if (data.ok) { this.asistentes = data.asistentes || []; this.checkinStats = data.stats || null; }
+        else this.error = data.error;
       } catch (err) { this.error = 'Error: ' + err.message; }
       this.loadingCheckin = false;
     },
@@ -1008,22 +941,13 @@ function adminPanel() {
       const nuevo = a.asistio === 'Si' ? 'No' : 'Si';
       this.markingKey = a.key;
       try {
-        const data = await this.apiCall('markCheckIn', {
-          idRegistro: a.idRegistro,
-          tipo: a.tipo,
-          numeroAcompanante: a.numeroAcompanante || 0,
-          asistio: nuevo,
-          notas: ''
-        });
-        if (data.ok) {
-          a.asistio = nuevo;
-          await this.loadCheckIn();
-        } else alert('Error: ' + data.error);
+        const data = await this.apiCall('markCheckIn', { idRegistro: a.idRegistro, tipo: a.tipo, numeroAcompanante: a.numeroAcompanante || 0, asistio: nuevo, notas: '' });
+        if (data.ok) { a.asistio = nuevo; await this.loadCheckIn(); }
+        else alert('Error: ' + data.error);
       } catch (err) { alert('Error: ' + err.message); }
       this.markingKey = '';
     },
 
-    // ═══ PAGOS PENDIENTES ═══
     async loadPending() {
       this.loadingPending = true;
       try {
@@ -1035,7 +959,7 @@ function adminPanel() {
     },
 
     async approvePayment(p) {
-      if (!confirm('¿Aprobar el pago de ' + p.nombre + ' por $' + p.monto + ' USD?\nSe enviará el correo con las entradas automáticamente.')) return;
+      if (!confirm('¿Aprobar el pago de ' + p.nombre + ' por $' + p.monto + ' USD?\nSe enviará el correo con las entradas.')) return;
       this.approvingId = p.paymentId;
       try {
         const data = await this.apiCall('approveZellePayment', { paymentId: p.paymentId });
@@ -1047,7 +971,112 @@ function adminPanel() {
       this.approvingId = '';
     },
 
-    // ═══ ACTIVIDAD ═══
+    // ═══ DIAGNÓSTICO ═══
+    async loadDiagnostico() {
+      this.loadingDiag = true;
+      try {
+        const data = await this.apiCall('getDiagnostico');
+        if (data.ok) this.diagnostico = data;
+        else this.error = data.error;
+      } catch (err) { this.error = 'Error: ' + err.message; }
+      this.loadingDiag = false;
+    },
+
+    async doSearch() {
+      const q = (this.searchQuery || '').trim();
+      if (q.length < 2) { alert('Escribe al menos 2 caracteres'); return; }
+      this.loadingSearch = true; this.searchPerformed = true;
+      try {
+        const data = await this.apiCall('searchRegistrations', { query: q });
+        if (data.ok) this.searchResults = data.resultados || [];
+        else { this.error = data.error; this.searchResults = []; }
+      } catch (err) { this.error = 'Error: ' + err.message; this.searchResults = []; }
+      this.loadingSearch = false;
+    },
+
+    async recoverStripe(h) {
+      if (!confirm('¿Recuperar el pago de ' + (h.buyerName || h.buyerEmail) + ' por $' + h.monto + ' USD?\n\nSe registrará en la hoja y se enviará el correo con las entradas.')) return;
+      this.recoveringId = h.sessionId;
+      try {
+        const data = await this.apiCall('recoverStripePayment', { sessionId: h.sessionId });
+        if (data.ok) {
+          alert('✅ ' + data.message);
+          this.addNotification({ icon: 'fa-cloud-download-alt', title: 'Pago Stripe recuperado: ' + (h.buyerName || h.buyerEmail), time: 'Ahora' });
+          await this.loadDiagnostico();
+        } else alert('Error: ' + data.error);
+      } catch (err) { alert('Error: ' + err.message); }
+      this.recoveringId = '';
+    },
+
+    copyPaymentLink(r) {
+      const url = 'https://encuentro-egresados-usb-2026.aeusb.org/?registro=' + r.idRegistro;
+      this.copyToClipboard(url, 'Link de pago copiado para ' + r.nombre);
+    },
+
+    copyAddCompanionLink(r) {
+      const url = 'https://encuentro-egresados-usb-2026.aeusb.org/?agregar-acompanante=' + r.idRegistro;
+      this.copyToClipboard(url, 'Link para agregar acompañante copiado. (Nota: la funcionalidad de agregar acompañantes estará disponible próximamente)');
+    },
+
+    copyToClipboard(text, msg) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => alert(msg)).catch(() => prompt('Copia manualmente:', text));
+      } else {
+        prompt('Copia manualmente:', text);
+      }
+    },
+
+    openManualPaymentModal(r) {
+      this.manualForm = {
+        idRegistro: r.idRegistro,
+        nombre: r.nombre,
+        metodo: 'zelle',
+        monto: (r.totalEgresados * 85) + (r.totalAcompanantes * 70),
+        referencia: '',
+        notas: '',
+        proofBase64: '',
+        proofName: ''
+      };
+      this.manualError = '';
+      this.showManualModal = true;
+    },
+
+    handleProofUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) { this.manualError = 'Debe ser una imagen'; return; }
+      if (file.size > 5 * 1024 * 1024) { this.manualError = 'Máximo 5MB'; return; }
+      const reader = new FileReader();
+      reader.onload = () => { this.manualForm.proofBase64 = reader.result; this.manualForm.proofName = file.name; };
+      reader.readAsDataURL(file);
+    },
+
+    async submitManualPayment() {
+      this.manualError = '';
+      if (!this.manualForm.monto || this.manualForm.monto <= 0) { this.manualError = 'Monto inválido'; return; }
+      if (!confirm('¿Registrar pago de $' + this.manualForm.monto + ' USD para ' + this.manualForm.nombre + '?\n\nSe enviará el correo con las entradas.')) return;
+      this.submittingManual = true;
+      try {
+        const data = await this.apiCall('registerManualPayment', {
+          registrationId: this.manualForm.idRegistro,
+          metodo: this.manualForm.metodo,
+          monto: String(this.manualForm.monto),
+          referencia: this.manualForm.referencia,
+          notas: this.manualForm.notas,
+          proofBase64: this.manualForm.proofBase64 || '',
+          proofFileName: this.manualForm.proofName || ''
+        });
+        if (data.ok) {
+          alert('✅ ' + data.message);
+          this.addNotification({ icon: 'fa-receipt', title: 'Pago manual: ' + this.manualForm.nombre, time: 'Ahora' });
+          this.showManualModal = false;
+          if (this.searchPerformed) await this.doSearch();
+          await this.loadDiagnostico();
+        } else { this.manualError = data.error; }
+      } catch (err) { this.manualError = 'Error: ' + err.message; }
+      this.submittingManual = false;
+    },
+
     async loadActivity() {
       this.loadingActivity = true;
       try {
@@ -1059,23 +1088,13 @@ function adminPanel() {
     },
 
     iconForAction(accion) {
-      const map = {
-        'LOGIN': 'fa-right-to-bracket',
-        'CHECKIN': 'fa-clipboard-check',
-        'APROBAR_PAGO': 'fa-check-circle'
-      };
+      const map = { 'LOGIN': 'fa-right-to-bracket', 'CHECKIN': 'fa-clipboard-check', 'APROBAR_PAGO': 'fa-check-circle', 'PAGO_MANUAL': 'fa-receipt', 'RECUPERAR_PAGO_STRIPE': 'fa-cloud-download-alt' };
       return map[accion] || 'fa-circle-info';
     },
-
     badgeClassForAction(accion) {
-      const map = {
-        'LOGIN': 'badge-pending',
-        'CHECKIN': 'badge-yes',
-        'APROBAR_PAGO': 'badge-yes'
-      };
+      const map = { 'LOGIN': 'badge-pending', 'CHECKIN': 'badge-yes', 'APROBAR_PAGO': 'badge-yes', 'PAGO_MANUAL': 'badge-yes', 'RECUPERAR_PAGO_STRIPE': 'badge-yes' };
       return map[accion] || 'badge-pending';
     },
-
     formatDate(d) {
       if (!d) return '';
       try {
@@ -1084,42 +1103,32 @@ function adminPanel() {
       } catch (e) { return String(d); }
     },
 
-    // ═══ NOTIFICACIONES EN VIVO ═══
     toggleNotifications() {
       this.showNotifPanel = !this.showNotifPanel;
       if (this.showNotifPanel) this.unreadCount = 0;
     },
-
     addNotification(n) {
       this.notifications.unshift(n);
       if (this.notifications.length > 20) this.notifications.pop();
       this.unreadCount++;
     },
-
     startPolling() {
       this.stopPolling();
-      this.lastCheckTimestamp = Date.now();
       this.pollingTimer = setInterval(async () => {
         try {
-          // Polling ligero: consultar pendientes
           const data = await this.apiCall('getPendingPayments');
           if (data.ok) {
             const prevIds = new Set(this.pendingPayments.map(p => p.paymentId));
             const newOnes = (data.pendientes || []).filter(p => !prevIds.has(p.paymentId));
             if (newOnes.length > 0 && this.pendingPayments.length > 0) {
-              newOnes.forEach(n => {
-                this.addNotification({ icon: 'fa-receipt', title: 'Nuevo pago: ' + n.nombre + ' ($' + n.monto + ')', time: 'Ahora' });
-              });
+              newOnes.forEach(n => this.addNotification({ icon: 'fa-receipt', title: 'Nuevo pago: ' + n.nombre + ' ($' + n.monto + ')', time: 'Ahora' }));
             }
             this.pendingPayments = data.pendientes || [];
           }
-        } catch (e) { /* silencioso */ }
-      }, 30000); // cada 30 segundos
+        } catch (e) {}
+      }, 30000);
     },
-
-    stopPolling() {
-      if (this.pollingTimer) { clearInterval(this.pollingTimer); this.pollingTimer = null; }
-    }
+    stopPolling() { if (this.pollingTimer) { clearInterval(this.pollingTimer); this.pollingTimer = null; } }
   }
 }
 </script>
