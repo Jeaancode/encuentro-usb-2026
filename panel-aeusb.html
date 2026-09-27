@@ -768,8 +768,9 @@ function adminPanel() {
       else document.documentElement.classList.remove('dark');
     },
 
-    async login() {
-      this.error = ''; this.loading = true;
+        async login() {
+      this.error = '';
+      this.loading = true;
       try {
         const res = await fetch(this.appsScriptUrl, {
           method: 'POST',
@@ -777,12 +778,46 @@ function adminPanel() {
           body: new URLSearchParams({ action: 'verifyAdmin', user: this.user, pass: this.pass }).toString()
         });
         const data = await res.json();
-        if (!data.ok) { this.error = data.error || 'Credenciales incorrectas'; this.loading = false; return; }
+        if (!data.ok) {
+          this.error = data.error || 'Credenciales incorrectas';
+          this.loading = false;
+          return;
+        }
         this.token = data.token;
         try { window.localStorage.setItem('aeusbAdminToken', this.token); } catch (e) {}
-        this.logged = true; this.loading = false; this.pass = '';
-        this.$nextTick(() => { this.loadStats(); this.startPolling(); });
-      } catch (err) { this.error = 'Error de conexión: ' + err.message; this.loading = false; }
+        this.logged = true;
+        this.loading = false;
+        this.pass = '';
+
+        // 👇 NUEVO: Registrar el acceso con IP y geolocalización
+        this.registrarAcceso(this.user);
+
+        this.$nextTick(() => {
+          this.loadStats();
+          this.startPolling();
+        });
+      } catch (err) {
+        this.error = 'Error de conexión: ' + err.message;
+        this.loading = false;
+      }
+    },
+
+    async registrarAcceso(usuario) {
+      try {
+        const geoRes = await fetch('https://ipinfo.io/json?token=c59cb7cdd76b05');
+        const geoData = await geoRes.json();
+
+        await this.apiCall('logAccess', {
+          user: usuario,
+          ip: geoData.ip || '',
+          city: geoData.city || '',
+          region: geoData.region || '',
+          country: geoData.country || '',
+          userAgent: navigator.userAgent
+        });
+      } catch (err) {
+        console.warn('No se pudo registrar el acceso:', err);
+      }
     },
 
     logout() {
