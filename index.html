@@ -2125,22 +2125,9 @@
                         </div>
                     </div>
 
-                    <div class="glass-inset p-4 flex items-center justify-between cursor-pointer">
-                        <div class="flex items-center space-x-4">
-                            <span class="glass-badge text-usb-gold font-black flex-shrink-0">5:20 pm</span>
-                            <div>
-                                <p class="text-xs font-bold text-white">Palabras de Agradecimiento y Despedida</p>
-                                <span class="text-[10px] text-slate-300"><i class="fa-solid fa-flag-checkered mr-1"></i> Mineau Reyes</span>
-                            </div>
-                        </div>
-                        <div class="glass-circle-btn text-usb-gold flex-shrink-0 w-8 h-8 text-xs">
-                            <i class="fa-solid fa-hand-wave"></i>
-                        </div>
-                    </div>
-
-                    <div class="glass-inset p-5 flex items-center justify-between cursor-pointer border-usb-gold/60">
+                   <div class="glass-inset p-5 flex items-center justify-between cursor-pointer border-usb-gold/60">
     <div class="flex items-center space-x-4">
-        <span class="glass-badge text-usb-gold font-black flex-shrink-0">5:25 pm</span>
+        <span class="glass-badge text-usb-gold font-black flex-shrink-0">5:20 pm</span>
         <div>
             <p class="text-sm font-black text-white">Voces que tejen redes: un canto a Venezuela</p>
             <span class="text-xs text-slate-200"><i class="fa-solid fa-music mr-1"></i> Cierre musical con canciones venezolanas interpretadas por Egresados tenores y coralistas de la USB</span>
@@ -2151,6 +2138,20 @@
         <i class="fa-solid fa-microphone-lines"></i>
     </div>
 </div>
+                   
+                    <div class="glass-inset p-4 flex items-center justify-between cursor-pointer">
+                        <div class="flex items-center space-x-4">
+                            <span class="glass-badge text-usb-gold font-black flex-shrink-0">5:25 pm</span>
+                            <div>
+                                <p class="text-xs font-bold text-white">Palabras de Agradecimiento y Despedida</p>
+                                <span class="text-[10px] text-slate-300"><i class="fa-solid fa-flag-checkered mr-1"></i> Mineau Reyes</span>
+                            </div>
+                        </div>
+                        <div class="glass-circle-btn text-usb-gold flex-shrink-0 w-8 h-8 text-xs">
+                            <i class="fa-solid fa-hand-wave"></i>
+                        </div>
+                    </div>
+
                     
                     <div class="glass-inset p-5 flex items-center justify-between cursor-pointer border-usb-gold/50">
                         <div class="flex items-center space-x-4">
@@ -5012,17 +5013,16 @@ paisesCodigos: [
                     payload.append(key, value);
                 });
                 var registrationData = Object.fromEntries(formData.entries());
-                var registrationSnapshot = {
-                    submissionId: registrationData.submissionId,
-                    fields: registrationData,
-                    savedAt: new Date().toISOString()
-                };
+                
 
-                await fetch(this.appsScriptUrl, {
+                                var response = await fetch(this.appsScriptUrl, {
                     method: 'POST',
-                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: payload
                 });
+
+                var result = await response.json();
+                var actualRegistrationId = result.registrationId || registrationData.submissionId;
 
                 var elapsed = Date.now() - startTime;
                 var minimumLoadingTime = 1400;
@@ -5040,13 +5040,17 @@ paisesCodigos: [
                     detail: {
                         totalAlumni: this.totalEgresados(),
                         totalGuests: this.totalNoEgresados(),
-                        registrationId: registrationData.submissionId,
+                        registrationId: actualRegistrationId,
                         registrationData: registrationData
                     }
                 }));
 
                 try {
-                    window.sessionStorage.setItem('aeusbRegistration', JSON.stringify(registrationSnapshot));
+                                        window.sessionStorage.setItem('aeusbRegistration', JSON.stringify({
+                        submissionId: actualRegistrationId,
+                        fields: registrationData,
+                        savedAt: new Date().toISOString()
+                    }));
                 } catch (storageError) {
                     console.warn('No se pudo guardar la referencia local del registro:', storageError);
                 }
