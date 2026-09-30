@@ -2631,9 +2631,10 @@
             </div>
             
 <!-- 1. FORMULARIO DE REGISTRO -->
-<div data-aos="fade-up" 
+<div id="formulario-registro"
+     data-aos="fade-up" 
           x-data="formRegistration()"
-                    x-show="!new URLSearchParams(window.location.search).get('registro')"
+          x-show="!new URLSearchParams(window.location.search).get('registro')"
      class="glass-panel p-8 sm:p-12 relative">
     
      <div class="text-center mb-8">
@@ -3597,7 +3598,7 @@
             <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed mb-6"
                x-text="lang === 'es' ? 'Completa y envía primero el formulario de Registro / Confirmación de Asistencia para desbloquear la adquisición de entradas.' : 'Complete and submit the Registration / Attendance Confirmation form first to unlock ticket purchase.'"></p>
              
-            <a href="#registro" class="glass-btn glass-btn-accent inline-flex items-center gap-2 px-6 py-3 text-xs uppercase tracking-widest">
+            <a href="#formulario-registro" class="glass-btn glass-btn-accent inline-flex items-center gap-2 px-6 py-3 text-xs uppercase tracking-widest">
                 <i class="fa-solid fa-arrow-up"></i>
                 <span x-text="lang === 'es' ? 'Ir al formulario de registro' : 'Go to registration form'"></span>
             </a>
