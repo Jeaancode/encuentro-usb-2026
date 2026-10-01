@@ -587,15 +587,18 @@ tailwind.config = {
                   <td data-label="Email" style="color:var(--text-soft)" x-text="r.email"></td>
                   <td data-label="Cédula" style="color:var(--text-soft)" x-text="r.cedula || '—'"></td>
                   <td data-label="Acciones">
-                    <div class="flex flex-wrap gap-1.5 justify-end">
-                      <button @click="copyPaymentLink(r)" class="btn-ghost text-[10px] py-1.5 px-2.5">
-                        <i class="fa-solid fa-link"></i> Link pago
-                      </button>
-                      <button @click="openManualPaymentModal(r)" class="btn-success text-[10px] py-1.5 px-2.5">
-                        <i class="fa-solid fa-plus"></i> Manual
-                      </button>
-                    </div>
-                  </td>
+  <div class="flex flex-wrap gap-1.5 justify-end">
+    <button @click="copyPaymentLink(r)" class="btn-ghost text-[10px] py-1.5 px-2.5">
+      <i class="fa-solid fa-link"></i> Link pago
+    </button>
+    <button @click="openManualPaymentModal(r)" class="btn-success text-[10px] py-1.5 px-2.5">
+      <i class="fa-solid fa-plus"></i> Manual
+    </button>
+    <button @click="confirmDelete(r)" class="btn-danger text-[10px] py-1.5 px-2.5">
+      <i class="fa-solid fa-trash"></i> Eliminar
+    </button>
+  </div>
+</td>
                 </tr>
               </template>
             </tbody>
@@ -658,6 +661,58 @@ tailwind.config = {
   </main>
 
 </div>
+
+<!-- ═══ MODAL: CONFIRMAR ELIMINACIÓN ═══ -->
+<div x-show="showDeleteModal" x-cloak class="modal-backdrop" @click.self="showDeleteModal = false">
+  <div class="modal-card">
+    <div class="flex items-start justify-between mb-4">
+      <div>
+        <h3 class="text-lg font-black" style="color:#ef4444">
+          <i class="fa-solid fa-triangle-exclamation"></i> Eliminar registro
+        </h3>
+        <p class="text-[11px] mt-1" style="color:var(--text-soft)">
+          Esta acción moverá el registro a la Papelera.
+        </p>
+      </div>
+      <button @click="showDeleteModal = false" class="btn-ghost px-2.5 py-2">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div x-show="deleteTarget" class="space-y-3">
+      <div class="glass-inset p-3 rounded-xl">
+        <div class="text-sm font-black" style="color:var(--text-main)" x-text="deleteTarget ? deleteTarget.nombre : ''"></div>
+        <div class="text-[11px]" style="color:var(--text-soft)" x-text="deleteTarget ? deleteTarget.email : ''"></div>
+        <div class="text-[11px]" style="color:var(--text-soft)" x-text="deleteTarget ? ('Cédula: ' + (deleteTarget.cedula || '—')) : ''"></div>
+      </div>
+
+      <div class="rounded-xl border border-amber-400/40 bg-amber-500/10 px-3 py-2 text-xs" style="color:#f59e0b">
+        <i class="fa-solid fa-info-circle"></i>
+        Si este registro tiene algún pago (incluso con IDs distintos), el sistema lo bloqueará automáticamente.
+      </div>
+
+      <div>
+        <label class="block text-[10px] font-black uppercase tracking-widest mb-1.5" style="color:var(--text-soft)">
+          Para confirmar, escribe <span style="color:#ef4444">ELIMINAR</span>
+        </label>
+        <input type="text" x-model="deleteConfirmText" class="glass-input" placeholder="Escribe ELIMINAR">
+      </div>
+
+      <div x-show="deleteError" class="rounded-xl border border-red-400/40 bg-red-500/10 px-3 py-2 text-xs text-red-400" x-text="deleteError"></div>
+
+      <div class="flex gap-2 pt-2">
+        <button @click="showDeleteModal = false" class="btn-ghost flex-1">Cancelar</button>
+        <button @click="executeDelete()" :disabled="deleteConfirmText !== 'ELIMINAR' || deleting"
+                class="btn-primary flex-1"
+                :style="(deleteConfirmText !== 'ELIMINAR' || deleting) ? 'opacity: 0.5; cursor: not-allowed; background: #ef4444; color: white;' : 'background: #ef4444; color: white;'">
+          <i class="fa-solid" :class="deleting ? 'fa-spinner fa-spin' : 'fa-trash'"></i>
+          <span x-text="deleting ? 'Eliminando...' : 'Eliminar definitivamente'"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- ═══ MODAL: REGISTRAR PAGO MANUAL ═══ -->
 <div x-show="showManualModal" x-cloak class="modal-backdrop" @click.self="showManualModal = false">
@@ -739,6 +794,7 @@ function adminPanel() {
     searchQuery: '', searchResults: [], loadingSearch: false, searchPerformed: false,
     // Modal pago manual
     showManualModal: false, submittingManual: false, manualError: '',
+        showDeleteModal: false, deleteTarget: null, deleteConfirmText: '', deleteError: '', deleting: false,
     manualForm: { idRegistro: '', nombre: '', metodo: 'zelle', monto: 85, referencia: '', notas: '', proofBase64: '', proofName: '' },
 
     init() {
@@ -1112,6 +1168,43 @@ function adminPanel() {
       this.submittingManual = false;
     },
 
+       // ═══ ELIMINAR REGISTRO ═══
+    confirmDelete(r) {
+      this.deleteTarget = r;
+      this.deleteConfirmText = '';
+      this.deleteError = '';
+      this.showDeleteModal = true;
+    },
+
+    async executeDelete() {
+      if (this.deleteConfirmText !== 'ELIMINAR') return;
+      if (!this.deleteTarget) return;
+
+      this.deleting = true;
+      this.deleteError = '';
+      try {
+        const data = await this.apiCall('deleteRegistration', {
+          idRegistro: this.deleteTarget.idRegistro
+        });
+        if (data.ok) {
+          const nombreEliminado = this.deleteTarget.nombre;
+          alert('✅ ' + data.message);
+          this.showDeleteModal = false;
+          this.deleteTarget = null;
+          this.deleteConfirmText = '';
+          this.addNotification({ icon: 'fa-trash', title: 'Registro eliminado: ' + nombreEliminado, time: 'Ahora' });
+          if (this.searchPerformed) await this.doSearch();
+          await this.loadDiagnostico();
+        } else {
+          this.deleteError = data.error;
+        }
+      } catch (err) {
+        this.deleteError = 'Error: ' + err.message;
+      }
+      this.deleting = false;
+    },
+
+   
     async loadActivity() {
       this.loadingActivity = true;
       try {
