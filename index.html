@@ -1501,6 +1501,257 @@
             width: 0 !important;
             height: 0 !important;
         }
+    
+    /* ═══════════════════════════════════════════
+   BLOQUE DE APORTE / PROGRAMAS AEUSB
+   ═══════════════════════════════════════════ */
+.aporte-section {
+  position: relative;
+}
+.aporte-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: linear-gradient(135deg,
+      rgba(5, 19, 103, 0.85),
+      rgba(72, 116, 151, 0.55) 55%,
+      rgba(255, 123, 0, 0.18));
+  border: 1px solid rgba(255, 195, 0, 0.45);
+  border-radius: 26px;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow:
+    0 24px 55px rgba(5, 19, 103, 0.42),
+    inset 0 1px 1px rgba(255, 255, 255, 0.24),
+    0 0 0 1px rgba(255, 195, 0, 0.06);
+}
+.aporte-panel::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -60% -30%;
+  background: linear-gradient(115deg, transparent 42%,
+      rgba(255, 242, 178, 0.18) 50%, transparent 58%);
+  transform: translateX(-55%) rotate(8deg);
+  animation: aporteSheen 7s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes aporteSheen {
+  0%, 40% { transform: translateX(-55%) rotate(8deg); opacity: 0; }
+  52% { opacity: 1; }
+  70%, 100% { transform: translateX(55%) rotate(8deg); opacity: 0; }
+}
+.aporte-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  background: rgba(255, 195, 0, 0.14);
+  border: 1px solid rgba(255, 195, 0, 0.5);
+  border-radius: 9999px;
+  color: #fff2b2;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 6px 16px rgba(5, 19, 103, 0.2);
+  margin-bottom: 1rem;
+}
+.aporte-kicker i {
+  color: #FFC300;
+  animation: aporteHeartPulse 2s ease-in-out infinite;
+}
+@keyframes aporteHeartPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+}
+.aporte-title {
+  font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.15;
+  margin: 0 0 0.85rem;
+  letter-spacing: -0.02em;
+  text-shadow: 0 4px 18px rgba(5, 19, 103, 0.45);
+}
+.aporte-title .accent {
+  background: linear-gradient(135deg, #FFC300, #FF7B00);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.aporte-copy {
+  color: #e2e8f0;
+  font-size: clamp(0.85rem, 1.5vw, 0.98rem);
+  line-height: 1.75;
+  max-width: 62rem;
+  margin-bottom: 1.75rem;
+}
+.aporte-copy strong {
+  color: #fff2b2;
+  font-weight: 800;
+}
+.aporte-programs {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .aporte-programs {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.aporte-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.15rem 1.25rem;
+  background: linear-gradient(140deg,
+      rgba(5, 19, 103, 0.72),
+      rgba(72, 116, 151, 0.42));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-top-color: rgba(255, 242, 178, 0.4);
+  border-radius: 18px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow:
+    0 12px 26px rgba(5, 19, 103, 0.32),
+    inset 0 1px 1px rgba(255, 255, 255, 0.14);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.35s ease,
+              box-shadow 0.4s ease,
+              background 0.4s ease;
+  cursor: pointer;
+}
+.aporte-card::after {
+  content: "";
+  position: absolute;
+  inset: -60% -40%;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 42%,
+      rgba(255, 242, 178, 0.25) 50%, transparent 58%);
+  transform: translateX(-55%) rotate(10deg);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.aporte-card:hover,
+.aporte-card:focus-visible {
+  transform: translateY(-6px) scale(1.02);
+  border-color: #FFC300;
+  background: linear-gradient(140deg,
+      rgba(5, 19, 103, 0.92),
+      rgba(72, 116, 151, 0.62));
+  box-shadow:
+    0 22px 42px rgba(5, 19, 103, 0.5),
+    0 0 28px rgba(255, 195, 0, 0.24),
+    inset 0 1px 2px rgba(255, 255, 255, 0.28);
+  outline: none;
+}
+.aporte-card:hover::after,
+.aporte-card:focus-visible::after {
+  opacity: 1;
+  animation: aporteCardSheen 0.9s ease-out;
+}
+@keyframes aporteCardSheen {
+  from { transform: translateX(-55%) rotate(10deg); }
+  to { transform: translateX(55%) rotate(10deg); }
+}
+.aporte-icon {
+  flex: 0 0 auto;
+  width: 52px;
+  height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #051367;
+  background: linear-gradient(145deg, #fff2b2, #FFC300 55%, #FF7B00);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  font-size: 1.3rem;
+  box-shadow:
+    0 0 0 6px rgba(255, 195, 0, 0.08),
+    0 8px 20px rgba(5, 19, 103, 0.32);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.4s ease;
+}
+.aporte-card:hover .aporte-icon,
+.aporte-card:focus-visible .aporte-icon {
+  transform: rotate(-8deg) scale(1.14);
+  box-shadow:
+    0 0 0 10px rgba(255, 195, 0, 0.06),
+    0 12px 24px rgba(255, 123, 0, 0.42);
+}
+.aporte-card-body {
+  min-width: 0;
+  flex: 1;
+}
+.aporte-card-title {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.25;
+  margin: 0 0 0.35rem;
+  transition: color 0.3s ease;
+}
+.aporte-card:hover .aporte-card-title,
+.aporte-card:focus-visible .aporte-card-title {
+  color: #FFC300;
+}
+.aporte-card-text {
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin: 0 0 0.65rem;
+}
+.aporte-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff2b2;
+  transition: color 0.3s ease, gap 0.3s ease;
+}
+.aporte-card-cta i {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.aporte-card:hover .aporte-card-cta,
+.aporte-card:focus-visible .aporte-card-cta {
+  color: #FFC300;
+  gap: 0.7rem;
+}
+.aporte-card:hover .aporte-card-cta i,
+.aporte-card:focus-visible .aporte-card-cta i {
+  transform: translateX(6px) rotate(-8deg);
+}
+@media (max-width: 480px) {
+  .aporte-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+  .aporte-card {
+    padding: 1rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aporte-panel::before,
+  .aporte-kicker i {
+    animation: none;
+  }
+  .aporte-card,
+  .aporte-icon,
+  .aporte-card-cta,
+  .aporte-card-cta i {
+    transition: none;
+  }
+}
+    
     </style>
 
 </head>
@@ -1897,6 +2148,84 @@
             </div>
         </div>
     </section>
+
+<!-- ═══════ BLOQUE DE APORTE / PROGRAMAS AEUSB ═══════ -->
+<section id="aporte" data-bg-index="2" class="scroll-section aporte-section py-14 sm:py-20 px-4 sm:px-6 flex items-center">
+  <div class="max-w-5xl mx-auto w-full">
+    <div class="aporte-panel" data-aos="fade-up">
+
+      <div class="text-center sm:text-left">
+        <span class="aporte-kicker">
+          <i class="fa-solid fa-hand-holding-heart"></i>
+          <span x-text="lang === 'es' ? 'Tu aporte transforma vidas' : 'Your contribution transforms lives'"></span>
+        </span>
+
+        <h2 class="aporte-title">
+          <span x-text="lang === 'es' ? 'Con tu aporte contribuirás a los ' : 'Your contribution will support the '"></span>
+          <span class="accent" x-text="lang === 'es' ? 'programas que mantiene la AEUSB' : 'programs run by AEUSB'"></span>
+        </h2>
+
+        <p class="aporte-copy"
+           x-text="lang === 'es' 
+             ? 'En especial el Programa de Becas PAN y el Plan de Ayuda Humanitaria para los afectados por el sismo. Cada entrada no es solo tu presencia en el evento: es una oportunidad real para que más estudiantes sigan construyendo futuro.'
+             : 'Especially the PAN Scholarship Program and the Humanitarian Aid Plan for those affected by the earthquake. Every ticket is not just your presence at the event: it is a real opportunity for more students to keep building the future.'">
+        </p>
+      </div>
+
+      <div class="aporte-programs">
+
+        <!-- Card 1: Programa de Becas PAN -->
+        <a href="https://www.aeusb.org/product/becas-pan-verano-2026"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="aporte-card"
+           aria-label="Conocer el Programa de Becas PAN">
+          <span class="aporte-icon" aria-hidden="true">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </span>
+          <div class="aporte-card-body">
+            <h3 class="aporte-card-title"
+                x-text="lang === 'es' ? 'Programa de Becas PAN' : 'PAN Scholarship Program'"></h3>
+            <p class="aporte-card-text"
+               x-text="lang === 'es' 
+                 ? 'Becas para estudiantes de alto desempeño con escasos recursos. Más de 300 jóvenes han podido continuar sus estudios gracias a este programa.'
+                 : 'Scholarships for high-achieving students with limited resources. More than 300 young people have been able to continue their studies thanks to this program.'">
+            </p>
+            <span class="aporte-card-cta">
+              <span x-text="lang === 'es' ? 'Conocer más' : 'Learn more'"></span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </span>
+          </div>
+        </a>
+
+        <!-- Card 2: Plan de Ayuda Humanitaria -->
+        <a href="https://www.ayudausb.org/"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="aporte-card"
+           aria-label="Conocer el Plan de Ayuda Humanitaria">
+          <span class="aporte-icon" aria-hidden="true">
+            <i class="fa-solid fa-hand-holding-medical"></i>
+          </span>
+          <div class="aporte-card-body">
+            <h3 class="aporte-card-title"
+                x-text="lang === 'es' ? 'Plan de Ayuda Humanitaria' : 'Humanitarian Aid Plan'"></h3>
+            <p class="aporte-card-text"
+               x-text="lang === 'es' 
+                 ? 'Apoyo directo a las familias afectadas por el sismo. Alimentos, refugio y recursos esenciales para quienes más lo necesitan.'
+                 : 'Direct support for families affected by the earthquake. Food, shelter, and essential resources for those who need them most.'">
+            </p>
+            <span class="aporte-card-cta">
+              <span x-text="lang === 'es' ? 'Conocer más' : 'Learn more'"></span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- INVITADOS -->
     <section id="invitados" data-bg-index="2" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex items-center">
