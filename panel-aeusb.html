@@ -743,8 +743,8 @@ tailwind.config = {
         <label class="block text-[10px] font-black uppercase tracking-widest mb-1.5" style="color:var(--text-soft)">Monto (USD) *</label>
         <input type="number" x-model.number="manualForm.monto" min="1" step="0.01" class="glass-input" placeholder="85">
         <p class="text-[10px] mt-1" style="color:var(--text-soft)">
-          Sugerido: $85 × egresado + $70 × acompañante
-        </p>
+  Sugerido: $100 × egresado + $85 × acompañante
+</p>
       </div>
 
       <div>
@@ -1122,7 +1122,7 @@ function adminPanel() {
         idRegistro: r.idRegistro,
         nombre: r.nombre,
         metodo: 'zelle',
-        monto: (r.totalEgresados * 85) + (r.totalAcompanantes * 70),
+        monto: (r.totalEgresados * 100) + (r.totalAcompanantes * 85),
         referencia: '',
         notas: '',
         proofBase64: '',

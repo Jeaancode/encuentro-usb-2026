@@ -1512,15 +1512,8 @@
           activeBgIndex: 0,
           bgImages: [
               { url: '10.jpg', title: 'Asamblea y Comunidad Global AEUSB' },
-              { url: '6.jpg', title: 'Juramentación Capítulo América del Norte' },
-              { url: '1.jpg', title: 'Red Global NEXOUSB y USB MUNDO' },
-              { url: '3.jpg', title: 'Invitados y Representantes Institucionales' },
-              { url: '7.jpg', title: 'Panel de Egresados Destacados' },
-              { url: '8.jpg', title: 'Entrega de Botones de Quinquenio' },
-              { url: '4.jpg', title: 'Reconocimientos a Docentes y Homenajeados' },
-              { url: '2.jpg', title: 'Proyectos de Transformación USB' },
-              { url: '9.jpg', title: 'Conexión Virtual Internacional Zoom' },
-                  { url: '5.jpg', title: 'Brindis y Networking en Expo Center' }
+              { url: 'presentacion2.jpg', title: 'Comunidad USB en el exterior' },
+              { url: 'presentacion3.jpg', title: 'Egresados reunidos en Miami' }
       ],
       logoTapCount: 0,
       logoTapTimer: null,
@@ -1906,7 +1899,7 @@
     </section>
 
     <!-- INVITADOS -->
-    <section id="invitados" data-bg-index="3" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex items-center">
+    <section id="invitados" data-bg-index="2" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex items-center">
         <div class="max-w-5xl mx-auto w-full">
             <div class="text-center max-w-xl mx-auto mb-10" data-aos="fade-up">
                 <span class="glass-badge text-usb-gold uppercase mb-2 inline-block">Convocatoria Global</span>
@@ -1973,7 +1966,7 @@
     </section>
 
     <!-- ESQUEMA -->
-    <section id="esquema" data-bg-index="4" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex items-center">
+    <section id="esquema" data-bg-index="0" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex items-center">
         <div class="max-w-4xl mx-auto w-full">
             <div data-aos="fade-up" class="glass-panel p-8 sm:p-10">
                 <div class="flex justify-between items-center mb-6 border-b border-white/15 pb-4">
@@ -2010,7 +2003,7 @@
     </section>
 
     <!-- PROGRAMA -->
-    <section id="programa" data-bg-index="9" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex items-center">
+    <section id="programa" data-bg-index="1" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex items-center">
         <div class="max-w-4xl mx-auto w-full space-y-8">
             <div data-aos="fade-up" class="glass-panel p-6 sm:p-10">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/15 pb-4 mb-6 gap-2">
@@ -2171,7 +2164,7 @@
     </section>
 
     <!-- PONENTES E INVITADOS DESTACADOS -->
-    <section id="ponentes" data-bg-index="4" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex items-center">
+    <section id="ponentes" data-bg-index="2" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex items-center">
         <div class="max-w-6xl mx-auto w-full">
             <div class="space-y-8">
                 
@@ -2463,7 +2456,7 @@
     </div>
 
     <!-- HOMENAJES -->
-    <section id="homenajes" data-bg-index="5" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex items-center">
+    <section id="homenajes" data-bg-index="0" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex items-center">
         <div class="max-w-5xl mx-auto w-full">
             <div data-aos="fade-up" class="glass-panel p-8 sm:p-10 relative overflow-hidden cursor-pointer">
                 <div class="flex justify-between items-center mb-4">
@@ -2522,7 +2515,7 @@
     </section>
 
     <!-- REGISTRO / FORMULARIO & RESERVA DE ENTRADAS -->
-    <section id="registro" data-bg-index="7" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex flex-col items-center">
+    <section id="registro" data-bg-index="1" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex flex-col items-center">
         <div class="max-w-5xl mx-auto w-full space-y-10">
 
             <!-- PASO A PASO PARA RESERVAR EL LUGAR -->
@@ -2538,52 +2531,25 @@
                              Consulta los precios antes de completar tu registro. Los montos están expresados en dólares estadounidenses.
                          </p>
                      </div>
-                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                          <div class="glass-inset p-4 text-center border border-usb-gold/35">
                              <i class="fa-solid fa-graduation-cap text-usb-gold text-xl mb-2"></i>
                              <h3 class="text-xs font-black text-white uppercase tracking-wide"
                                  x-text="lang === 'es' ? 'Egresado USB' : 'USB alumnus'">Egresado USB</h3>
-                             <p class="text-2xl font-black text-usb-gold mt-2">$85 USD</p>
+                             <p class="text-2xl font-black text-usb-gold mt-2">$100 USD</p>
                              <p class="text-[10px] text-slate-300 mt-1"
-                                x-text="lang === 'es' ? 'Aporte' : 'Presale'">Aporte</p>
+                                x-text="lang === 'es' ? 'Tarifa regular' : 'Regular rate'">Tarifa regular</p>
                          </div>
                          <div class="glass-inset p-4 text-center border border-usb-gold/35">
                              <i class="fa-solid fa-user-group text-usb-gold text-xl mb-2"></i>
                              <h3 class="text-xs font-black text-white uppercase tracking-wide"
                                  x-text="lang === 'es' ? 'Acompañante' : 'Companion'">Acompañante</h3>
-                             <p class="text-2xl font-black text-usb-gold mt-2">$70 USD</p>
+                             <p class="text-2xl font-black text-usb-gold mt-2">$85 USD</p>
                              <p class="text-[10px] text-slate-300 mt-1"
-                                x-text="lang === 'es' ? 'Aporte' : 'Presale'">Aporte</p>
-                         </div>
-                         <div class="glass-inset p-4 text-center border border-white/20">
-                             <i class="fa-solid fa-calendar-days text-slate-300 text-xl mb-2"></i>
-                             <h3 class="text-xs font-black text-white uppercase tracking-wide"
-                                 x-text="lang === 'es' ? 'Tarifa regular' : 'Regular rate'">Tarifa regular</h3>
-                             <p class="text-lg font-black text-white mt-2">$100 / $85 USD</p>
-                             <p class="text-[10px] text-slate-300 mt-1"
-                                x-text="lang === 'es' ? 'Egresado / acompañante tarifa a partir del 01/10' : 'Alumnus / companion rate effective from October 1st'">Egresado / acompañante tarifa a partir del 01/10</p>
+                                x-text="lang === 'es' ? 'Tarifa regular' : 'Regular rate'">Tarifa regular</p>
                          </div>
                      </div>
                  </div>
-                 
-                 <div class="presale-note max-w-2xl mx-auto p-4 sm:p-5 text-left mb-10" role="note" tabindex="0">
-                    <div class="presale-note-layout"> 
-                        <div class="presale-note-icon" aria-hidden="true"> 
-                            <i class="fa-regular fa-clock"></i> 
-                        </div> 
-                        <div class="presale-note-copy"> 
-                            <div> <span class="presale-note-kicker">
-                                <span x-text="lang === 'es' ? 'Reserva exclusiva' : 'Exclusive presale'">
-
-                                </span>
-                            </span> 
-                            <span class="presale-note-deadline" x-text="lang === 'es' ? 'Hasta el 1 de octubre' : 'Until October 1'">
-
-                            </span> 
-                        </div> <p x-text="lang === 'es' ? '¡Aprovecha el descuento de tu entrada! Paga $85 por egresado y $70 por acompañante. Después del 1 de octubre, aplicará la tarifa regular de $100 y $85, respectivamente.' : 'Take advantage of the presale discount! Pay $85 per alumnus and $70 per companion. After October 1, the regular rates of $100 and $85 will apply, respectively.'"></p> 
-                </div> 
-            </div> 
-        </div>
 
                  <div class="text-center mb-6">
                     <span class="glass-badge text-usb-gold uppercase inline-block mb-2">
@@ -3139,7 +3105,7 @@
 </div>
 
 <!-- REGISTRO / RESERVA DE ENTRADAS CON FLUJO PASO A PASO (WIZARD) -->
-<section id="Reserva" data-bg-index="7" 
+<section id="Reserva" data-bg-index="2" 
          x-data="{ 
              selectedOption: '0', 
              ticketAlumniCount: 0,
@@ -3167,9 +3133,9 @@
              paypalRendered: false,
              zelleReference: '',
              paymentProofName: '',
-             ticketTotal() {
-                 return (this.ticketAlumniCount * 85) + (this.ticketGuestCount * 70);
-             },
+            ticketTotal() {
+    return (this.ticketAlumniCount * 100) + (this.ticketGuestCount * 85);
+},
              ticketItems() {
                  const items = [];
                  const alumniCount = Math.max(0, Number(this.ticketAlumniCount) || 0);
@@ -3181,7 +3147,7 @@
                          type: 'alumni',
                          labelEs: index === 0 ? 'Entrada de egresado USB' : `Entrada de egresado USB ${index + 1}`,
                          labelEn: index === 0 ? 'USB alumnus ticket' : `USB alumnus ticket ${index + 1}`,
-                         price: 85
+                         price: 100
                      });
                  }
 
@@ -3191,7 +3157,7 @@
                          type: 'guest',
                          labelEs: index === 0 ? 'Entrada de acompañante' : `Entrada de acompañante ${index + 1}`,
                          labelEn: index === 0 ? 'Companion ticket' : `Companion ticket ${index + 1}`,
-                         price: 70
+                         price: 85
                      });
                  }
 
@@ -3679,8 +3645,8 @@
             <p class="text-[11px] text-slate-200 leading-relaxed"
                x-text="lang === 'es' 
                     ? 'El correo de confirmación con tus entradas y el PDF adjunto podría llegar a las carpetas Spam, Promociones o Correo no deseado. Si no lo ves en tu bandeja principal, búscalo ahí y márcalo como &quot;No es Spam&quot; para asegurar que recibas las comunicaciones del evento.'
-                    : 'The confirmation email with your tickets and PDF attachment may land in your Spam, Promotions, or Junk folder. If you don\\'t see it in your inbox, check those folders and mark it as &quot;Not Spam&quot; to ensure you receive event communications.'">
-                El correo de confirmación con tus entradas y el PDF adjunto podría llegar a las carpetas Spam, Promociones o Correo no deseado. Si no lo ves en tu bandeja principal, búscalo ahí y márcalo como "No es Spam" para asegurar que recibas las comunicaciones del evento.
+                    : 'The confirmation email with your tickets and PDF attachment may land in your Spam, Promotions, or Junk folder. If you don\'t see it in your inbox, check those folders and mark it as &quot;Not Spam&quot; to ensure you receive event communications.'">
+                El correo de confirmación con tus entradas y el PDF adjunto podría llegar a las carpetas Spam, Promociones o Correo no deseado. Si no lo ves en tu bandeja principal, búscalo ahí y márcalo como &quot;No es Spam&quot; para asegurar que recibas las comunicaciones del evento.
             </p>
         </div>
     </div>
@@ -3970,7 +3936,7 @@
                             <span x-text="lang === 'es' 
                                 ? 'El correo con tus entradas y el PDF podría llegar a Spam, Promociones o Correo no deseado. Márcalo como &quot;No es Spam&quot;.'
                                 : 'The email with your tickets and PDF may land in Spam, Promotions, or Junk. Mark it as &quot;Not Spam&quot;.'">
-                                El correo con tus entradas y el PDF podría llegar a Spam, Promociones o Correo no deseado. Márcalo como "No es Spam".
+                                El correo con tus entradas y el PDF podría llegar a Spam, Promociones o Correo no deseado. márcalo como &quot;No es Spam&quot;.
                             </span>
                         </p>
                     </div>
@@ -5230,5 +5196,31 @@ paisesCodigos: [
             observer.observe(document.body, { childList: true, subtree: true });
         })();
     </script>
+<script>
+  // Detecta scroll y cambia el fondo según data-bg-index de cada sección
+  (function() {
+    var sections = document.querySelectorAll('[data-bg-index]');
+    if (!sections.length) return;
+
+    function checkScroll() {
+      var scrollPos = window.scrollY + (window.innerHeight * 0.35);
+      var currentIndex = null;
+      sections.forEach(function(section) {
+        var top = section.offsetTop;
+        var bottom = top + section.offsetHeight;
+        if (scrollPos >= top && scrollPos <= bottom) {
+          currentIndex = Number(section.getAttribute('data-bg-index'));
+        }
+      });
+      if (currentIndex !== null) {
+        window.dispatchEvent(new CustomEvent('change-bg-index', { detail: currentIndex }));
+      }
+    }
+
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    window.addEventListener('load', checkScroll);
+    setTimeout(checkScroll, 300);
+  })();
+</script>
 </body>
 </html>
