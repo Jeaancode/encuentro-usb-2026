@@ -481,7 +481,7 @@ tailwind.config = {
                 </span>
               </div>
             </div>
-            <div class="flex flex-wrap gap-2 mt-3">
+                        <div class="flex flex-wrap gap-2 mt-3">
               <button @click="copyPaymentLink(r)" class="btn-ghost text-[10px] py-2 px-3">
                 <i class="fa-solid fa-link"></i> Copiar link de pago
               </button>
@@ -490,6 +490,10 @@ tailwind.config = {
               </button>
               <button @click="copyAddCompanionLink(r)" class="btn-ghost text-[10px] py-2 px-3">
                 <i class="fa-solid fa-user-plus"></i> Link agregar acompañante
+              </button>
+              <button x-show="r.pagado" @click="resendTickets(r)" :disabled="resendingId === r.idRegistro" class="btn-ghost text-[10px] py-2 px-3" style="border-color: rgba(255,195,0,0.6); color: #FFC300;">
+                <i class="fa-solid" :class="resendingId === r.idRegistro ? 'fa-spinner fa-spin' : 'fa-envelope'"></i>
+                <span x-text="resendingId === r.idRegistro ? ' Enviando...' : ' Reenviar entradas'"></span>
               </button>
             </div>
             <div x-show="r.pagos && r.pagos.length > 0" class="mt-2 pt-2 border-t" style="border-color:var(--border-soft)">
@@ -586,13 +590,17 @@ tailwind.config = {
                   <td data-label="Nombre" class="font-bold" style="color:var(--text-main)" x-text="r.nombre"></td>
                   <td data-label="Email" style="color:var(--text-soft)" x-text="r.email"></td>
                   <td data-label="Cédula" style="color:var(--text-soft)" x-text="r.cedula || '—'"></td>
-                  <td data-label="Acciones">
+     <td data-label="Acciones">
   <div class="flex flex-wrap gap-1.5 justify-end">
     <button @click="copyPaymentLink(r)" class="btn-ghost text-[10px] py-1.5 px-2.5">
       <i class="fa-solid fa-link"></i> Link pago
     </button>
     <button @click="openManualPaymentModal(r)" class="btn-success text-[10px] py-1.5 px-2.5">
       <i class="fa-solid fa-plus"></i> Manual
+    </button>
+    <button @click="resendTickets(r)" :disabled="resendingId === r.idRegistro" class="btn-ghost text-[10px] py-1.5 px-2.5" style="border-color: rgba(255,195,0,0.6); color: #FFC300;">
+      <i class="fa-solid" :class="resendingId === r.idRegistro ? 'fa-spinner fa-spin' : 'fa-envelope'"></i>
+      <span x-text="resendingId === r.idRegistro ? ' Enviando...' : ' Reenviar'"></span>
     </button>
     <button @click="confirmDelete(r)" class="btn-danger text-[10px] py-1.5 px-2.5">
       <i class="fa-solid fa-trash"></i> Eliminar
@@ -795,6 +803,7 @@ function adminPanel() {
     // Modal pago manual
     showManualModal: false, submittingManual: false, manualError: '',
         showDeleteModal: false, deleteTarget: null, deleteConfirmText: '', deleteError: '', deleting: false,
+            resendingId: '',
     manualForm: { idRegistro: '', nombre: '', metodo: 'zelle', monto: 85, referencia: '', notas: '', proofBase64: '', proofName: '' },
 
     init() {
@@ -1168,7 +1177,28 @@ function adminPanel() {
       this.submittingManual = false;
     },
 
-       // ═══ ELIMINAR REGISTRO ═══
+       // ═══ REENVIAR ENTRADAS ═══
+    async resendTickets(r) {
+      if (!confirm('¿Reenviar las entradas por email a ' + r.nombre + '?\n\nEmail: ' + r.email)) return;
+      this.resendingId = r.idRegistro;
+      try {
+        const data = await this.apiCall('resendTickets', {
+          registrationId: r.idRegistro
+        });
+        if (data.ok) {
+          alert('✅ ' + data.message);
+          this.addNotification({ icon: 'fa-envelope', title: 'Entradas reenviadas a ' + data.email, time: 'Ahora' });
+        } else {
+          alert('❌ ' + data.error);
+        }
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+      this.resendingId = '';
+    },
+
+
+    // ═══ ELIMINAR REGISTRO ═══
     confirmDelete(r) {
       this.deleteTarget = r;
       this.deleteConfirmText = '';
