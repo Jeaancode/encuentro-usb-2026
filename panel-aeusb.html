@@ -602,6 +602,10 @@ tailwind.config = {
       <i class="fa-solid" :class="resendingId === r.idRegistro ? 'fa-spinner fa-spin' : 'fa-envelope'"></i>
       <span x-text="resendingId === r.idRegistro ? ' Enviando...' : ' Reenviar'"></span>
     </button>
+    <button @click="sendPaymentReminder(r)" :disabled="sendingReminderId === r.idRegistro" class="btn-ghost text-[10px] py-1.5 px-2.5" style="border-color: rgba(72,116,151,0.6); color: #7cb3d9;">
+      <i class="fa-solid" :class="sendingReminderId === r.idRegistro ? 'fa-spinner fa-spin' : 'fa-paper-plane'"></i>
+      <span x-text="sendingReminderId === r.idRegistro ? ' Enviando...' : ' Recordatorio'"></span>
+    </button>   
     <button @click="confirmDelete(r)" class="btn-danger text-[10px] py-1.5 px-2.5">
       <i class="fa-solid fa-trash"></i> Eliminar
     </button>
@@ -804,6 +808,7 @@ function adminPanel() {
     showManualModal: false, submittingManual: false, manualError: '',
         showDeleteModal: false, deleteTarget: null, deleteConfirmText: '', deleteError: '', deleting: false,
             resendingId: '',
+                sendingReminderId: '',
     manualForm: { idRegistro: '', nombre: '', metodo: 'zelle', monto: 85, referencia: '', notas: '', proofBase64: '', proofName: '' },
 
     init() {
@@ -1177,7 +1182,28 @@ function adminPanel() {
       this.submittingManual = false;
     },
 
-       // ═══ REENVIAR ENTRADAS ═══
+  
+      // ═══ ENVIAR RECORDATORIO DE PAGO ═══
+    async sendPaymentReminder(r) {
+      if (!confirm('¿Enviar correo de recordatorio a ' + r.nombre + '?\n\nEmail: ' + r.email)) return;
+      this.sendingReminderId = r.idRegistro;
+      try {
+        const data = await this.apiCall('sendPaymentReminder', {
+          registrationId: r.idRegistro
+        });
+        if (data.ok) {
+          alert('✅ ' + data.message);
+          this.addNotification({ icon: 'fa-paper-plane', title: 'Recordatorio enviado a ' + r.nombre, time: 'Ahora' });
+        } else {
+          alert('❌ ' + data.error);
+        }
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+      this.sendingReminderId = '';
+    },
+
+    // ═══ REENVIAR ENTRADAS ═══
     async resendTickets(r) {
       if (!confirm('¿Reenviar las entradas por email a ' + r.nombre + '?\n\nEmail: ' + r.email)) return;
       this.resendingId = r.idRegistro;
