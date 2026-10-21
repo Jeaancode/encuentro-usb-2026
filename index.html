@@ -1870,6 +1870,37 @@
   100% { transform: translateX(-50%); }
 }
 
+/* 📱 Ajustes para móviles */
+@media (max-width: 767px) {
+  .sponsors-gallery {
+    padding: 1rem 0;
+    border-radius: 1rem; /* Borde un poco menos curvo */
+  }
+  
+  .sponsor-card {
+    width: 140px; /* Tarjeta más angosta (antes 220px) */
+    height: 130px; /* Tarjeta más baja (antes 180px) */
+    margin: 0 0.5rem; /* Menos espacio entre tarjetas */
+    padding: 0.5rem;
+  }
+  
+  .sponsor-card img {
+    max-height: 50px; /* Logo más pequeño (antes 70px) */
+    margin-bottom: 0.4rem;
+  }
+  
+  .sponsor-card img.logo-grande {
+    max-height: 75px; /* El logo grande también se achica un poco */
+    margin-top: -5px;
+    margin-bottom: 5px;
+  }
+  
+  .sponsor-name {
+    font-size: 0.7rem; /* Letra más pequeña */
+    line-height: 1.1;
+  }
+}
+
 
     </style>
 
