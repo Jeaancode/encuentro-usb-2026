@@ -1823,6 +1823,26 @@
   margin-bottom: 0.6rem;
 }
 
+/* Clase especial para agrandar logos específicos */
+.sponsor-card img.logo-grande {
+  /* En lugar de hacer zoom (scale), le damos una altura máxima más grande */
+  max-height: 105px; 
+  width: auto;
+  margin-top: -10px; /* Lo subimos un poquito para que quepa bien */
+  margin-bottom: 10px; /* Obliga al texto a bajar para que no se encimen */
+  transform: none; /* Quitamos el efecto de zoom anterior */
+}
+
+/* Al pasar el mouse, que mantenga su tamaño o crezca muy sutilmente */
+.sponsor-card:hover img.logo-grande {
+  transform: scale(1.05); 
+}
+
+/* Para que no se salga del cuadro al pasar el mouse */
+.sponsor-card:hover img.logo-grande {
+  transform: scale(1.5); 
+}
+
 .sponsor-card:hover img {
   transform: scale(1.1);
 }
@@ -2333,7 +2353,7 @@
           
           <!-- GRUPO 1 DE LOGOS -->
           <div class="sponsor-card">
-            <img src="artevision.png" alt="Patrocinador 1">
+            <img src="artevision.png" alt="Patrocinador 1" class="logo-grande">
             <span class="sponsor-name">ARTE VISIÓN USB</span>
           </div>
           <div class="sponsor-card">
@@ -2341,7 +2361,7 @@
             <span class="sponsor-name">FUNINDES USB</span>
           </div>
           <div class="sponsor-card">
-            <img src="joseantoniovilegaslogo.png" alt="Patrocinador 3">
+            <img src="joseantoniovilegaslogo.png" alt="Patrocinador 3"  class="logo-grande">
             <span class="sponsor-name">Antonio José Villegas+ y Familia</span>
           </div>
           <div class="sponsor-card">
@@ -2351,11 +2371,19 @@
           <div class="sponsor-card">
             <img src="vaocc.png" alt="Patrocinador 5">
             <span class="sponsor-name">Venezuelan American Chamber of Commerce</span>
+          </div>
+           <div class="sponsor-card">
+            <img src="polar.png" alt="Patrocinador 2">
+            <span class="sponsor-name">EMPRESAS POLAR</span>
+          </div>
+           <div class="sponsor-card">
+            <img src="segurolozada.png" alt="Patrocinador 2">
+            <span class="sponsor-name">Seguros Lozada</span>
           </div>
           
           <!-- GRUPO 2 DE LOGOS (Copia exacta para el bucle infinito) -->
           <div class="sponsor-card">
-            <img src="artevision.png" alt="Patrocinador 1">
+            <img src="artevision.png" alt="Patrocinador 1" class="logo-grande">
             <span class="sponsor-name">ARTE VISIÓN USB</span>
           </div>
           <div class="sponsor-card">
@@ -2363,7 +2391,7 @@
             <span class="sponsor-name">FUNINDES USB</span>
           </div>
           <div class="sponsor-card">
-            <img src="joseantoniovilegaslogo.png" alt="Patrocinador 3">
+            <img src="joseantoniovilegaslogo.png" alt="Patrocinador 3" class="logo-grande">
             <span class="sponsor-name">Antonio José Villegas+ y Familia</span>
           </div>
           <div class="sponsor-card">
@@ -2373,6 +2401,14 @@
           <div class="sponsor-card">
             <img src="vaocc.png" alt="Patrocinador 5">
             <span class="sponsor-name">Venezuelan American Chamber of Commerce</span>
+          </div>
+          <div class="sponsor-card">
+            <img src="polar.png" alt="Patrocinador 2">
+            <span class="sponsor-name">EMPRESAS POLAR</span>
+          </div>
+          <div class="sponsor-card">
+            <img src="segurolozada.png" alt="Patrocinador 2">
+            <span class="sponsor-name">Seguros Lozada</span>
           </div>
 
         </div>
