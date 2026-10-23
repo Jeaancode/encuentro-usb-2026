@@ -1908,6 +1908,8 @@
 <body class="text-slate-100 font-sans antialiased selection:bg-usb-gold selection:text-usb-navy overflow-x-hidden relative bg-usb-darkBg"
       x-data="{ 
           lang: 'es',
+        showZoomBtn: false,
+          zoomUrl: '',
           registrationComplete: false,
           mobileMenu: false, 
           activeBgIndex: 0,
@@ -1930,10 +1932,25 @@
               e.preventDefault();
               window.open('panel-aeusb.html', '_blank');
           }
-      }
+      },
+                async initZoom() {
+            try {
+              const res = await fetch('https://script.google.com/macros/s/AKfycbyD1Y-RdO23_9R0DzQ3IxvUG2-83NRrmvQ0s6FwWFluhIexBHH3jnVdorx8kKAWS89n/exec', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ action: 'getConfig' }).toString()
+              });
+              const data = await res.json();
+              if (data.ok) {
+                this.showZoomBtn = data.zoomEnabled;
+                this.zoomUrl = data.zoomUrl;
+              }
+            } catch (e) { console.log('Error cargando Zoom', e); }
+          }
   }"
        @change-bg-index.window="activeBgIndex = $event.detail"
-       @registration-complete.window="registrationComplete = true">
+       @registration-complete.window="registrationComplete = true"
+       x-init="initZoom()">
 
     <!-- FONDO DINÁMICO MULTI-IMAGEN -->
     <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">

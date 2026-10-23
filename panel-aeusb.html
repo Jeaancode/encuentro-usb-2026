@@ -516,6 +516,23 @@ tailwind.config = {
       </div>
     </div>
 
+    <!-- Panel de Zoom -->
+    <div class="glass-card p-4 border border-sky-500/30 mb-4">
+      <h3 class="text-sm font-black uppercase tracking-wider text-sky-400 mb-2">
+        <i class="fa-solid fa-video"></i> Control de Transmisión (Zoom)
+      </h3>
+      <p class="text-[11px] mb-3" style="color:var(--text-soft)">Activa esto el día del evento para mostrar el botón de Zoom en la página principal.</p>
+      <div class="flex flex-col sm:flex-row gap-2">
+        <input type="text" x-model="zoomUrl" placeholder="https://zoom.us/j/tu-enlace-aqui" class="glass-input flex-1 text-xs">
+        <button @click="toggleZoom()" :disabled="loadingZoom" :class="zoomEnabled ? 'btn-danger' : 'btn-success'" class="sm:w-48 text-xs">
+          <i class="fa-solid" :class="loadingZoom ? 'fa-spinner fa-spin' : (zoomEnabled ? 'fa-eye-slash' : 'fa-eye')"></i>
+          <span x-text="zoomEnabled ? 'Desactivar Botón' : 'Activar Botón'"></span>
+        </button>
+      </div>
+    </div>
+
+
+
     <!-- Resumen -->
     <div x-show="loadingDiag" class="text-center py-12" style="color:var(--text-soft)">
       <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
@@ -868,6 +885,7 @@ function adminPanel() {
             resendingId: '',
                 papelera: [], loadingPapelera: false, restoringId: '',
                 sendingReminderId: '',
+                    zoomEnabled: false, zoomUrl: '', loadingZoom: false,
     manualForm: { idRegistro: '', nombre: '', metodo: 'zelle', monto: 85, referencia: '', notas: '', proofBase64: '', proofName: '' },
 
     init() {
@@ -973,7 +991,7 @@ function adminPanel() {
       this.tab = t;
       if (t === 'checkin' && this.asistentes.length === 0) this.loadCheckIn();
       if (t === 'pending') this.loadPending();
-      if (t === 'diagnostico') this.loadDiagnostico();
+            if (t === 'diagnostico') { this.loadDiagnostico(); this.loadZoomConfig(); }
       if (t === 'activity') this.loadActivity();
       if (t === 'papelera') this.loadPapelera();
     },
@@ -1345,6 +1363,32 @@ function adminPanel() {
         }
       } catch (err) { alert('Error: ' + err.message); }
       this.restoringId = '';
+    },
+
+    // ═══ CONFIGURACIÓN DE ZOOM ═══
+    async loadZoomConfig() {
+      try {
+        const data = await this.apiCall('getConfig');
+        if (data.ok) {
+          this.zoomEnabled = data.zoomEnabled;
+          this.zoomUrl = data.zoomUrl;
+        }
+      } catch (e) {}
+    },
+
+    async toggleZoom() {
+      this.loadingZoom = true;
+      try {
+        const data = await this.apiCall('togglezoom', {
+          status: this.zoomEnabled ? 'false' : 'true',
+          url: this.zoomUrl
+        });
+        if (data.ok) {
+          this.zoomEnabled = !this.zoomEnabled;
+          alert('✅ Configuración guardada. Zoom está ' + (this.zoomEnabled ? 'ACTIVO' : 'INACTIVO'));
+        } else { alert('❌ ' + data.error); }
+      } catch (err) { alert('Error: ' + err.message); }
+      this.loadingZoom = false;
     },
 
 
