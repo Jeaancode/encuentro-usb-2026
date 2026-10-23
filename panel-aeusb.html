@@ -208,6 +208,9 @@ tailwind.config = {
       <button @click="switchTab('activity')" :class="tab === 'activity' ? 'active' : ''" class="tab-btn">
         <i class="fa-solid fa-history"></i> <span class="hidden sm:inline">Actividad</span>
       </button>
+            <button @click="switchTab('papelera')" :class="tab === 'papelera' ? 'active' : ''" class="tab-btn">
+        <i class="fa-solid fa-trash-can-arrow-up"></i> <span class="hidden sm:inline">Papelera</span>
+      </button>
     </div>
   </header>
 
@@ -674,6 +677,61 @@ tailwind.config = {
 
 </div>
 
+  <!-- ═══════ TAB: PAPELERA ═══════ -->
+  <main x-show="tab === 'papelera'" x-cloak class="max-w-5xl mx-auto px-3 sm:px-4 py-5 space-y-4">
+    <div class="glass-card p-4 flex items-center justify-between">
+      <div>
+        <h2 class="text-sm font-black uppercase tracking-wider" style="color:var(--text-main)">Registros Eliminados</h2>
+        <p class="text-[11px] mt-1" style="color:var(--text-soft)">Puedes restaurar a cualquier persona si te arrepientes de haberla borrado.</p>
+      </div>
+      <button @click="loadPapelera()" class="btn-ghost px-3 py-2 text-xs">
+        <i class="fa-solid fa-rotate" :class="loadingPapelera ? 'fa-spin' : ''"></i>
+      </button>
+    </div>
+
+    <div x-show="loadingPapelera" class="text-center py-12" style="color:var(--text-soft)">
+      <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
+    </div>
+
+    <div x-show="!loadingPapelera && papelera.length === 0" class="glass-card p-8 text-center">
+      <i class="fa-solid fa-trash-can text-slate-500 text-3xl mb-3"></i>
+      <p class="text-sm font-bold" style="color:var(--text-main)">La papelera está vacía</p>
+    </div>
+
+    <div x-show="!loadingPapelera && papelera.length > 0" class="glass-card p-0 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="responsive-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Fecha</th>
+              <th class="text-right">Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template x-for="p in papelera" :key="p.idRegistro">
+              <tr>
+                <td data-label="Nombre">
+                  <div class="font-bold" style="color:var(--text-main)" x-text="p.nombre"></div>
+                  <div class="text-[10px]" style="color:var(--text-soft)" x-text="'C.I. ' + p.cedula"></div>
+                </td>
+                <td data-label="Email" style="color:var(--text-soft)" x-text="p.email"></td>
+                <td data-label="Fecha" style="color:var(--text-soft)" x-text="formatDate(p.fechaEliminacion)"></td>
+                <td data-label="Acción" class="text-right">
+                  <button @click="restoreRegistration(p)" :disabled="restoringId === p.idRegistro" class="btn-success text-[10px] py-1.5 px-2.5">
+                    <i class="fa-solid" :class="restoringId === p.idRegistro ? 'fa-spinner fa-spin' : 'fa-undo'"></i>
+                    <span x-text="restoringId === p.idRegistro ? ' Restaurando...' : ' Restaurar'"></span>
+                  </button>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
 <!-- ═══ MODAL: CONFIRMAR ELIMINACIÓN ═══ -->
 <div x-show="showDeleteModal" x-cloak class="modal-backdrop" @click.self="showDeleteModal = false">
   <div class="modal-card">
@@ -808,6 +866,7 @@ function adminPanel() {
     showManualModal: false, submittingManual: false, manualError: '',
         showDeleteModal: false, deleteTarget: null, deleteConfirmText: '', deleteError: '', deleting: false,
             resendingId: '',
+                papelera: [], loadingPapelera: false, restoringId: '',
                 sendingReminderId: '',
     manualForm: { idRegistro: '', nombre: '', metodo: 'zelle', monto: 85, referencia: '', notas: '', proofBase64: '', proofName: '' },
 
@@ -916,6 +975,7 @@ function adminPanel() {
       if (t === 'pending') this.loadPending();
       if (t === 'diagnostico') this.loadDiagnostico();
       if (t === 'activity') this.loadActivity();
+      if (t === 'papelera') this.loadPapelera();
     },
 
     async refreshAll() {
@@ -1261,6 +1321,33 @@ function adminPanel() {
     },
 
    
+    // ═══ PAPELERA ═══
+    async loadPapelera() {
+      this.loadingPapelera = true;
+      try {
+        const data = await this.apiCall('getPapelera');
+        if (data.ok) this.papelera = data.registros || [];
+      } catch (err) { alert('Error: ' + err.message); }
+      this.loadingPapelera = false;
+    },
+
+    async restoreRegistration(p) {
+      if (!confirm('¿Restaurar a ' + p.nombre + ' a la lista de registros?')) return;
+      this.restoringId = p.idRegistro;
+      try {
+        const data = await this.apiCall('restoreregistration', { idRegistro: p.idRegistro });
+        if (data.ok) {
+          alert('✅ ' + data.message);
+          await this.loadPapelera();
+          this.addNotification({ icon: 'fa-undo', title: 'Registro restaurado: ' + p.nombre, time: 'Ahora' });
+        } else {
+          alert('❌ ' + data.error);
+        }
+      } catch (err) { alert('Error: ' + err.message); }
+      this.restoringId = '';
+    },
+
+
     async loadActivity() {
       this.loadingActivity = true;
       try {
