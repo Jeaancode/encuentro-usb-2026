@@ -484,6 +484,25 @@ tailwind.config = {
                 </span>
               </div>
             </div>
+                            <!-- Botón para ver acompañantes -->
+                <button x-show="r.totalAcompanantes > 0" @click="toggleCompanions(r.idRegistro)" class="text-[10px] text-sky-300 hover:text-sky-100 font-bold mt-2 flex items-center gap-1 underline decoration-sky-500/30 underline-offset-2">
+                  <i class="fa-solid fa-users"></i>
+                  <span x-text="expandedCompanions === r.idRegistro ? 'Ocultar acompañantes' : 'Ver acompañantes'"></span>
+                </button>
+
+                <!-- Lista de acompañantes (oculta por defecto) -->
+                <div x-show="expandedCompanions === r.idRegistro" x-cloak class="mt-2 pl-3 border-l-2 border-sky-500/30 space-y-1">
+                  <template x-for="(comp, idx) in r.acompanantesLista" :key="idx">
+                    <div class="text-[11px] text-slate-300 flex justify-between gap-2">
+                      <span>
+                        <i class="fa-solid fa-user text-[9px] text-slate-500 mr-1"></i>
+                        <span class="font-bold" x-text="comp.nombres + ' ' + comp.apellidos"></span>
+                        <span x-show="comp.esEgresado === 'Si'" class="text-[9px] text-emerald-400 ml-1">(Egresado)</span>
+                      </span>
+                      <span class="font-mono text-[10px] text-slate-500" x-text="comp.cedula || '—'"></span>
+                    </div>
+                  </template>
+                </div>
                         <div class="flex flex-wrap gap-2 mt-3">
               <button @click="copyPaymentLink(r)" class="btn-ghost text-[10px] py-2 px-3">
                 <i class="fa-solid fa-link"></i> Copiar link de pago
@@ -883,6 +902,7 @@ function adminPanel() {
     showManualModal: false, submittingManual: false, manualError: '',
         showDeleteModal: false, deleteTarget: null, deleteConfirmText: '', deleteError: '', deleting: false,
             resendingId: '',
+            expandedCompanions: null,
                 papelera: [], loadingPapelera: false, restoringId: '',
                 sendingReminderId: '',
                     zoomEnabled: false, zoomUrl: '', loadingZoom: false,
@@ -1391,6 +1411,13 @@ function adminPanel() {
       this.loadingZoom = false;
     },
 
+    toggleCompanions(id) {
+  if (this.expandedCompanions === id) {
+    this.expandedCompanions = null;
+  } else {
+    this.expandedCompanions = id;
+  }
+},
 
     async loadActivity() {
       this.loadingActivity = true;
