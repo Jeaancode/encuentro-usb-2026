@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Virtual · Encuentro Egresados USB 2026</title>
+    <link rel="icon" type="image/png" href="LOGO.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { usb: { navy: '#051367', blue: '#487497', gold: '#FFC300', sky: '#2D8CFF' } },
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #1a1d29; color: #fff; }
+        .glass-panel { background: rgba(30, 34, 52, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; }
+        .glass-input { background: rgba(20, 23, 36, 0.9); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: #fff; padding: 12px 16px; font-size: 14px; width: 100%; }
+        .glass-input:focus { border-color: #2D8CFF; outline: none; box-shadow: 0 0 10px rgba(45,140,255,0.3); }
+    </style>
+</head>
+<body class="font-sans min-h-screen flex items-center justify-center p-4">
+
+    <div class="glass-panel p-8 sm:p-10 w-full max-w-lg relative overflow-hidden">
+        <div class="absolute -top-20 -right-20 w-40 h-40 bg-usb-sky rounded-full blur-3xl opacity-20"></div>
+        
+        <div class="text-center mb-8 relative z-10">
+            <i class="fa-solid fa-satellite-dish text-4xl text-usb-sky mb-4"></i>
+            <h1 class="text-2xl font-black">Registro Virtual</h1>
+            <p class="text-xs text-slate-300 mt-2">Encuentro de Egresados USB 2026</p>
+        </div>
+
+        <form id="virtualForm" class="space-y-4 relative z-10" onsubmit="submitVirtual(event)">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">Nombres</label>
+                    <input type="text" id="vnombres" required class="glass-input" placeholder="Tus nombres">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">Apellidos</label>
+                    <input type="text" id="vapellidos" required class="glass-input" placeholder="Tus apellidos">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">Cédula</label>
+                    <input type="text" id="vcedula" required class="glass-input" placeholder="V-12345678">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black text-slate-300 uppercase tracking-widest mb-1">Email</label>
+                    <input type="email" id="vemail" required class="glass-input" placeholder="correo@ejemplo.com">
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-white/10 mt-4">
+                <label class="block text-[10px] font-black text-yellow-400 uppercase tracking-widest mb-1">
+                    <i class="fa-solid fa-heart mr-1"></i> Aporte Voluntario (Opcional)
+                </label>
+                <p class="text-[11px] text-slate-400 mb-2">El acceso virtual es <strong>gratuito</strong>. Si deseas, puedes aportar desde $1 USD. Todo lo recaudado irá al <strong>Fondo de Emergencia de la USB Litoral</strong> para las víctimas del terremoto.</p>
+                <div class="relative">
+                    <span class="absolute left-4 top-3 text-slate-400 font-bold">$</span>
+                    <input type="number" id="vdonacion" min="1" step="0.01" class="glass-input pl-8" placeholder="0.00">
+                </div>
+            </div>
+
+            <button type="submit" id="vbtn" class="w-full mt-6 bg-[#2D8CFF] hover:bg-[#1b6fd6] text-white font-black py-4 rounded-xl transition-all shadow-[0_0_15px_rgba(45,140,255,0.3)] flex items-center justify-center gap-2 text-sm uppercase tracking-wider">
+                <i class="fa-solid fa-paper-plane"></i> Obtener mi enlace de Zoom
+            </button>
+        </form>
+
+        <div id="vsuccess" class="hidden text-center relative z-10 py-6">
+            <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-500">
+                <i class="fa-solid fa-check text-2xl text-green-400"></i>
+            </div>
+            <h2 class="text-xl font-black text-white mb-2">¡Registro Exitoso!</h2>
+            <p class="text-sm text-slate-300">Hemos enviado el enlace de Zoom a tu correo. Por favor, revisa tu bandeja de entrada y la carpeta de Spam.</p>
+            <button onclick="window.close()" class="mt-6 text-xs text-usb-sky hover:underline">Cerrar esta ventana</button>
+        </div>
+    </div>
+
+    <script>
+        async function submitVirtual(e) {
+            e.preventDefault();
+            const btn = document.getElementById('vbtn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...';
+            btn.disabled = true;
+
+            const data = {
+                action: 'registerVirtual',
+                nombres: document.getElementById('vnombres').value,
+                apellidos: document.getElementById('vapellidos').value,
+                cedula: document.getElementById('vcedula').value,
+                email: document.getElementById('vemail').value,
+                donacion: document.getElementById('vdonacion').value || '0'
+            };
+
+            try {
+                const scriptUrl = 'https://script.google.com/macros/s/AKfycbyD1Y-RdO23_9R0DzQ3IxvUG2-83NRrmvQ0s6FwWFluhIexBHH3jnVdorx8kKAWS89n/exec';
+                
+                const res = await fetch(scriptUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams(data).toString()
+                });
+                const result = await res.json();
+
+                if (result.ok) {
+                    document.getElementById('virtualForm').classList.add('hidden');
+                    document.getElementById('vsuccess').classList.remove('hidden');
+                    
+                    if (Number(data.donacion) > 0 && result.stripeUrl) {
+                        window.location.href = result.stripeUrl;
+                    }
+                } else {
+                    alert('Error: ' + result.error);
+                    btn.innerHTML = 'Intentar de nuevo';
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                alert('Error de conexión. Intenta de nuevo.');
+                btn.innerHTML = 'Intentar de nuevo';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

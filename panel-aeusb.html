@@ -303,7 +303,7 @@ tailwind.config = {
 
   <!-- ═══════ TAB: CHECK-IN ═══════ -->
   <main x-show="tab === 'checkin'" x-cloak class="max-w-7xl mx-auto px-3 sm:px-4 py-5 space-y-4">
-    <div x-show="checkinStats" class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+    <div x-show="checkinStats" class="grid grid-cols-2 lg:grid-cols-5 gap-3">
       <div class="stat-card">
         <div class="text-[10px] font-black text-slate-200 uppercase tracking-widest mb-1">Esperados</div>
         <div class="text-2xl font-black text-white" x-text="checkinStats.total"></div>
@@ -326,6 +326,14 @@ tailwind.config = {
           <span class="text-sm text-slate-300">/ <span x-text="checkinStats.acompanantesTotal"></span></span>
         </div>
       </div>
+            <!-- NUEVA TARJETA VIRTUAL -->
+      <div class="stat-card border border-sky-500/30">
+        <div class="text-[10px] font-black text-sky-300 uppercase tracking-widest mb-1">Virtuales</div>
+        <div class="text-xl font-black text-white">
+          <span x-text="checkinStats.virtualesAsistieron"></span>
+          <span class="text-sm text-slate-400">/ <span x-text="checkinStats.virtualesTotal"></span></span>
+        </div>
+      </div>
     </div>
 
     <div class="glass-card p-3 sm:p-4 flex flex-col sm:flex-row gap-2">
@@ -336,6 +344,7 @@ tailwind.config = {
         <option value="asistio">Ya asistieron</option>
         <option value="egresado">Solo egresados</option>
         <option value="acompanante">Solo acompañantes</option>
+<option value="virtual">Solo Virtuales</option>      
       </select>
     </div>
 
@@ -363,10 +372,11 @@ tailwind.config = {
                   <div class="text-[10px]" style="color:var(--text-soft)" x-text="a.email"></div>
                 </td>
                 <td data-label="Cédula" x-text="a.cedula || '—'"></td>
-                <td data-label="Tipo">
-                  <span class="badge" :class="a.tipo === 'egresado' ? 'badge-yes' : 'badge-pending'">
-                    <i class="fa-solid" :class="a.tipo === 'egresado' ? 'fa-graduation-cap' : 'fa-user'"></i>
-                    <span x-text="a.tipo === 'egresado' ? 'Egresado' : 'Acompañante'"></span>
+                                <td data-label="Tipo">
+                  <span x-show="a.tipo === 'egresado'" class="badge badge-yes"><i class="fa-solid fa-graduation-cap"></i> Egresado</span>
+                  <span x-show="a.tipo === 'acompanante'" class="badge badge-pending"><i class="fa-solid fa-user"></i> Acompañante</span>
+                  <span x-show="a.tipo === 'virtual'" class="badge" style="background: rgba(45,140,255,0.15); color: #2D8CFF; border: 1px solid rgba(45,140,255,0.4);">
+                    <i class="fa-solid fa-video"></i> Virtual
                   </span>
                 </td>
                 <td data-label="Estado">
@@ -1167,6 +1177,7 @@ function adminPanel() {
         if (f === 'asistio' && a.asistio !== 'Si') return false;
         if (f === 'egresado' && a.tipo !== 'egresado') return false;
         if (f === 'acompanante' && a.tipo !== 'acompanante') return false;
+                if (f === 'virtual' && a.tipo !== 'virtual') return false;
         return true;
       });
     },
