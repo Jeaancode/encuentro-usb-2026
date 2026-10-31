@@ -3736,15 +3736,15 @@
 
                  return items;
              },
-             updateTicketCounts(event) {
-                 const detail = event.detail || {};
-                 this.ticketAlumniCount = Math.max(1, Number(detail.totalAlumni) || 1);
-                 this.ticketGuestCount = Number(detail.totalGuests) || 0;
-                 this.registrationId = detail.registrationId || this.registrationId;
-                 this.registrationData = detail.registrationData || this.registrationData;
-                 this.hydrateBuyer();
-                 this.selectedOption = String(this.ticketTotal());
-             },
+                 updateTicketCounts(event) {
+        const detail = event.detail || {};
+        this.ticketAlumniCount = Number(detail.totalAlumni);
+        this.ticketGuestCount = Number(detail.totalGuests) || 0;
+        this.registrationId = detail.registrationId || this.registrationId;
+        this.registrationData = detail.registrationData || this.registrationData;
+        this.hydrateBuyer();
+        this.selectedOption = String(this.ticketTotal());
+    },
              hydrateBuyer() {
     let fields = this.registrationData || {};
 
