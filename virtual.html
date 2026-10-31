@@ -21,7 +21,17 @@
         }
     </script>
     <style>
-        body { background-color: #1a1d29; color: #fff; }
+                body {
+            /* Foto de fondo con el filtro oscuro para que se lea el formulario */
+            background-image: 
+                linear-gradient(rgba(10, 13, 24, 0.75), rgba(10, 13, 24, 0.9)), 
+                url('virtualfondo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            min-height: 100vh;
+        }
         .glass-panel { background: rgba(30, 34, 52, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; }
         .glass-input { background: rgba(20, 23, 36, 0.9); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: #fff; padding: 12px 16px; font-size: 14px; width: 100%; }
         .glass-input:focus { border-color: #2D8CFF; outline: none; box-shadow: 0 0 10px rgba(45,140,255,0.3); }
