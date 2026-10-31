@@ -19,7 +19,16 @@
         }
     </script>
     <style>
-        body { background-color: #1a1d29; color: #fff; }
+                body {
+            background-image: 
+                linear-gradient(rgba(10, 13, 24, 0.75), rgba(10, 13, 24, 0.9)), 
+                url('virtualfondo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff;
+            min-height: 100vh;
+        }
         .glass-panel { background: rgba(30, 34, 52, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; }
         .glass-input { background: rgba(20, 23, 36, 0.9); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: #fff; padding: 12px 16px; font-size: 14px; width: 100%; }
         .glass-input:focus { border-color: #2D8CFF; outline: none; box-shadow: 0 0 10px rgba(45,140,255,0.3); }
@@ -66,7 +75,7 @@
                 <p class="text-[11px] text-slate-400 mb-2">Si deseas, puedes aportar desde $1 USD. Todo lo recaudado irá al <strong>Fondo de Emergencia de la USB Litoral</strong> para las víctimas del terremoto.</p>
                 <div class="relative">
                     <span class="absolute left-4 top-3 text-slate-400 font-bold">$</span>
-                    <input type="number" id="vdonacion" min="1" step="0.01" class="glass-input pl-8" placeholder="Opcional (Ej. 5.00)">
+                    <input type="number" id="vdonacion" min="1" step="0.01" class="glass-input pl-8" placeholder="(Ej. 5.00)">
                 </div>
             </div>
 
