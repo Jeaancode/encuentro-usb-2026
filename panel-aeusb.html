@@ -517,6 +517,10 @@ tailwind.config = {
                 <i class="fa-solid" :class="resendingId === r.idRegistro ? 'fa-spinner fa-spin' : 'fa-envelope'"></i>
                 <span x-text="resendingId === r.idRegistro ? ' Enviando...' : ' Reenviar entradas'"></span>
               </button>
+                            <button x-show="r.pagado" @click="downloadPdf(r)" :disabled="downloadingPdfId === r.idRegistro" class="btn-ghost text-[10px] py-2 px-3" style="border-color: rgba(16,185,129,0.6); color: #10b981;">
+                <i class="fa-solid" :class="downloadingPdfId === r.idRegistro ? 'fa-spinner fa-spin' : 'fa-file-pdf'"></i>
+                <span x-text="downloadingPdfId === r.idRegistro ? ' Generando...' : ' Descargar PDF'"></span>
+              </button>
             </div>
             <div x-show="r.pagos && r.pagos.length > 0" class="mt-2 pt-2 border-t" style="border-color:var(--border-soft)">
               <div class="text-[10px] font-black uppercase mb-1" style="color:var(--text-soft)">Pagos registrados:</div>
@@ -905,6 +909,7 @@ function adminPanel() {
             expandedCompanions: null,
                 papelera: [], loadingPapelera: false, restoringId: '',
                 sendingReminderId: '',
+                    downloadingPdfId: '',
                     zoomEnabled: false, zoomUrl: '', loadingZoom: false,
     manualForm: { idRegistro: '', nombre: '', metodo: 'zelle', monto: 85, referencia: '', notas: '', proofBase64: '', proofName: '' },
 
@@ -1325,6 +1330,43 @@ function adminPanel() {
       this.sendingReminderId = '';
     },
 
+       async downloadPdf(r) {
+      this.downloadingPdfId = r.idRegistro;
+      try {
+        const data = await this.apiCall('downloadTicketsPdf', {
+          registrationId: r.idRegistro
+        });
+        if (data.ok && data.pdfBase64) {
+          // Convertir base64 a PDF descargable
+          const byteCharacters = atob(data.pdfBase64);
+          const byteNumbers = new Array(byteCharacters.length);
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          const byteArray = new Uint8Array(byteNumbers);
+          const blob = new Blob([byteArray], { type: 'application/pdf' });
+          
+          // Crear enlace de descarga
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = data.fileName || 'Entradas.pdf';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          
+          this.addNotification({ icon: 'fa-file-pdf', title: 'PDF descargado: ' + r.nombre, time: 'Ahora' });
+        } else {
+          alert('❌ ' + (data.error || 'No se pudo generar el PDF'));
+        }
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+      this.downloadingPdfId = '';
+    },
+
+   
     // ═══ REENVIAR ENTRADAS ═══
     async resendTickets(r) {
       if (!confirm('¿Reenviar las entradas por email a ' + r.nombre + '?\n\nEmail: ' + r.email)) return;
