@@ -4066,18 +4066,29 @@
             this.buyer.phone = reg.telefono || '';
             this.buyer.cedula = reg.cedula || '';
 
-            let alumniExtra = 0;
-            let guestExtra = 0;
-            Object.keys(reg).forEach(function (k) {
-                const m = k.match(/^acompanante_(\d+)_esEgresado$/);
-                if (m) {
-                    const val = String(reg[k] || '').trim();
-                    if (val === 'Si') alumniExtra++;
-                    if (val === 'No') guestExtra++;
-                }
-            });
-            this.ticketAlumniCount = 1 + alumniExtra;
-            this.ticketGuestCount = guestExtra;
+            // 👇 LEEMOS LOS TOTALES DIRECTAMENTE DE LA HOJA DE CÁLCULO 👇
+            let alumniTotal = Number(reg.totalEgresados);
+            let guestTotal = Number(reg.totalAcompanantesNoEgresados);
+
+            // Si por alguna razón la hoja no tiene los datos, hacemos el cálculo viejo por seguridad
+            if (isNaN(alumniTotal) || alumniTotal < 0) {
+                alumniTotal = 1;
+                Object.keys(reg).forEach(function (k) {
+                    const m = k.match(/^acompanante_(\d+)_esEgresado$/);
+                    if (m && String(reg[k] || '').trim() === 'Si') alumniTotal++;
+                });
+            }
+
+            if (isNaN(guestTotal) || guestTotal < 0) {
+                guestTotal = 0;
+                Object.keys(reg).forEach(function (k) {
+                    const m = k.match(/^acompanante_(\d+)_esEgresado$/);
+                    if (m && String(reg[k] || '').trim() === 'No') guestTotal++;
+                });
+            }
+
+            this.ticketAlumniCount = alumniTotal;
+            this.ticketGuestCount = guestTotal;
             this.selectedOption = String(this.ticketTotal());
 
             window.dispatchEvent(new CustomEvent('registration-complete', {
