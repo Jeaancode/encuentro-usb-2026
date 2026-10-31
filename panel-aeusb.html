@@ -1126,12 +1126,36 @@ function adminPanel() {
     filteredAsistentes() {
       const q = (this.checkinSearch || '').toLowerCase().trim();
       const f = this.checkinFilter;
+
+      // 1. Buscar si el término coincide con el nombre/cédula de algún EGRESADO
+      const egresadosEncontrados = new Set();
+      if (q) {
+        this.asistentes.forEach(a => {
+          if (a.tipo === 'egresado') {
+            const n = (a.nombre || '').toLowerCase();
+            const c = (a.cedula || '').toLowerCase();
+            if (n.includes(q) || c.includes(q)) {
+              egresadosEncontrados.add(a.idRegistro);
+            }
+          }
+        });
+      }
+
+      // 2. Filtrar la lista
       return this.asistentes.filter(a => {
         if (q) {
           const n = (a.nombre || '').toLowerCase();
           const c = (a.cedula || '').toLowerCase();
-          if (!n.includes(q) && !c.includes(q)) return false;
+          
+          // Mostrar si la persona coincide directamente...
+          const coincidePersona = n.includes(q) || c.includes(q);
+          // ...O si su egresado principal coincidió en la búsqueda
+          const perteneceAEgresadoBuscado = egresadosEncontrados.has(a.idRegistro);
+
+          if (!coincidePersona && !perteneceAEgresadoBuscado) return false;
         }
+        
+        // Filtros de estado
         if (f === 'pendiente' && a.asistio) return false;
         if (f === 'asistio' && a.asistio !== 'Si') return false;
         if (f === 'egresado' && a.tipo !== 'egresado') return false;
