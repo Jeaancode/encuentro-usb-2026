@@ -3100,6 +3100,31 @@
     <!-- REGISTRO / FORMULARIO & RESERVA DE ENTRADAS -->
     <section id="registro" data-bg-index="1" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex flex-col items-center">
         <div class="max-w-5xl mx-auto w-full space-y-10">
+                <!-- FORMULARIO RÁPIDO PARA AGREGAR ACOMPAÑANTE -->
+    <div id="form-agregar-acompanante" class="hidden glass-panel p-8 max-w-lg mx-auto mb-8 border-2 border-usb-gold/50 relative z-10">
+        <h2 class="text-xl font-black text-white mb-2 text-center">Agregar un Acompañante</h2>
+        <p class="text-xs text-slate-300 text-center mb-6">Ingresa los datos de tu invitado. Se cobrará la tarifa correspondiente.</p>
+        
+        <div class="space-y-3">
+            <div class="grid grid-cols-2 gap-2">
+                <input type="text" x-model="newComp.nombres" placeholder="Nombres" class="glass-input text-sm">
+                <input type="text" x-model="newComp.apellidos" placeholder="Apellidos" class="glass-input text-sm">
+            </div>
+            <input type="text" x-model="newComp.cedula" placeholder="Cédula" class="glass-input text-sm">
+            
+            <div>
+                <label class="block text-[10px] text-slate-300 font-bold mb-1">¿Es egresado de la USB?</label>
+                <select x-model="newComp.esEgresado" class="glass-input text-sm">
+                    <option value="No">No (Acompañante - $85)</option>
+                    <option value="Si">Sí (Egresado - $100)</option>
+                </select>
+            </div>
+            
+            <button @click="guardarAcompanante()" :disabled="paymentSending" class="glass-btn glass-btn-accent w-full py-3 mt-4 text-xs font-black uppercase">
+                <i class="fa-solid fa-plus mr-2"></i> Agregar y Pagar
+            </button>
+        </div>
+    </div>
 
             <!-- PASO A PASO PARA RESERVAR EL LUGAR -->
              <div class="registration-steps" data-aos="fade-up">
@@ -3691,6 +3716,8 @@
 <section id="Reserva" data-bg-index="2" 
          x-data="{ 
              selectedOption: '0', 
+                 isAddingCompanion: false,
+    newComp: { nombres: '', apellidos: '', cedula: '', esEgresado: 'No' },
              ticketAlumniCount: 0,
              ticketGuestCount: 0,
                  pendingPaymentLoad: false,
@@ -4035,6 +4062,13 @@
 
         // NUEVO: Detecta ?registro=ID en la URL
         const urlParams = new URLSearchParams(window.location.search);
+                const addCompId = urlParams.get('agregar-acompanante');
+        if (addCompId) {
+            this.registrationId = addCompId;
+            this.isAddingCompanion = true;
+            document.getElementById('form-agregar-acompanante').classList.remove('hidden');
+            document.getElementById('bloque-pago-principal').classList.add('hidden');
+        }
         const regId = urlParams.get('registro');
         if (regId) {
             this.pendingPaymentLoad = true;
@@ -4166,7 +4200,7 @@
     </div>
 
     <!-- BLOQUE DE RESERVA DESBLOQUEADO DESPUÉS DEL REGISTRO -->
-    <div x-cloak x-show="registrationComplete" x-transition class="max-w-3xl mx-auto w-full">
+    <div id="bloque-pago-principal" x-cloak x-show="registrationComplete && !isAddingCompanion" x-transition class="max-w-3xl mx-auto w-full">
     <div class="w-full space-y-8">
 
         <!-- ENCABEZADO DE LA SECCIÓN -->
