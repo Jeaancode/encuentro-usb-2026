@@ -200,8 +200,10 @@
             };
 
             try {
-                const res = await fetch('https://script.google.com/macros/s/AKfycbyD1Y-RdO23_9R0DzQ3IxvUG2-83NRrmvQ0s6FwWFluhIexBHH3jnVdorx8kKAWS89n/exec', {
-                    method: 'POST', body: new URLSearchParams(data).toString()
+                                const res = await fetch('https://script.google.com/macros/s/AKfycbyD1Y-RdO23_9R0DzQ3IxvUG2-83NRrmvQ0s6FwWFluhIexBHH3jnVdorx8kKAWS89n/exec', {
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams(data).toString()
                 });
                 const result = await res.json();
 
