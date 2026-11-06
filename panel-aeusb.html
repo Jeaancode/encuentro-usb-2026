@@ -304,6 +304,83 @@ tailwind.config = {
     </div>
   </main>
 
+    <!-- ═══════ TAB: DONACIONES VIRTUALES ═══════ -->
+  <main x-show="tab === 'virtuales'" x-cloak class="max-w-7xl mx-auto px-3 sm:px-4 py-5 space-y-4">
+    
+    <!-- TARJETAS DE RESUMEN -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-show="virtualStats">
+      <div class="stat-card border border-emerald-500/30">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[10px] font-black text-emerald-300 uppercase tracking-widest">Total Recaudado (Virtual)</span>
+          <i class="fa-solid fa-hand-holding-dollar text-emerald-400"></i>
+        </div>
+        <div class="text-3xl font-black text-white">$<span x-text="virtualStats ? virtualStats.totalRecaudado : 0"></span> <span class="text-sm text-slate-400">USD</span></div>
+      </div>
+      <div class="stat-card border border-sky-500/30">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[10px] font-black text-sky-300 uppercase tracking-widest">Donantes Confirmados</span>
+          <i class="fa-solid fa-heart text-sky-400"></i>
+        </div>
+        <div class="text-3xl font-black text-white" x-text="virtualStats ? virtualStats.totalDonantes : 0"></div>
+      </div>
+    </div>
+
+    <!-- TABLA DE DONACIONES -->
+    <div class="glass-card p-4 flex items-center justify-between">
+      <div>
+        <h2 class="text-sm font-black uppercase tracking-wider" style="color:var(--text-main)">Registro de Asistencia Virtual</h2>
+        <p class="text-[11px] mt-1" style="color:var(--text-soft)">Lista independiente de usuarios de Zoom y sus donaciones.</p>
+      </div>
+      <button @click="loadVirtualData()" class="btn-ghost px-3 py-2 text-xs">
+        <i class="fa-solid fa-rotate" :class="loadingVirtual ? 'fa-spin' : ''"></i>
+      </button>
+    </div>
+
+    <div x-show="loadingVirtual" class="text-center py-12" style="color:var(--text-soft)">
+      <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
+    </div>
+
+    <div x-show="!loadingVirtual" class="glass-card overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="responsive-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>País</th>
+              <th>Comunidad</th>
+              <th>Donación</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template x-for="(v, i) in virtualDonations" :key="i">
+              <tr>
+                <td data-label="Fecha" class="text-[11px]" style="color:var(--text-main)" x-text="formatDate(v.fecha)"></td>
+                <td data-label="Nombre">
+                  <div class="font-bold" style="color:var(--text-main)" x-text="v.nombre"></div>
+                  <div class="text-[10px]" style="color:var(--text-soft)" x-text="v.cedula"></div>
+                </td>
+                <td data-label="Email" style="color:var(--text-soft)" x-text="v.email"></td>
+                <td data-label="País" style="color:var(--text-soft)" x-text="v.pais"></td>
+                <td data-label="Comunidad" style="color:var(--text-soft)" x-text="v.comunidad"></td>
+                <td data-label="Donación" class="font-bold" style="color:var(--text-main)">
+                  <span x-show="v.donacion > 0" x-text="'$' + v.donacion + ' USD'" class="text-emerald-400"></span>
+                  <span x-show="v.donacion === 0" class="text-slate-500">$0</span>
+                </td>
+                <td data-label="Estado">
+                  <span class="badge" :class="v.estado.includes('Aprobado') ? 'badge-yes' : (v.estado.includes('Pendiente') ? 'badge-pending' : 'badge-info')" x-text="v.estado"></span>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+        <div x-show="virtualDonations.length === 0" class="text-center py-12 text-xs" style="color:var(--text-soft)">No hay registros virtuales aún.</div>
+      </div>
+    </div>
+  </main>
+
   <!-- ═══════ TAB: CHECK-IN ═══════ -->
   <main x-show="tab === 'checkin'" x-cloak class="max-w-7xl mx-auto px-3 sm:px-4 py-5 space-y-4">
     <div x-show="checkinStats" class="grid grid-cols-2 lg:grid-cols-5 gap-3">
@@ -732,82 +809,7 @@ tailwind.config = {
 
 </div>
 
-  <!-- ═══════ TAB: DONACIONES VIRTUALES ═══════ -->
-  <main x-show="tab === 'virtuales'" x-cloak class="max-w-7xl mx-auto px-3 sm:px-4 py-5 space-y-4">
     
-    <!-- TARJETAS DE RESUMEN -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-show="virtualStats">
-      <div class="stat-card border border-emerald-500/30">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-[10px] font-black text-emerald-300 uppercase tracking-widest">Total Recaudado (Virtual)</span>
-          <i class="fa-solid fa-hand-holding-dollar text-emerald-400"></i>
-        </div>
-        <div class="text-3xl font-black text-white">$<span x-text="virtualStats ? virtualStats.totalRecaudado : 0"></span> <span class="text-sm text-slate-400">USD</span></div>
-      </div>
-      <div class="stat-card border border-sky-500/30">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-[10px] font-black text-sky-300 uppercase tracking-widest">Donantes Confirmados</span>
-          <i class="fa-solid fa-heart text-sky-400"></i>
-        </div>
-        <div class="text-3xl font-black text-white" x-text="virtualStats ? virtualStats.totalDonantes : 0"></div>
-      </div>
-    </div>
-
-    <!-- TABLA DE DONACIONES -->
-    <div class="glass-card p-4 flex items-center justify-between">
-      <div>
-        <h2 class="text-sm font-black uppercase tracking-wider" style="color:var(--text-main)">Registro de Asistencia Virtual</h2>
-        <p class="text-[11px] mt-1" style="color:var(--text-soft)">Lista independiente de usuarios de Zoom y sus donaciones.</p>
-      </div>
-      <button @click="loadVirtualData()" class="btn-ghost px-3 py-2 text-xs">
-        <i class="fa-solid fa-rotate" :class="loadingVirtual ? 'fa-spin' : ''"></i>
-      </button>
-    </div>
-
-    <div x-show="loadingVirtual" class="text-center py-12" style="color:var(--text-soft)">
-      <i class="fa-solid fa-spinner fa-spin text-2xl"></i>
-    </div>
-
-    <div x-show="!loadingVirtual" class="glass-card overflow-hidden">
-      <div class="overflow-x-auto">
-        <table class="responsive-table">
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Nombre</th>
-              <th>Email</th>
-              <th>País</th>
-              <th>Comunidad</th>
-              <th>Donación</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <template x-for="(v, i) in virtualDonations" :key="i">
-              <tr>
-                <td data-label="Fecha" class="text-[11px]" style="color:var(--text-main)" x-text="formatDate(v.fecha)"></td>
-                <td data-label="Nombre">
-                  <div class="font-bold" style="color:var(--text-main)" x-text="v.nombre"></div>
-                  <div class="text-[10px]" style="color:var(--text-soft)" x-text="v.cedula"></div>
-                </td>
-                <td data-label="Email" style="color:var(--text-soft)" x-text="v.email"></td>
-                <td data-label="País" style="color:var(--text-soft)" x-text="v.pais"></td>
-                <td data-label="Comunidad" style="color:var(--text-soft)" x-text="v.comunidad"></td>
-                <td data-label="Donación" class="font-bold" style="color:var(--text-main)">
-                  <span x-show="v.donacion > 0" x-text="'$' + v.donacion + ' USD'" class="text-emerald-400"></span>
-                  <span x-show="v.donacion === 0" class="text-slate-500">$0</span>
-                </td>
-                <td data-label="Estado">
-                  <span class="badge" :class="v.estado.includes('Aprobado') ? 'badge-yes' : (v.estado.includes('Pendiente') ? 'badge-pending' : 'badge-info')" x-text="v.estado"></span>
-                </td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
-        <div x-show="virtualDonations.length === 0" class="text-center py-12 text-xs" style="color:var(--text-soft)">No hay registros virtuales aún.</div>
-      </div>
-    </div>
-  </main>  
 
 <!-- ═══════ TAB: PAPELERA ═══════ -->
   <main x-show="tab === 'papelera'" x-cloak class="max-w-5xl mx-auto px-3 sm:px-4 py-5 space-y-4">
