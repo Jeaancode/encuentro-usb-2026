@@ -385,9 +385,11 @@ tailwind.config = {
                   <span x-show="!a.asistio" class="badge badge-pending">Pendiente</span>
                 </td>
                 <td data-label="Acción" class="text-right">
-                  <button @click="toggleCheckIn(a)" :disabled="markingKey === a.key" class="btn-primary text-[10px] py-2 px-3">
+                  <button @click="toggleCheckIn(a)" :disabled="markingKey === a.key" 
+                          class="text-[10px] py-2 px-4 rounded-xl font-black uppercase inline-flex items-center justify-center gap-2 transition-all duration-200"
+                          :class="a.asistio === 'Si' ? 'bg-red-500/15 text-red-400 border border-red-500/40 hover:bg-red-500/25' : 'bg-gradient-to-r from-[#FFC300] to-[#FF7B00] text-[#051367] shadow-md hover:scale-105'">
                     <i class="fa-solid" :class="markingKey === a.key ? 'fa-spinner fa-spin' : (a.asistio === 'Si' ? 'fa-rotate-left' : 'fa-check')"></i>
-                    <span x-text="markingKey === a.key ? '' : (a.asistio === 'Si' ? ' Revertir' : ' Marcar')"></span>
+                    <span x-text="markingKey === a.key ? '...' : (a.asistio === 'Si' ? 'Revertir' : 'Marcar')"></span>
                   </button>
                 </td>
               </tr>
@@ -1258,15 +1260,59 @@ function adminPanel() {
       });
     },
 
-    async toggleCheckIn(a) {
+        async toggleCheckIn(a) {
       const nuevo = a.asistio === 'Si' ? 'No' : 'Si';
-      this.markingKey = a.key;
+      const key = a.key;
+      const tipo = a.tipo;
+      this.markingKey = key;
+
+      // 1. Guardamos el estado anterior por si el servidor falla
+      const prevList = this.asistentes;
+      const prevStats = this.checkinStats ? { ...this.checkinStats } : null;
+
+      // 2. TRUCO MÁGICO: Creamos un array nuevo para que Alpine lo detecte al instante
+      this.asistentes = this.asistentes.map(item =>
+        item.key === key ? { ...item, asistio: nuevo } : item
+      );
+
+      // 3. Actualizamos los contadores de arriba inmediatamente
+      const delta = nuevo === 'Si' ? 1 : -1;
+      if (this.checkinStats) {
+        this.checkinStats.asistieron = Math.max(0, (this.checkinStats.asistieron || 0) + delta);
+        if (tipo === 'egresado') {
+          this.checkinStats.egresadosAsistieron = Math.max(0, (this.checkinStats.egresadosAsistieron || 0) + delta);
+        } else if (tipo === 'acompanante') {
+          this.checkinStats.acompanantesAsistieron = Math.max(0, (this.checkinStats.acompanantesAsistieron || 0) + delta);
+        } else if (tipo === 'virtual') {
+          this.checkinStats.virtualesAsistieron = Math.max(0, (this.checkinStats.virtualesAsistieron || 0) + delta);
+        }
+      }
+
+      // 4. Avisamos al backend (Google Sheets)
       try {
-        const data = await this.apiCall('markCheckIn', { idRegistro: a.idRegistro, tipo: a.tipo, numeroAcompanante: a.numeroAcompanante || 0, asistio: nuevo, notas: '' });
-        if (data.ok) { a.asistio = nuevo; await this.loadCheckIn(); }
-        else alert('Error: ' + data.error);
-      } catch (err) { alert('Error: ' + err.message); }
-      this.markingKey = '';
+        const data = await this.apiCall('markCheckIn', {
+          idRegistro: a.idRegistro,
+          tipo: tipo,
+          numeroAcompanante: a.numeroAcompanante || 0,
+          asistio: nuevo,
+          notas: ''
+        });
+
+        if (!data.ok) {
+          // Si el backend dice "error", deshacemos el cambio en la pantalla
+          this.asistentes = prevList;
+          if (prevStats) this.checkinStats = prevStats;
+          alert('Error: ' + data.error);
+        }
+      } catch (err) {
+        // Si falla el internet, deshacemos el cambio en la pantalla
+        this.asistentes = prevList;
+        if (prevStats) this.checkinStats = prevStats;
+        alert('Error: ' + err.message);
+      } finally {
+        // Quitamos el icono de "cargando" (el spinner)
+        this.markingKey = '';
+      }
     },
 
     async loadPending() {

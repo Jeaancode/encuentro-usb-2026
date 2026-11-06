@@ -255,11 +255,19 @@
             }
         }
 
-        async function payStripe() {
+             async function payStripe() {
             try {
                 const res = await fetch('https://script.google.com/macros/s/AKfycbyD1Y-RdO23_9R0DzQ3IxvUG2-83NRrmvQ0s6FwWFluhIexBHH3jnVdorx8kKAWS89n/exec', {
                     method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({ action: 'stripeCreateCheckout', amountUsd: currentMonto, buyerEmail: currentEmail, registrationId: currentVirtualId, ticketDetails: JSON.stringify([{labelEs: 'Donación Virtual', price: currentMonto}]), successUrl: window.location.href + '?ok=1', cancelUrl: window.location.href }).toString()
+                    body: new URLSearchParams({ 
+                        action: 'stripeCreateCheckout', 
+                        amountUsd: currentMonto, 
+                        buyerEmail: currentEmail, 
+                        registrationId: currentVirtualId, 
+                        ticketDetails: JSON.stringify([{labelEs: 'Donación Virtual', price: currentMonto}]), 
+                        successUrl: window.location.origin + window.location.pathname + '?ok=1&session_id={CHECKOUT_SESSION_ID}', 
+                        cancelUrl: window.location.href 
+                    }).toString()
                 });
                 const data = await res.json();
                 if (data.url) window.location.href = data.url;
