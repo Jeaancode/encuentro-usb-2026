@@ -158,6 +158,12 @@
                     <button onclick="payZelle()" id="btn-zelle-pay" class="w-full bg-[#2D8CFF] text-white font-bold py-2 rounded-lg">Enviar Comprobante</button>
                 </div>
             </div>
+                      <!-- 👇 BOTÓN PARA OMITIR DONACIÓN 👇 -->
+            <div class="text-center mt-4">
+                <button onclick="skipDonation()" class="text-xs text-slate-400 hover:text-white underline">
+                    Omitir donación y solo obtener mi entrada
+                </button>
+            </div>
             <button onclick="window.close()" class="w-full mt-4 text-xs text-slate-500 hover:text-white">Cerrar ventana</button>
         </div>
 
@@ -266,7 +272,7 @@
                         registrationId: currentVirtualId, 
                         ticketDetails: JSON.stringify([{labelEs: 'Donación Virtual', price: currentMonto}]), 
                         successUrl: window.location.origin + window.location.pathname + '?ok=1&session_id={CHECKOUT_SESSION_ID}', 
-                        cancelUrl: window.location.href 
+                        cancelUrl: window.location.origin + window.location.pathname + '?cancel=1'
                     }).toString()
                 });
                 const data = await res.json();
@@ -274,7 +280,16 @@
                 else alert('Error Stripe: ' + data.error);
             } catch(e) { alert('Error de conexión'); }
         }
-
+                    async function skipDonation() {
+            if (!confirm('¿Seguro que deseas omitir la donación? Tu entrada virtual es gratuita.')) return;
+            try {
+                await fetch('https://script.google.com/macros/s/AKfycbyD1Y-RdO23_9R0DzQ3IxvUG2-83NRrmvQ0s6FwWFluhIexBHH3jnVdorx8kKAWS89n/exec', {
+                    method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ action: 'skipvirtualdonation', virtualId: currentVirtualId }).toString()
+                });
+                document.getElementById('step-payment').innerHTML = '<div class="text-center py-8"><div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-500"><i class="fa-solid fa-check text-2xl text-green-400"></i></div><h2 class="text-xl font-black text-white">¡Registro Exitoso!</h2><p class="text-xs text-slate-300 mt-2">Tu entrada gratuita ya fue enviada a tu correo.</p><button onclick="window.close()" class="mt-6 px-6 py-2 bg-white/10 rounded-lg text-white font-bold text-xs uppercase hover:bg-white/20">Cerrar ventana</button></div>';
+            } catch(e) { alert('Error al omitir donación'); }
+        }
         async function payZelle() {
             const ref = document.getElementById('zelleRef').value;
             const file = document.getElementById('zelleProof').files[0];
@@ -304,6 +319,12 @@
             // Detectar si viene de un pago exitoso de Stripe
         document.addEventListener('DOMContentLoaded', async () => {
             const params = new URLSearchParams(window.location.search);
+                        // 👇 NUEVO: Si canceló el pago de Stripe, lo marcamos como "Sin donación"
+            if (params.get('cancel') === '1') {
+                window.history.replaceState({}, '', window.location.pathname);
+                skipDonation();
+                return;
+            }
             if (params.get('ok') === '1' && params.get('session_id')) {
                 window.history.replaceState({}, '', window.location.pathname);
                 document.getElementById('step-form').classList.add('hidden');
