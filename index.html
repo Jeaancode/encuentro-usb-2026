@@ -3101,30 +3101,64 @@
     <section id="registro" data-bg-index="1" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex flex-col items-center">
         <div class="max-w-5xl mx-auto w-full space-y-10">
                 <!-- FORMULARIO RÁPIDO PARA AGREGAR ACOMPAÑANTE -->
-    <div id="form-agregar-acompanante" class="hidden glass-panel p-8 max-w-lg mx-auto mb-8 border-2 border-usb-gold/50 relative z-10">
-        <h2 class="text-xl font-black text-white mb-2 text-center">Agregar un Acompañante</h2>
-        <p class="text-xs text-slate-300 text-center mb-6">Ingresa los datos de tu invitado. Se cobrará la tarifa correspondiente.</p>
-        
-        <div class="space-y-3">
-            <div class="grid grid-cols-2 gap-2">
-                <input type="text" x-model="newComp.nombres" placeholder="Nombres" class="glass-input text-sm">
-                <input type="text" x-model="newComp.apellidos" placeholder="Apellidos" class="glass-input text-sm">
-            </div>
-            <input type="text" x-model="newComp.cedula" placeholder="Cédula" class="glass-input text-sm">
-            
-            <div>
-                <label class="block text-[10px] text-slate-300 font-bold mb-1">¿Es egresado de la USB?</label>
-                <select x-model="newComp.esEgresado" class="glass-input text-sm">
-                    <option value="No">No (Acompañante - $85)</option>
-                    <option value="Si">Sí (Egresado - $100)</option>
-                </select>
-            </div>
-            
-            <button @click="guardarAcompanante()" :disabled="paymentSending" class="glass-btn glass-btn-accent w-full py-3 mt-4 text-xs font-black uppercase">
-                <i class="fa-solid fa-plus mr-2"></i> Agregar y Pagar
-            </button>
+   <div id="form-agregar-acompanante" class="hidden glass-panel p-8 max-w-lg mx-auto mb-8 border-2 border-usb-gold/50 relative z-10"
+     x-data="{
+         newComp: { nombres: '', apellidos: '', cedula: '', esEgresado: 'No' },
+         paymentSending: false,
+         guardarAcompanante() {
+             if (this.paymentSending) return;
+             this.paymentSending = true;
+             const regId = new URLSearchParams(window.location.search).get('agregar-acompanante');
+             if (!regId) { alert('No se encontró el ID del registro.'); this.paymentSending = false; return; }
+
+             fetch('https://script.google.com/macros/s/AKfycbyD1Y-RdO23_9R0DzQ3IxvUG2-83NRrmvQ0s6FwWFluhIexBHH3jnVdorx8kKAWS89n/exec', {
+                 method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                 body: new URLSearchParams({
+                     action: 'addcompanion', registrationId: regId,
+                     nombres: this.newComp.nombres, apellidos: this.newComp.apellidos,
+                     cedula: this.newComp.cedula, esEgresado: this.newComp.esEgresado
+                 }).toString()
+             }).then(res => res.json()).then(data => {
+                 if (data.ok) {
+                     return fetch('https://script.google.com/macros/s/AKfycbyD1Y-RdO23_9R0DzQ3IxvUG2-83NRrmvQ0s6FwWFluhIexBHH3jnVdorx8kKAWS89n/exec', {
+                         method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                         body: new URLSearchParams({
+                             action: 'stripeCreateCheckout', amountUsd: data.costoExtra, registrationId: regId,
+                             buyerEmail: 'acompanante@aeusb.org',
+                             ticketDetails: JSON.stringify([{labelEs: 'Entrada Acompañante', price: data.costoExtra}]),
+                             successUrl: window.location.origin + '/?pagoExitoso=1', cancelUrl: window.location.href
+                         }).toString()
+                     });
+                 } else { throw new Error(data.error); }
+             }).then(res => res.json()).then(stripeRes => {
+                 if (stripeRes.url) { window.location.href = stripeRes.url; }
+                 else { alert('Error al generar el pago: ' + stripeRes.error); this.paymentSending = false; }
+             }).catch(err => { alert('Error: ' + err.message); this.paymentSending = false; });
+         }
+     }">
+    <h2 class="text-xl font-black text-white mb-2 text-center">Agregar un Acompañante</h2>
+    <p class="text-xs text-slate-300 text-center mb-6">Ingresa los datos de tu invitado. Se cobrará la tarifa correspondiente.</p>
+    
+    <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-2">
+            <input type="text" x-model="newComp.nombres" placeholder="Nombres" class="glass-input text-sm">
+            <input type="text" x-model="newComp.apellidos" placeholder="Apellidos" class="glass-input text-sm">
         </div>
+        <input type="text" x-model="newComp.cedula" placeholder="Cédula" class="glass-input text-sm">
+        
+        <div>
+            <label class="block text-[10px] text-slate-300 font-bold mb-1">¿Es egresado de la USB?</label>
+            <select x-model="newComp.esEgresado" class="glass-input text-sm">
+                <option value="No">No (Acompañante - $85)</option>
+                <option value="Si">Sí (Egresado - $100)</option>
+            </select>
+        </div>
+        
+        <button @click="guardarAcompanante()" :disabled="paymentSending" class="glass-btn glass-btn-accent w-full py-3 mt-4 text-xs font-black uppercase">
+            <i class="fa-solid fa-plus mr-2"></i> <span x-text="paymentSending ? 'Procesando...' : 'Agregar y Pagar'"></span>
+        </button>
     </div>
+</div>
 
             <!-- PASO A PASO PARA RESERVAR EL LUGAR -->
              <div class="registration-steps" data-aos="fade-up">
