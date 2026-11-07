@@ -1998,7 +1998,7 @@
                   <span :class="lang === 'en' ? 'text-usb-gold font-bold' : 'text-slate-400'">EN</span>
                 </button>
 
-                <div class="hidden sm:flex items-center">
+                <div class="hidden sm:flex items-center" style="display: none;"> 
                     <a href="#registro" class="glass-btn glass-btn-accent px-5 py-2 text-[11px] uppercase tracking-wider">
                         <i class="fa-solid fa-ticket mr-2 text-xs"></i> 
                         <span x-text="lang === 'es' ? 'Reserva tu lugar' : 'Reserve your spot'"></span>
@@ -2030,12 +2030,12 @@
             <a href="#programa" @click="mobileMenu = false" class="block font-bold text-xs hover:text-usb-gold" x-text="lang === 'es' ? 'Programa' : 'Schedule'"></a>
             <a href="#ponentes" @click="mobileMenu = false" class="block font-bold text-xs hover:text-usb-gold" x-text="lang === 'es' ? 'Ponentes' : 'Speakers'"></a>
             <a href="#homenajes" @click="mobileMenu = false" class="block font-bold text-xs hover:text-usb-gold" x-text="lang === 'es' ? 'Homenajes' : 'Honors'"></a>
-            <a href="#registro" @click="mobileMenu = false" class="block glass-btn glass-btn-accent w-full text-center py-2.5 text-xs uppercase tracking-wider mt-2" x-text="lang === 'es' ? 'Reserva tu lugar' : 'Reserve your spot'"></a>
+            <a href="#registro" @click="mobileMenu = false" style="display: none;" class="block glass-btn glass-btn-accent w-full text-center py-2.5 text-xs uppercase tracking-wider mt-2" x-text="lang === 'es' ? 'Reserva tu lugar' : 'Reserve your spot'"></a>
         </div>
     </header>
 
     <!-- CTA FIJO DE RESERVA: permanece visible durante toda la navegación -->
-    <a href="#Reserva"
+    <a href="#Reserva" style="display: none;"
        class="floating-presale fixed bottom-5 right-4 sm:right-8 z-40 glass-btn glass-btn-accent px-4 sm:px-5 py-3 text-[10px] sm:text-xs uppercase tracking-wider gap-2"
        aria-label="Adquirir Reserva">
         <i class="fa-solid fa-ticket text-sm"></i>
@@ -2183,7 +2183,7 @@
             </div>
 
             <div data-aos="fade-up" class="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4">
-                <a href="#registro" class="glass-btn glass-btn-accent w-full sm:w-auto px-8 py-3.5 text-xs uppercase tracking-wider">
+                <a href="#registro" style="display: none;" class="glass-btn glass-btn-accent w-full sm:w-auto px-8 py-3.5 text-xs uppercase tracking-wider">
                     <i class="fa-solid fa-ticket mr-2 text-sm"></i> Asistir Presencial (Miami)
                 </a>
                 <a href="https://wa.me/584129267897?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20Encuentro%20de%20Egresados%20USB%202026"
@@ -3099,7 +3099,21 @@
 
     <!-- REGISTRO / FORMULARIO & RESERVA DE ENTRADAS -->
     <section id="registro" data-bg-index="1" class="scroll-section py-12 sm:py-16 px-4 sm:px-6 flex flex-col items-center">
-        <div class="max-w-5xl mx-auto w-full space-y-10">
+      
+      <!-- ═══════ SECCIÓN: VENTAS CERRADAS ═══════ -->
+  <section id="ventas-cerradas" class="scroll-section py-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[60vh]">
+      <div class="glass-panel p-8 sm:p-12 text-center max-w-2xl mx-auto border-2 border-usb-gold/50 bg-usb-navy/80 shadow-2xl relative z-10" data-aos="zoom-in">
+          <i class="fa-solid fa-ticket-simple text-6xl text-usb-gold mb-6 animate-bounce"></i>
+          <h2 class="text-3xl sm:text-5xl font-black text-white mb-4">VENTAS CERRADAS</h2>
+          <p class="text-sm sm:text-lg text-slate-200 leading-relaxed mb-6">
+              Las ventas de entradas para el evento presencial en Miami han finalizado. ¡Gracias a todos por su apoyo!
+          </p>
+          <p class="text-xs sm:text-sm text-usb-gold font-bold uppercase tracking-widest">
+              ¡Nos vemos hoy en el Mary Anne Wolfe Theater!
+          </p>
+      </div>
+  </section>
+        <div class="max-w-5xl mx-auto w-full space-y-10" style="display: none;">
                 <!-- FORMULARIO RÁPIDO PARA AGREGAR ACOMPAÑANTE -->
    <div id="form-agregar-acompanante" class="hidden glass-panel p-8 max-w-lg mx-auto mb-8 border-2 border-usb-gold/50 relative z-10"
      x-data="{
@@ -3161,7 +3175,7 @@
 </div>
 
             <!-- PASO A PASO PARA RESERVAR EL LUGAR -->
-             <div class="registration-steps" data-aos="fade-up">
+             <div class="registration-steps"  style="display: none;" data-aos="fade-up">
                  <div class="glass-panel p-5 sm:p-6 mb-6 border border-usb-gold/40 bg-slate-950/40" data-aos="fade-up">
                      <div class="text-center mb-5">
                          <span class="glass-badge text-usb-gold uppercase inline-block mb-2">
@@ -3239,7 +3253,7 @@
             </div>
             
 <!-- 1. FORMULARIO DE REGISTRO -->
-<div id="formulario-registro"
+<div id="formulario-registro" style="display: none;"
      data-aos="fade-up" 
           x-data="formRegistration()"
           x-show="!new URLSearchParams(window.location.search).get('registro')"
@@ -3747,7 +3761,7 @@
 </div>
 
 <!-- REGISTRO / RESERVA DE ENTRADAS CON FLUJO PASO A PASO (WIZARD) -->
-<section id="Reserva" data-bg-index="2" 
+<section id="Reserva" data-bg-index="2" style="display: none;"
          x-data="{ 
              selectedOption: '0', 
                  isAddingCompanion: false,
@@ -4242,7 +4256,7 @@ if (addCompId) {
     </div>
 
     <!-- BLOQUE DE RESERVA DESBLOQUEADO DESPUÉS DEL REGISTRO -->
-    <div id="bloque-pago-principal" x-cloak x-show="registrationComplete && !isAddingCompanion" x-transition class="max-w-3xl mx-auto w-full">
+    <div id="bloque-pago-principal" style="display: none;" x-cloak x-show="registrationComplete && !isAddingCompanion" x-transition class="max-w-3xl mx-auto w-full">
     <div class="w-full space-y-8">
 
         <!-- ENCABEZADO DE LA SECCIÓN -->
@@ -4641,6 +4655,8 @@ if (addCompId) {
     </div>
 </section>
 
+  
+
 <!-- SISTEMA DE IDIOMAS ES / EN -->
 <script>
     (() => {
@@ -4942,7 +4958,7 @@ if (addCompId) {
             "Río de Janeiro": "Rio de Janeiro",
             "Sídney": "Sydney",
             "Adelaida": "Adelaide",
-            "Reserva tu lugar": "Reserve your spot",
+            "Ventas Presenciales Cerradas": "In-Person Sales Closed",
             "Misión e Impacto Institucional": "Mission and Institutional Impact",
             "Convocar, reunir e incorporar a nuestros egresados en la diáspora para resaltar el impacto y la trayectoria de nuestra comunidad a nivel global; fortalecer los lazos entre los egresados, la universidad y la AEUSB; fomentar el compromiso, el sentido de pertenencia y el orgullo de participar en la transformación de la USB y del país; y consolidar la Red de Talentos USB: NEXOUSB.ORG.": "Invite, gather, and include our alumni in the diaspora to highlight our community's global impact and journey; strengthen ties among alumni, the university, and the AEUSB; foster commitment, belonging, and pride in participating in the transformation of USB and the country; and consolidate the USB Talent Network: NEXOUSB.ORG.",
             "Convocar, reunir e incorporar a nuestros egresados en la diáspora para resaltar el impacto y la trayectoria de nuestra comunidad a nivel global; fortalecer los lazos entre los egresados, la universidad y la AEUSB; fomentar el compromiso, el sentido de pertenencia y el orgullo de participar en la transformación de la USB y del país; y consolidar la": "Invite, gather, and include our alumni in the diaspora to highlight our community's global impact and journey; strengthen ties among alumni, the university, and the AEUSB; foster commitment, belonging, and pride in participating in the transformation of USB and the country; and consolidate the",
@@ -5385,19 +5401,6 @@ if (addCompId) {
         easing: 'ease-out-cubic'
     });
 </script>
-  <footer class="designer-footer w-full py-6 text-center relative z-10 border-t border-white/10 mt-12">
-     <a href="https://wa.me/584242139158?text=Hola%20Jean%2C%20vi%20tu%20trabajo%20en%20la%20landing%20del%20Encuentro%20de%20Egresados%20USB%202026."
-        target="_blank"
-        rel="noopener noreferrer"
-        class="designer-credit"
-        aria-label="Contactar a Jean Ibarra por WhatsApp">
-        <span class="designer-credit-icon" aria-hidden="true"><i class="fa-solid fa-pen-nib"></i></span>
-        <span x-text="lang === 'es' ? 'Diseñado por' : 'Designed by'"></span>
-        <span class="designer-credit-name">Jean Ibarra</span>
-        <span class="designer-credit-separator" aria-hidden="true">•</span>
-        <span class="designer-credit-role" x-text="lang === 'es' ? 'Ingeniería Eléctrica' : 'Electrical Engineering'"></span>
-     </a>
-  </footer>
  <script>
 (function () {
     const params = new URLSearchParams(window.location.search);
@@ -5892,5 +5895,18 @@ paisesCodigos: [
     setTimeout(checkScroll, 300);
   })();
 </script>
+  <footer class="designer-footer w-full py-6 text-center relative z-10 border-t border-white/10 mt-12">
+     <a href="https://wa.me/584242139158?text=Hola%20Jean%2C%20vi%20tu%20trabajo%20en%20la%20landing%20del%20Encuentro%20de%20Egresados%20USB%202026."
+        target="_blank"
+        rel="noopener noreferrer"
+        class="designer-credit"
+        aria-label="Contactar a Jean Ibarra por WhatsApp">
+        <span class="designer-credit-icon" aria-hidden="true"><i class="fa-solid fa-pen-nib"></i></span>
+        <span>Diseñado por</span>
+        <span class="designer-credit-name">Jean Ibarra</span>
+        <span class="designer-credit-separator" aria-hidden="true">•</span>
+        <span class="designer-credit-role">Ingeniería Eléctrica</span>
+     </a>
+  </footer>
 </body>
 </html>
