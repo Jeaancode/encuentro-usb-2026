@@ -4096,13 +4096,21 @@
 
         // NUEVO: Detecta ?registro=ID en la URL
         const urlParams = new URLSearchParams(window.location.search);
-                const addCompId = urlParams.get('agregar-acompanante');
-        if (addCompId) {
-            this.registrationId = addCompId;
-            this.isAddingCompanion = true;
-            document.getElementById('form-agregar-acompanante').classList.remove('hidden');
-            document.getElementById('bloque-pago-principal').classList.add('hidden');
+        const addCompId = urlParams.get('agregar-acompanante');
+if (addCompId) {
+    this.registrationId = addCompId;
+    this.isAddingCompanion = true;
+    document.getElementById('form-agregar-acompanante').classList.remove('hidden');
+    document.getElementById('bloque-pago-principal').classList.add('hidden');
+    
+    // 👇 EL SCROLL AUTOMÁTICO 👇
+    setTimeout(() => {
+        const form = document.getElementById('form-agregar-acompanante');
+        if (form) {
+            form.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
+    }, 800); // Espera 0.8 segundos a que cargue todo y baja
+}
         const regId = urlParams.get('registro');
         if (regId) {
             this.pendingPaymentLoad = true;
