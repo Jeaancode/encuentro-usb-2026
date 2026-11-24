@@ -340,10 +340,11 @@
                 
                 // Le cambiamos el título para que se vea más personalizado
                 const header = document.querySelector('#step-payment .text-center');
-                if(header) {
+                                if(header) {
                     header.innerHTML = `
-                        <div class="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-yellow-500">
-                            <i class="fa-solid fa-heart text-2xl text-yellow-400"></i>
+                        <div class="flex items-center justify-center gap-4 mb-6 mt-2">
+                            <img src="LOGO.png" alt="AEUSB" class="h-16 object-contain">
+                            <img src="LOGO-AEUSB.png" alt="Asociación" class="h-16 object-contain">
                         </div>
                         <h2 class="text-xl font-black text-white">Completa tu donación</h2>
                         <p class="text-xs text-slate-300 mt-1">Estás a un paso de apoyar al Fondo de Emergencia.</p>
