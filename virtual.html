@@ -317,9 +317,43 @@
             } catch(e) { alert('Error al guardar el pago.'); }
         }
             // Detectar si viene de un pago exitoso de Stripe
+            // Detectar si viene de un pago exitoso de Stripe o de un correo de recordatorio
         document.addEventListener('DOMContentLoaded', async () => {
             const params = new URLSearchParams(window.location.search);
-                        // 👇 NUEVO: Si canceló el pago de Stripe, lo marcamos como "Sin donación"
+            
+            // 👇 NUEVO: DETECTAR SI VIENE DEL CORREO DE RECORDATORIO 👇
+            if (params.get('recordatorio') === '1') {
+                // Limpiamos la URL para que se vea bonita
+                window.history.replaceState({}, '', window.location.pathname); 
+                
+                // Ocultamos el formulario de registro y mostramos el de pago
+                document.getElementById('step-form').classList.add('hidden');
+                document.getElementById('step-payment').classList.remove('hidden');
+                
+                // Cargamos los datos que vienen en el link
+                currentVirtualId = params.get('id') || '';
+                currentMonto = params.get('monto') || 0;
+                currentEmail = params.get('email') || '';
+                
+                // Actualizamos el texto en pantalla
+                document.getElementById('display-amount').innerText = currentMonto;
+                
+                // Le cambiamos el título para que se vea más personalizado
+                const header = document.querySelector('#step-payment .text-center');
+                if(header) {
+                    header.innerHTML = `
+                        <div class="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-yellow-500">
+                            <i class="fa-solid fa-heart text-2xl text-yellow-400"></i>
+                        </div>
+                        <h2 class="text-xl font-black text-white">Completa tu donación</h2>
+                        <p class="text-xs text-slate-300 mt-1">Estás a un paso de apoyar al Fondo de Emergencia.</p>
+                        <p class="text-sm text-yellow-400 font-bold mt-4">Tu aporte pendiente es de $<span id="display-amount">${currentMonto}</span> USD.</p>
+                    `;
+                }
+                return;
+            }
+
+            // 👇 LO QUE YA TENÍAS DE STRIPE 👇
             if (params.get('cancel') === '1') {
                 window.history.replaceState({}, '', window.location.pathname);
                 skipDonation();
