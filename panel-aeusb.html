@@ -306,34 +306,60 @@ tailwind.config = {
 
     <!-- ═══════ TAB: DONACIONES VIRTUALES ═══════ -->
   <main x-show="tab === 'virtuales'" x-cloak class="max-w-7xl mx-auto px-3 sm:px-4 py-5 space-y-4">
-    
-    <!-- TARJETAS DE RESUMEN -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" x-show="virtualStats">
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3" x-show="virtualStats">
       <div class="stat-card border border-emerald-500/30">
         <div class="flex items-center justify-between mb-2">
-          <span class="text-[10px] font-black text-emerald-300 uppercase tracking-widest">Total Recaudado (Virtual)</span>
+          <span class="text-[10px] font-black text-emerald-300 uppercase tracking-widest">Recaudado</span>
           <i class="fa-solid fa-hand-holding-dollar text-emerald-400"></i>
         </div>
-        <div class="text-3xl font-black text-white">$<span x-text="virtualStats ? virtualStats.totalRecaudado : 0"></span> <span class="text-sm text-slate-400">USD</span></div>
+        <div class="text-2xl font-black text-white">$<span x-text="virtualStats ? virtualStats.totalRecaudado : 0"></span></div>
       </div>
       <div class="stat-card border border-sky-500/30">
         <div class="flex items-center justify-between mb-2">
-          <span class="text-[10px] font-black text-sky-300 uppercase tracking-widest">Donantes Confirmados</span>
+          <span class="text-[10px] font-black text-sky-300 uppercase tracking-widest">Confirmados</span>
           <i class="fa-solid fa-heart text-sky-400"></i>
         </div>
-        <div class="text-3xl font-black text-white" x-text="virtualStats ? virtualStats.totalDonantes : 0"></div>
+        <div class="text-2xl font-black text-white" x-text="virtualStats ? virtualStats.totalDonantes : 0"></div>
+      </div>
+      <div class="stat-card border border-amber-500/30">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[10px] font-black text-amber-300 uppercase tracking-widest">Pendientes</span>
+          <i class="fa-solid fa-clock text-amber-400"></i>
+        </div>
+        <div class="text-2xl font-black text-white" x-text="virtualStats ? virtualStats.totalPendientes : 0"></div>
+      </div>
+      <div class="stat-card border border-red-500/30">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[10px] font-black text-red-300 uppercase tracking-widest">Sin donar</span>
+          <i class="fa-solid fa-circle-xmark text-red-400"></i>
+        </div>
+        <div class="text-2xl font-black text-white" x-text="virtualStats ? virtualStats.totalSinDonar : 0"></div>
       </div>
     </div>
 
-    <!-- TABLA DE DONACIONES -->
-    <div class="glass-card p-4 flex items-center justify-between">
+    <div class="glass-card p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
       <div>
         <h2 class="text-sm font-black uppercase tracking-wider" style="color:var(--text-main)">Registro de Asistencia Virtual</h2>
-        <p class="text-[11px] mt-1" style="color:var(--text-soft)">Lista independiente de usuarios de Zoom y sus donaciones.</p>
+        <p class="text-[11px] mt-1" style="color:var(--text-soft)">Zoom · Donaciones y recordatorios.</p>
       </div>
-      <button @click="loadVirtualData()" class="btn-ghost px-3 py-2 text-xs">
-        <i class="fa-solid fa-rotate" :class="loadingVirtual ? 'fa-spin' : ''"></i>
-      </button>
+      <div class="flex flex-wrap gap-2">
+        <select x-model="virtualFilter" class="glass-input text-xs">
+          <option value="todas">Todas</option>
+          <option value="pendientes">Solo pendientes</option>
+          <option value="completadas">Solo completadas</option>
+          <option value="sin_donacion">Sin donación</option>
+        </select>
+        <button @click="sendVirtualRemindersBulk()" :disabled="sendingVirtualBulk || !virtualStats || virtualStats.totalRecordables === 0"
+                class="btn-primary text-xs py-2 px-3"
+                :style="(!virtualStats || virtualStats.totalRecordables === 0) ? 'opacity:.5;cursor:not-allowed;' : ''">
+          <i class="fa-solid" :class="sendingVirtualBulk ? 'fa-spinner fa-spin' : 'fa-paper-plane'"></i>
+          <span x-text="sendingVirtualBulk ? 'Enviando...' : ('Recordar pendientes (' + (virtualStats ? virtualStats.totalRecordables : 0) + ')')"></span>
+        </button>
+        <button @click="loadVirtualData()" class="btn-ghost px-3 py-2 text-xs">
+          <i class="fa-solid fa-rotate" :class="loadingVirtual ? 'fa-spin' : ''"></i>
+        </button>
+      </div>
     </div>
 
     <div x-show="loadingVirtual" class="text-center py-12" style="color:var(--text-soft)">
@@ -352,10 +378,11 @@ tailwind.config = {
               <th>Comunidad</th>
               <th>Donación</th>
               <th>Estado</th>
+              <th class="text-right">Acción</th>
             </tr>
           </thead>
           <tbody>
-            <template x-for="(v, i) in virtualDonations" :key="i">
+            <template x-for="(v, i) in filteredVirtualDonations()" :key="v.id || v.email || i">
               <tr>
                 <td data-label="Fecha" class="text-[11px]" style="color:var(--text-main)" x-text="formatDate(v.fecha)"></td>
                 <td data-label="Nombre">
@@ -370,13 +397,28 @@ tailwind.config = {
                   <span x-show="v.donacion === 0" class="text-slate-500">$0</span>
                 </td>
                 <td data-label="Estado">
-                  <span class="badge" :class="v.estado.includes('Aprobado') ? 'badge-yes' : (v.estado.includes('Pendiente') ? 'badge-pending' : 'badge-info')" x-text="v.estado"></span>
+                  <span class="badge" :class="estadoVirtualBadge(v.estado)" x-text="v.estado || 'Sin estado'"></span>
+                </td>
+                <td data-label="Acción" class="text-right">
+                  <button x-show="necesitaRecordatorioVirtual(v)"
+                          @click="sendVirtualReminder(v)"
+                          :disabled="sendingVirtualReminderId === (v.id || v.email)"
+                          class="btn-ghost text-[10px] py-1.5 px-2.5"
+                          style="border-color: rgba(72,116,151,0.6); color: #7cb3d9;">
+                    <i class="fa-solid" :class="sendingVirtualReminderId === (v.id || v.email) ? 'fa-spinner fa-spin' : 'fa-paper-plane'"></i>
+                    <span x-text="sendingVirtualReminderId === (v.id || v.email) ? ' Enviando...' : ' Recordar'"></span>
+                  </button>
+                  <span x-show="!necesitaRecordatorioVirtual(v)" class="text-[10px] text-emerald-500 font-bold">
+                    <i class="fa-solid fa-check"></i> OK
+                  </span>
                 </td>
               </tr>
             </template>
           </tbody>
         </table>
-        <div x-show="virtualDonations.length === 0" class="text-center py-12 text-xs" style="color:var(--text-soft)">No hay registros virtuales aún.</div>
+        <div x-show="filteredVirtualDonations().length === 0" class="text-center py-12 text-xs" style="color:var(--text-soft)">
+          No hay registros virtuales con este filtro.
+        </div>
       </div>
     </div>
   </main>
@@ -1004,6 +1046,8 @@ function adminPanel() {
                 papelera: [], loadingPapelera: false, restoringId: '',
                 virtualDonations: [], virtualStats: null, loadingVirtual: false,
                 sendingReminderId: '',
+
+                                sendingVirtualReminderId: '', sendingVirtualBulk: false, virtualFilter: 'todas',
                     downloadingPdfId: '',
                     zoomEnabled: false, zoomUrl: '', loadingZoom: false,
     manualForm: { idRegistro: '', nombre: '', metodo: 'zelle', monto: 85, referencia: '', notas: '', proofBase64: '', proofName: '' },
@@ -1114,6 +1158,8 @@ function adminPanel() {
             if (t === 'diagnostico') { this.loadDiagnostico(); this.loadZoomConfig(); }
       if (t === 'activity') this.loadActivity();
       if (t === 'papelera') this.loadPapelera();
+
+            if (t === 'virtuales' && this.virtualDonations.length === 0) this.loadVirtualData();
     },
 
     async refreshAll() {
@@ -1124,6 +1170,8 @@ function adminPanel() {
       if (this.tab === 'diagnostico') await this.loadDiagnostico();
       if (this.tab === 'activity') await this.loadActivity();
       this.refreshing = false;
+
+            if (this.tab === 'virtuales') await this.loadVirtualData();
     },
 
     async loadStats() {
@@ -1546,6 +1594,101 @@ function adminPanel() {
         alert('Error: ' + err.message);
       }
       this.sendingReminderId = '';
+    },
+
+    // ═══ VIRTUALES ═══
+    async loadVirtualData() {
+      this.loadingVirtual = true;
+      try {
+        const data = await this.apiCall('getVirtualDonations');
+        if (data.ok) {
+          this.virtualDonations = data.donaciones || [];
+          this.calculateVirtualStats();
+        } else { this.error = data.error; }
+      } catch (err) { this.error = 'Error: ' + err.message; }
+      this.loadingVirtual = false;
+    },
+
+    calculateVirtualStats() {
+      const list = this.virtualDonations || [];
+      let recaudado = 0, donantes = 0, pendientes = 0, sinDonar = 0, recordables = 0;
+      list.forEach(v => {
+        const monto = Number(v.donacion || 0);
+        const e = (v.estado || '').toLowerCase();
+        const esCompletada = e.includes('aprobado') || e.includes('completad') || e.includes('pagad');
+        const esPendiente  = e.includes('pendiente') || e.includes('por verificar') || e.includes('procesando');
+        if (esCompletada && monto > 0) { recaudado += monto; donantes++; }
+        else if (esPendiente) pendientes++;
+        else if (!esCompletada && monto === 0) sinDonar++;
+        if (!esCompletada) recordables++;
+      });
+      this.virtualStats = { totalRecaudado: recaudado, totalDonantes: donantes, totalPendientes: pendientes, totalSinDonar: sinDonar, totalRecordables: recordables };
+    },
+
+    filteredVirtualDonations() {
+      const f = this.virtualFilter;
+      const list = this.virtualDonations || [];
+      if (f === 'todas') return list;
+      return list.filter(v => {
+        const e = (v.estado || '').toLowerCase();
+        const esCompletada = e.includes('aprobado') || e.includes('completad') || e.includes('pagad');
+        const esPendiente  = e.includes('pendiente') || e.includes('por verificar') || e.includes('procesando');
+        if (f === 'pendientes') return esPendiente;
+        if (f === 'completadas') return esCompletada;
+        if (f === 'sin_donacion') return Number(v.donacion || 0) === 0 && !esCompletada;
+        return true;
+      });
+    },
+
+    necesitaRecordatorioVirtual(v) {
+      const e = (v.estado || '').toLowerCase();
+      if (e.includes('aprobado') || e.includes('completad') || e.includes('pagad')) return false;
+      return true;
+    },
+
+    estadoVirtualBadge(estado) {
+      const e = (estado || '').toLowerCase();
+      if (e.includes('aprobado') || e.includes('completad') || e.includes('pagad')) return 'badge-yes';
+      if (e.includes('rechaz') || e.includes('fall') || e.includes('cancel') || e.includes('expirad')) return 'badge-no';
+      return 'badge-pending';
+    },
+
+    async sendVirtualReminder(v) {
+      if (!v.email) { alert('Este registro no tiene email.'); return; }
+      if (!confirm('¿Enviar recordatorio a ' + v.nombre + '?\n\nEmail: ' + v.email)) return;
+      const key = v.id || v.email;
+      this.sendingVirtualReminderId = key;
+      try {
+        const data = await this.apiCall('sendVirtualReminder', {
+          virtualId: v.id || '', email: v.email, nombre: v.nombre,
+          monto: String(v.donacion || 0), estado: v.estado || ''
+        });
+        if (data.ok) {
+          alert('✅ ' + data.message);
+          this.addNotification({ icon: 'fa-paper-plane', title: 'Recordatorio virtual: ' + v.nombre, time: 'Ahora' });
+        } else { alert('❌ ' + data.error); }
+      } catch (err) { alert('Error: ' + err.message); }
+      this.sendingVirtualReminderId = '';
+    },
+
+    async sendVirtualRemindersBulk() {
+      const pendientes = (this.virtualDonations || []).filter(v => this.necesitaRecordatorioVirtual(v) && v.email);
+      if (pendientes.length === 0) { alert('No hay donaciones pendientes con email.'); return; }
+      if (!confirm('¿Enviar recordatorio a ' + pendientes.length + ' donante(s)?')) return;
+      this.sendingVirtualBulk = true;
+      let enviados = 0, fallidos = 0;
+      for (const v of pendientes) {
+        try {
+          const data = await this.apiCall('sendVirtualReminder', {
+            virtualId: v.id || '', email: v.email, nombre: v.nombre,
+            monto: String(v.donacion || 0), estado: v.estado || ''
+          });
+          if (data.ok) enviados++; else fallidos++;
+        } catch (e) { fallidos++; }
+      }
+      this.sendingVirtualBulk = false;
+      alert('✅ Enviados: ' + enviados + '\n❌ Fallidos: ' + fallidos);
+      this.addNotification({ icon: 'fa-paper-plane', title: 'Recordatorios virtuales: ' + enviados + '/' + pendientes.length, time: 'Ahora' });
     },
 
        async downloadPdf(r) {
