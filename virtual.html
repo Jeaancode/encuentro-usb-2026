@@ -283,6 +283,7 @@
             } catch(e) { alert('Error de conexión'); }
         }
                     async function skipDonation() {
+                         sessionStorage.removeItem('modoRecordatorio'); 
             if (!confirm('¿Seguro que deseas omitir la donación? Tu entrada virtual es gratuita.')) return;
             try {
                 await fetch('https://script.google.com/macros/s/AKfycbyD1Y-RdO23_9R0DzQ3IxvUG2-83NRrmvQ0s6FwWFluhIexBHH3jnVdorx8kKAWS89n/exec', {
@@ -312,7 +313,8 @@
                     body: new URLSearchParams({ action: 'virtualpayment', virtualId: currentVirtualId, paymentMethod: method, amountUsd: currentMonto, paymentId: payId, proofBase64: proofBase64 || '', proofFileName: proofName || '' }).toString()
                 });
                 const data = await res.json();
-                if (data.ok) {
+                if (data.ok) { 
+                     sessionStorage.removeItem('modoRecordatorio');
                     alert('¡Pago registrado! Gracias por tu aporte.');
                     window.close();
                 } else alert('Error: ' + data.error);
@@ -324,25 +326,35 @@
             const params = new URLSearchParams(window.location.search);
             
             // 👇 NUEVO: DETECTAR SI VIENE DEL CORREO DE RECORDATORIO 👇
+            // 👇 NUEVO: DETECTAR SI VIENE DEL CORREO Y GUARDARLO EN MEMORIA 👇
             if (params.get('recordatorio') === '1') {
+                // Guardamos los datos en la memoria de la pestaña (sessionStorage)
+                sessionStorage.setItem('modoRecordatorio', 'activo');
+                sessionStorage.setItem('rec_id', params.get('id') || '');
+                sessionStorage.setItem('rec_monto', params.get('monto') || 0);
+                sessionStorage.setItem('rec_email', params.get('email') || '');
+                
                 // Limpiamos la URL para que se vea bonita
                 window.history.replaceState({}, '', window.location.pathname); 
-                
+            }
+
+            // Si la memoria dice que estamos en modo recordatorio, mostramos el pago
+            if (sessionStorage.getItem('modoRecordatorio') === 'activo') {
                 // Ocultamos el formulario de registro y mostramos el de pago
                 document.getElementById('step-form').classList.add('hidden');
                 document.getElementById('step-payment').classList.remove('hidden');
                 
-                // Cargamos los datos que vienen en el link
-                currentVirtualId = params.get('id') || '';
-                currentMonto = params.get('monto') || 0;
-                currentEmail = params.get('email') || '';
+                // Cargamos los datos desde la memoria
+                currentVirtualId = sessionStorage.getItem('rec_id') || '';
+                currentMonto = sessionStorage.getItem('rec_monto') || 0;
+                currentEmail = sessionStorage.getItem('rec_email') || '';
                 
                 // Actualizamos el texto en pantalla
                 document.getElementById('display-amount').innerText = currentMonto;
                 
                 // Le cambiamos el título para que se vea más personalizado
                 const header = document.querySelector('#step-payment .text-center');
-                                if(header) {
+                if(header) {
                     header.innerHTML = `
                         <div class="flex items-center justify-center gap-4 mb-6 mt-2">
                             <img src="LOGO.png" alt="AEUSB" class="h-16 object-contain">
@@ -355,7 +367,6 @@
                 }
                 return;
             }
-
             // 👇 LO QUE YA TENÍAS DE STRIPE 👇
             if (params.get('cancel') === '1') {
                 window.history.replaceState({}, '', window.location.pathname);
